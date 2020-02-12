@@ -22,32 +22,25 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <% if (locals.username) { %>
+                    <% if (locals.loggedin) { %>
                     <%- include('./newmessage.ejs'); %>
                     <% } %>
                 </li>
             </ul>
 
             <% if (locals.loggedin) { %>
-            <form class="form-inline my-2 my-lg-0" action="/logout">
+            <form class="form-inline my-2 my-lg-0" action="/logout" method="GET">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
             </form>
-            <% } else { %>
-            <form class="form-inline my-2 my-lg-0" action="/login">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
-                <% } %>
-                <form class="form-inline my-2 my-lg-0" action="#">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Sign up</button>
-                </form>
 
-                <!-- DONT DELETE YET -mskk -->
-                <!-- <form action="/login" method="post" class="form-signin"></form> -->
-                <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Sign up</button> -->
-                <!-- <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                    <li><a href="../login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
-                <!-- </form> -->
+            <% } else { %>
+            <form class="form-inline my-2 my-lg-0" action="/signup" method="GET">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Sign up</button>
+            </form>
+            <form class="form-inline my-2 my-lg-0" action="/login" method="GET">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+            </form>
+            <% } %>
         </div>
     </nav>
 
@@ -63,4 +56,5 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 </body>
+
 </html>

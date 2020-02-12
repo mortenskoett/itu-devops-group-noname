@@ -45,7 +45,7 @@ app.get('/', async function (req, res) {
 
     // User already logged in
     if (req.session.loggedin) {
-        res.redirect('/user/' + req.session.username);
+        res.redirect('/home');
         res.end();
     }
 
@@ -56,11 +56,36 @@ app.get('/', async function (req, res) {
     }
 });
 
+// User timeline
+app.get('/home', async function (req, res) {
+    if (!req.session.loggedin) {
+        res.redirect('/public');
+        res.end();
+    }
+
+    let userId = req.session.userid;
+    console.log(userId);
+
+    console.log('userId: ' + userId);
+    let allMesages = await messageRepository.getFollowedMessages(userId, 30);
+
+    console.log('messages: ' + allMesages.length);
+
+    res.render('pages/timeline', {
+        messages: allMesages,
+        loggedin: req.session.loggedin,
+        username: req.session.username
+    });
+    res.end();
+});
+
+
 // Public timeline
 app.get('/public', async function (req, res) {
     let allMesages = await messageRepository.getAllMessages(30);
     res.render('pages/timeline', {
         messages: allMesages,
+        username: req.session.username,
         loggedin: req.session.loggedin
     });
 });
@@ -86,7 +111,7 @@ app.post('/login/auth', async function (req, res) {
             req.session.loggedin = true;
             req.session.username = user;
             req.session.userid = userId.user_id;
-            res.redirect('/user/' + user);
+            res.redirect('/home');
             res.end();
         }
         else {
@@ -128,22 +153,22 @@ app.post('/signup/create', async function (req, res) {
         console.log('user: ' + user);
         console.log('email: ' + user);
         console.log('pass: ' + pass);
-    
+
         let existingUser = await userRepository.getUserID(user);
-        if(existingUser){ 
+        if (existingUser) {
             res.render('pages/signup', {
                 error: 'Username is ivalid.'
             });
             res.end();
         }
 
-        else{
+        else {
             await userRepository.addUser(user, pass, email);
-            
+
             // TODO Rest is almost identical to /login/auth - just different page renders
-    
+
             let userId = await userRepository.getIdUsingPassword(user, pass);
-    
+
             if (userId) {
                 console.log('userid: ' + userId.user_id);
                 req.session.loggedin = true;
@@ -169,21 +194,21 @@ app.post('/signup/create', async function (req, res) {
     }
 });
 
-// User timeline
+// User page
 app.get('/user/:username', async function (req, res) {
     let username = req.params.username;
     let user = await userRepository.getUserID(username);
-    if(user == null) {
-        res.status(404).send({url: req.originalUrl + ' : was not found.'}); // Render page?
+    if (user == null) {
+        res.status(404).send({ url: req.originalUrl + ' : was not found.' }); // Render page?
     }
     console.log(user.user_id);
-    
+
     let allMessages = await messageRepository.getUserMessages(user.user_id, 30);
-    
+
     var followed = false;
     if (req.session.loggedin) {
         let follows = await userRepository.following(req.session.userid, user.user_id);
-        if(follows) {
+        if (follows) {
             followed = true;
         }
     }
@@ -200,7 +225,7 @@ app.get('/user/:username', async function (req, res) {
 // Follow
 app.get('/user/follow/:username', async function (req, res) { //get?
     if (!req.session.loggedin) {
-        res.status(401).send({url: req.originalUrl + ' : unautorized - user not followed.'});
+        res.status(401).send({ url: req.originalUrl + ' : unautorized - user not followed.' });
     }
     let followerID = req.session.userid;
 
@@ -245,7 +270,7 @@ app.post('/user/postmessage', async function (req, res) {
     let userId = req.session.userid;
 
     await messageRepository.postMessage(userId, message);
-    res.redirect('/user/' + req.session.username)
+    res.redirect('/home')
 });
 
 /* After middleware */
