@@ -32,20 +32,17 @@
                     <!-- Modal body -->
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="comment">Comment:</label>
-                            <textarea class="form-control" rows="5" id="comment"></textarea>
+                            <form action="/user/postmessage" method="POST">
+                                <label for="comment">Comment:</label>
+                                <textarea name="message" class="form-control" rows="5" id="comment"></textarea>
+                                <button type="submit" class="btn btn-secondary" data-dismiss="message">Send
+                                    message</button>
+                            </form>
                         </div>
                     </div>
-
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Send message</button>
-                    </div>
-
                 </div>
             </div>
         </div>
-
     </div>
 
     <!-- Optional JavaScript -->

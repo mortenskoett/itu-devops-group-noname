@@ -267,9 +267,6 @@ app.post('/user/postmessage', async function (req, res) { //get?
     let message = req.body.message;
     let userId = req.session.userid;
 
-    console.log(message);
-    console.log(userId);
-
     await messageRepository.postMessage(userId, message);
     res.redirect('/user/' + req.session.username)
 });
