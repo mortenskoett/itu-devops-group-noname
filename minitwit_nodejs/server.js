@@ -104,14 +104,13 @@ app.post('/login/auth', async function (req, res) {
         console.log('pass: ' + pass);
     
         let userId = await userRepository.getIdUsingPassword(user, pass);
-        // let userId = await userRepository.getUserID(user);
 
         if (userId) {
             console.log('userid: ' + userId.user_id);
             req.session.loggedin = true;
             req.session.username = user;
             req.session.userid = userId.user_id;
-            res.redirect('/home');       // TODO: Figure out logic to go to private timeline
+            res.redirect('/home');
             res.end();
         }
         else {

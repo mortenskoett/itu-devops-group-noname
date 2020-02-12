@@ -1,22 +1,66 @@
-<!-- views/partials/header.ejs -->
+<!doctype html>
+<html lang="en">
 
- <nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="/">Minitwit</a>
-    </div>
-    <ul class="nav navbar-nav">
-      <!-- <li class="active"><a href="#">Home</a></li> -->
-        <!-- <li><a href="../login">Log in</a></li>
-        <li><a href="NotImplemented">Test</a></lsi> -->
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-       <li><a href="../signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-      <% if (locals.loggedin) { %>
-        <li><a href="../logout"><span class="glyphicon glyphicon-log-in"></span> Log Out</a></li>
-    <% } else { %>
-        <li><a href="../login"><span class="glyphicon glyphicon-log-in"></span> Log In</a></li>
-        <% } %>
-    </ul>
-  </div>
-</nav> 
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Minitwit</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <% if (locals.username) { %>
+                    <%- include('./newmessage.ejs'); %>
+                    <% } %>
+                </li>
+            </ul>
+
+            <% if (locals.loggedin) { %>
+            <form class="form-inline my-2 my-lg-0" action="/logout">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
+            </form>
+            <% } else { %>
+            <form class="form-inline my-2 my-lg-0" action="/login">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+                <% } %>
+                <form class="form-inline my-2 my-lg-0" action="#">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Sign up</button>
+                </form>
+
+                <!-- DONT DELETE YET -mskk -->
+                <!-- <form action="/login" method="post" class="form-signin"></form> -->
+                <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Sign up</button> -->
+                <!-- <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li><a href="../login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
+                <!-- </form> -->
+        </div>
+    </nav>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+</html>
