@@ -135,6 +135,7 @@ app.get('/logout', async function (req, res) {
     req.session.username = null;
     req.session.userid = null;
     res.redirect('/public');
+});
 
 // User signup page
 app.get('/signup', async function (req, res) {
