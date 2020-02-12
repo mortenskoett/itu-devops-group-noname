@@ -73,7 +73,8 @@ app.get('/home', async function (req, res) {
 
     res.render('pages/timeline', {
         messages: allMesages,
-        username: req.session.username
+        username: req.session.username,
+        loggedin: true
     });
     res.end();
 });
@@ -83,7 +84,8 @@ app.get('/home', async function (req, res) {
 app.get('/public', async function (req, res) {
     let allMesages = await messageRepository.getAllMessages(30);
     res.render('pages/timeline', {
-        messages: allMesages
+        messages: allMesages,
+        loggedin: req.session.loggedin
     });
 });
 
@@ -126,6 +128,13 @@ app.post('/login/auth', async function (req, res) {
         res.end();
     }
 });
+
+// User logout page
+app.get('/logout', async function (req, res) {
+    req.session.loggedin = false;
+    req.session.username = null;
+    req.session.userid = null;
+    res.redirect('/public');
 
 // User signup page
 app.get('/signup', async function (req, res) {
@@ -187,22 +196,34 @@ app.post('/signup/create', async function (req, res) {
 // User timeline
 app.get('/user/:username', async function (req, res) {
     let username = req.params.username;
-    let userID = await userRepository.getUserID(username);
-    if(userID == null) {
+    let user = await userRepository.getUserID(username);
+    if(user == null) {
         res.status(404).send({url: req.originalUrl + ' : was not found.'}); // Render page?
     }
-    console.log(userID.user_id);
-    let allMessages = await messageRepository.getUserMessages(userID.user_id, 30);
+    console.log(user.user_id);
+    
+    let allMessages = await messageRepository.getUserMessages(user.user_id, 30);
+    
+    var followed = false;
+    if (req.session.loggedin) {
+        let follows = await userRepository.following(req.session.userid, user.user_id);
+        if(follows) {
+            followed = true;
+        }
+    }
 
-    res.render('pages/timeline', {
-        messages: allMessages
+    res.render('pages/user', {
+        messages: allMessages,
+        user: username,
+        following: followed,
+        loggedin: req.session.loggedin
     });
 });
 
 // Follow
 app.get('/user/follow/:username', async function (req, res) { //get?
     if (!req.session.loggedin) {
-        res.status(401).send({url: req.originalUrl + ' : unautorized - user not unfollowed.'});
+        res.status(401).send({url: req.originalUrl + ' : unautorized - user not followed.'});
     }
     let followerID = req.session.userid;
 

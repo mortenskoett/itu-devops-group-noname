@@ -20,7 +20,7 @@ function getUserID(username) {
 };
 
 /**
- * Get amount messages from the database.
+ * Adds a user to the db.
  * @param {string} username
  * @param {string} password
  * @param {string} email
@@ -30,7 +30,16 @@ function addUser(username, password, email) {
 };
 
 /**
- * Get amount messages from the database.
+ * Checks if followerID is following followedID.
+ * @param {int} followerID
+ * @param {int} followedID
+ */
+function following(followerID, followedID) {
+    return helper.getSingle(`select 1 from follower where follower.who_id = ? and follower.whom_id = ?`, [followerID, followedID]);
+};
+
+/**
+ * Makes followerID follow followedID.
  * @param {int} followerID
  * @param {int} followedID
  */
@@ -40,7 +49,7 @@ function follow(followerID, followedID) {
 };
 
 /**
- * Get amount messages from the database.
+ * Makes followerID unfollow followedID.
  * @param {int} followerID
  * @param {int} followedID
  */
@@ -54,5 +63,6 @@ module.exports = {
     follow,
     unfollow,
     getIdUsingPassword,
-    addUser
+    addUser,
+    following
 }

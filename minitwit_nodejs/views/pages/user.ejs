@@ -34,14 +34,14 @@ My Timeline
 </div> -->
 
 <%- include('../partials/head.ejs'); %>
-
-<% if (locals.username) { %>
-    <p> Welcome back, <%= locals.username %> ! </p>
-<% } else { %>
-    <p>Hi stranger, please login.</p>
-    <% } %>
+    <p> <%= locals.user %>'s profile page  </p>
 <%- include('../partials/header.ejs'); %>
 
+<% if (locals.following) { %>
+    <strong><a href="/user/unfollow/<%= locals.user %>">Unfollow <%= locals.user %></a></strong>
+<% } else { %>
+    <strong><a href="/user/follow/<%= locals.user %>">Follow <%= locals.user %></a></strong>
+    <% } %>
 
 <ul class=messages>
     <% if (locals.messages) { %>
