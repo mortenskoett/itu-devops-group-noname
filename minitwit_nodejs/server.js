@@ -56,29 +56,6 @@ app.get('/', async function (req, res) {
     }
 });
 
-// For logged-in users
-// app.get('/home', async function (req, res) {
-//     if (!req.session.loggedin) {
-//         res.redirect('/public');
-//         res.end();
-//     }
-
-//     let userId = req.session.userid;
-//     console.log(userId);
-
-//     console.log('userId: ' + userId);
-//     let allMesages = await messageRepository.getFollowedMessages(userId, 30);
-
-//     console.log('messages: ' + allMesages.length);
-
-//     res.render('pages/timeline', {
-//         messages: allMesages,
-//         username: req.session.username
-//     });
-//     res.end();
-// });
-
-
 // Public timeline
 app.get('/public', async function (req, res) {
     let allMesages = await messageRepository.getAllMessages(30);
@@ -257,7 +234,7 @@ app.get('/user/unfollow/:username', async function (req, res) { //get?
 });
 
 // Post message
-app.post('/user/postmessage', async function (req, res) { //get?
+app.post('/user/postmessage', async function (req, res) {
     console.log('/user/postmessage called.')
 
     if (!req.session.loggedin) {
