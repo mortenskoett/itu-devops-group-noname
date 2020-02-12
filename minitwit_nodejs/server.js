@@ -135,6 +135,62 @@ app.get('/logout', async function (req, res) {
     req.session.username = null;
     req.session.userid = null;
     res.redirect('/public');
+
+// User signup page
+app.get('/signup', async function (req, res) {
+    res.render('pages/signup');
+});
+
+// User creation
+app.post('/signup/create', async function (req, res) {
+    const user = req.body.username;
+    const email = req.body.email;
+    var pass = req.body.password;
+
+    if (user && pass && email) {
+        console.log('- Creating new user -');
+        console.log('user: ' + user);
+        console.log('email: ' + user);
+        console.log('pass: ' + pass);
+    
+        let existingUser = await userRepository.getUserID(user);
+        if(existingUser){ 
+            res.render('pages/signup', {
+                error: 'Username is ivalid.'
+            });
+            res.end();
+        }
+
+        else{
+            await userRepository.addUser(user, pass, email);
+            
+            // TODO Rest is almost identical to /login/auth - just different page renders
+    
+            let userId = await userRepository.getIdUsingPassword(user, pass);
+    
+            if (userId) {
+                console.log('userid: ' + userId.user_id);
+                req.session.loggedin = true;
+                req.session.username = user;
+                req.session.userid = userId.user_id;
+                res.redirect('/home');
+                res.end();
+            }
+            else {
+                res.render('pages/signup', {
+                    error: 'Sign up failed'
+                });
+                res.end();
+            }
+        }
+
+    }
+    else {
+        res.render('pages/signup', {
+            error: 'Please enter username, email and password'
+        });
+        res.end();
+    }
 });
 
 // User timeline
