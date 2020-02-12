@@ -45,7 +45,7 @@ app.get('/', async function (req, res) {
 
     // User already logged in
     if (req.session.loggedin) {
-        res.redirect('/home');
+        res.redirect('/user/' + req.session.username);
         res.end();
     }
 
@@ -57,27 +57,26 @@ app.get('/', async function (req, res) {
 });
 
 // For logged-in users
-app.get('/home', async function (req, res) {
-    if (!req.session.loggedin) {
-        res.redirect('/public');
-        res.end();
-    }
-    
-    let userId = req.session.userid;
-    console.log(userId);
+// app.get('/home', async function (req, res) {
+//     if (!req.session.loggedin) {
+//         res.redirect('/public');
+//         res.end();
+//     }
 
-    console.log('userId: ' + userId);
-    let allMesages = await messageRepository.getFollowedMessages(userId, 30);
+//     let userId = req.session.userid;
+//     console.log(userId);
 
-    console.log('messages: ' + allMesages.length);
+//     console.log('userId: ' + userId);
+//     let allMesages = await messageRepository.getFollowedMessages(userId, 30);
 
-    res.render('pages/timeline', {
-        messages: allMesages,
-        username: req.session.username,
-        loggedin: true
-    });
-    res.end();
-});
+//     console.log('messages: ' + allMesages.length);
+
+//     res.render('pages/timeline', {
+//         messages: allMesages,
+//         username: req.session.username
+//     });
+//     res.end();
+// });
 
 
 // Public timeline
@@ -102,7 +101,7 @@ app.post('/login/auth', async function (req, res) {
     if (user && pass) {
         console.log('user: ' + user);
         console.log('pass: ' + pass);
-    
+
         let userId = await userRepository.getIdUsingPassword(user, pass);
 
         if (userId) {
@@ -110,7 +109,7 @@ app.post('/login/auth', async function (req, res) {
             req.session.loggedin = true;
             req.session.username = user;
             req.session.userid = userId.user_id;
-            res.redirect('/home');
+            res.redirect('/user/' + user);
             res.end();
         }
         else {
@@ -218,6 +217,7 @@ app.get('/user/:username', async function (req, res) {
         following: followed,
         loggedin: req.session.loggedin
     });
+    res.end();
 });
 
 // Follow
@@ -229,8 +229,8 @@ app.get('/user/follow/:username', async function (req, res) { //get?
 
     let followedUsername = req.params.username;
     let followedID = await userRepository.getUserID(followedUsername);
-    if(followedID == null) {
-        res.status(404).send({url: req.originalUrl + ' : was not found.'}); // Render page?
+    if (followedID == null) {
+        res.status(404).send({ url: req.originalUrl + ' : was not found.' }); // Render page?
     }
     console.log("id: " + followerID + "now follows id: " + followedID.user_id);
     await userRepository.follow(followerID, followedID.user_id);
@@ -241,19 +241,37 @@ app.get('/user/follow/:username', async function (req, res) { //get?
 // Unfollow
 app.get('/user/unfollow/:username', async function (req, res) { //get?
     if (!req.session.loggedin) {
-        res.status(401).send({url: req.originalUrl + ' : unautorized - user not unfollowed.'});
+        res.status(401).send({ url: req.originalUrl + ' : unautorized - user not unfollowed.' });
     }
     let followerID = req.session.userid;
 
     let followedUsername = req.params.username;
     let followedID = await userRepository.getUserID(followedUsername);
-    if(followedID == null) {
-        res.status(404).send({url: req.originalUrl + ' : was not found.'}); // Render page?
+    if (followedID == null) {
+        res.status(404).send({ url: req.originalUrl + ' : was not found.' }); // Render page?
     }
     console.log("id: " + followerID + "no longer follows id: " + followedID.user_id);
     await userRepository.unfollow(followerID, followedID.user_id);
 
     res.redirect('/user/' + followedUsername);
+});
+
+// Post message
+app.post('/user/postmessage', async function (req, res) { //get?
+    console.log('/user/postmessage called.')
+
+    if (!req.session.loggedin) {
+        res.status(401).send({ url: req.originalUrl + ' : unautorized - user not logged in.' });
+    }
+
+    let message = req.body.message;
+    let userId = req.session.userid;
+
+    console.log(message);
+    console.log(userId);
+
+    await messageRepository.postMessage(userId, message);
+    res.redirect('/user/' + req.session.username)
 });
 
 /* After middleware */
