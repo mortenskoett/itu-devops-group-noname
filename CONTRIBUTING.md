@@ -16,7 +16,8 @@ developers can get the newest changes as fast as possible. The master branch req
 approves the pull request before it can be merged.
 
 The `release` branch is used only for the most stable versions of the code base and should only rarely
-see pull requests. Two approved reviews are required to merge.
+see pull requests. Two approved reviews are required to merge. When a pull request is merged, **delete**
+the feature branch.
 
 ```
 release		-------->	 (only used at milestones or when a stable master needs to be captured)
