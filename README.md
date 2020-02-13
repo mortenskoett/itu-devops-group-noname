@@ -1,7 +1,9 @@
 # current: sesion3
 
 Course git page: https://github.com/itu-devops/2020-spring
+
 Session page: https://github.com/itu-devops/2020-spring/blob/master/sessions/session_03
+
 Report page: [insert link to overleaf]
 
 ### Minitwit functional Requirements
