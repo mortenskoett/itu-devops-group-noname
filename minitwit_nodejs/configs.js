@@ -7,7 +7,7 @@ module.exports = () => ({
     environment: process.env.APPLICATION_ENV,
     logpath: process.env.LOG_PATH,
   },
-  mongo: {
+  sqlite: {
     port: process.env.DB_PORT,
     host: process.env.DB_HOST,
     name: process.env.DB_NAME

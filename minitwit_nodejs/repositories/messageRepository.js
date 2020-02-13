@@ -1,6 +1,6 @@
 'use strict'
 
-const helper = require('./databaseHelper')
+const helper = require('../persistence/sqlite/sqliteDatabaseHelper');
 
 /**
  * Get amount messages from the database.

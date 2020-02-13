@@ -11,16 +11,6 @@ const session = require('express-session');
 const app = express();
 const port = config.app.port;
 
-// Using SQLite3. See https://github.com/mapbox/node-sqlite3
-const sqlite3 = require('sqlite3').verbose();
-
-module.exports.db = new sqlite3.Database('./data/minitwit.db', (err) => {
-    if (err) {
-        return console.error(err.message);
-    }
-    console.log('Connected to the minitwit.db SQlite database.');
-});
-
 /* Repositories */
 const messageRepository = require('./repositories/messageRepository');
 const userRepository = require('./repositories/userRepository');

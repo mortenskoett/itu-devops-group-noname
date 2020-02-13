@@ -1,6 +1,6 @@
 'use strict'
 
-const db = require('../server').db;
+const db = require('./sqliteDatabase');
 
 function getAll(query, params) {
     return new Promise((resolve, reject) => {
