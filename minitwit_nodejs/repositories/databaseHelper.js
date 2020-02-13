@@ -14,6 +14,32 @@ function getAll(query, params) {
     });
 }
 
+function insert(query, params) {
+    return new Promise((resolve, reject) => {
+        db.run(query, params, (err, rows) => {
+            if(err) {
+                console.error(err.message);
+                reject();
+            }
+            resolve(rows);
+        }); 
+    });
+}
+
+function getSingle(query, params) {
+    return new Promise((resolve, reject) => {
+        db.get(query, params, (err, row) => {
+            if (err) {
+                console.error(err.message);
+                reject();
+            }
+            resolve(row);
+        });
+    });
+}
+
 module.exports = {
-    getAll
+    getAll,
+    getSingle,
+    insert
 }
