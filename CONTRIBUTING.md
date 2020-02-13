@@ -19,10 +19,10 @@ The `release` branch is used only for the most stable versions of the code base 
 see pull requests. Two approved reviews are required to merge.
 
 ```
-release		----->				(only used at milestones or when a stable master needs to be captured)
-				/
+release		-------->		(only used at milestones or when a stable master needs to be captured)
+			/
 master	 	----------->		(newest stable changes)
-				/     /
+		/     /
 feature		-------------->		(your work branch)
 ```
 
