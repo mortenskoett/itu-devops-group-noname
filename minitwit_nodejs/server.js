@@ -10,6 +10,7 @@ const express = require('express');
 const session = require('express-session');
 const app = express();
 const port = config.app.port;
+const baseRouter = require('./routers/baseRoutes');
 
 /* Repositories */
 const messageRepository = require('./repositories/messageRepository');
@@ -27,6 +28,13 @@ app.use(session({
 
 // Using EJS. See https://github.com/mde/ejs/wiki/Using-EJS-with-Express
 app.set('view engine', 'ejs');
+
+
+
+/* END POINT ROUTING VERTICAL SLICE START */
+app.route('/', baseRouter);
+
+
 
 /* Routing endpoints below*/
 
