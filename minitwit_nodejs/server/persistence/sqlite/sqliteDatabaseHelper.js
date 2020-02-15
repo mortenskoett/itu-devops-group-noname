@@ -10,8 +10,8 @@ function getAll(query, params) {
     return new Promise((resolve, reject) => {
         db.all(query, params, (err, rows) => {
             if (err) {
-                console.error(err.message);
-                reject();
+                console.error("sqliteDatabasehelper: " + err.message);
+                reject(err);
             }
             resolve(rows);
         });
@@ -21,12 +21,12 @@ function getAll(query, params) {
 function insert(query, params) {
     return new Promise((resolve, reject) => {
         db.run(query, params, (err, rows) => {
-            if(err) {
+            if (err) {
                 console.error(err.message);
-                reject();
+                reject(err);
             }
             resolve(rows);
-        }); 
+        });
     });
 }
 
@@ -35,7 +35,7 @@ function getSingle(query, params) {
         db.get(query, params, (err, row) => {
             if (err) {
                 console.error(err.message);
-                reject();
+                reject(err);
             }
             resolve(row);
         });

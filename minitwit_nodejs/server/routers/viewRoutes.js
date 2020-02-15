@@ -38,6 +38,11 @@ async function renderPublicTimeLine(req, res) {
     console.log("renderPublicTimeline called")
     let allMessages = await messageController.getAllMessages(req, res);
 
+    if (!allMessages) {
+        res.status(500).send({ url: req.originalUrl + 'Error getting messages.' });
+        res.end();
+    }
+
     res.render('pages/timeline', {
         messages: allMessages,
         username: req.session.username,

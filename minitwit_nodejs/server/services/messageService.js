@@ -11,9 +11,13 @@ const helper = require('../persistence/sqlite/sqliteDatabaseHelper');
  * @param {int} amount 
  */
 function getAllMessages(amount) {
-    return helper.getAll(`select message.*, user.* from message, user
+    try {
+        return helper.getAll(`select message.*, user.* from message, user
                 where message.author_id = user.user_id
-                order by message.pub_date desc limit ?`, [amount])
+                order by message.pub_date desc limit ?`, [amount]);
+    } catch (err) {
+        console.log(err);
+    }
 };
 
 /**
@@ -23,8 +27,13 @@ function getAllMessages(amount) {
  * @param {int} date
  */
 function postMessage(userID, text, date) {
-    return helper.insert(`insert into message 
+    try {
+        return helper.insert(`insert into message 
     (author_id, text, pub_date) values (?, ?, ?)`, [userID, text, date])
+    }
+    catch (err) {
+        console.log("sqliteDatabaseHelper: " + err);
+    }
 };
 
 module.exports = {
