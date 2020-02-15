@@ -11,7 +11,7 @@ const messageController = require('../controllers/messageController');
 
 /* Routes */
 
-router.get('/main', mainView);
+router.get('/', mainView);
 router.get('/public', renderPublicTimeLine);
 
 
@@ -22,6 +22,7 @@ async function mainView(req, res, next) {
 
     // User already logged in
     if (req.session.loggedin) {
+        // TODO: Should be similar to the else clause
         res.redirect('/home');
         res.end();
     }

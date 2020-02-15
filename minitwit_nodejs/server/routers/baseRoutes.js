@@ -20,7 +20,7 @@ router.use(API_ROUTE, function timeLog (req, res, next) {
 })
 
 /* Routes */
-router.use('/view', viewRoutes);
+router.get('/', viewRoutes);
 router.use(API_ROUTE + '/simulator', simulatorRoutes);
 router.use(API_ROUTE + '/message', messageRoutes); 
 

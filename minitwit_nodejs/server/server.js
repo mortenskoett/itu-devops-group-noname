@@ -13,8 +13,8 @@ const port = config.app.port;
 const baseRouter = require('./routers/baseRoutes');
 
 /* Repositories */
-const messageRepository = require('./repositories/messageRepository');
-const userRepository = require('./repositories/userRepository');
+// const messageRepository = require('./repositories/messageRepository');
+// const userRepository = require('./repositories/userRepository');
 
 /* Before middlewares */
 app.use(express.json());
