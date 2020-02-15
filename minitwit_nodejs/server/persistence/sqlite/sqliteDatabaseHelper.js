@@ -1,5 +1,9 @@
 'use strict'
 
+/**
+ * Handling and accessing the Sqlite database.
+ */
+
 const db = require('./sqliteDatabase');
 
 function getAll(query, params) {

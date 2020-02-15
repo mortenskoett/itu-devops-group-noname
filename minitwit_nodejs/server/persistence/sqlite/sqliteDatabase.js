@@ -1,8 +1,12 @@
 'use strict'
 
+/**
+ * Instance of the Sqlite database.
+ */
+
 const sqlite3 = require('sqlite3').verbose();
 
-module.exports = new sqlite3.Database('./persistence/sqlite/minitwit.db', (err) => {
+module.exports = new sqlite3.Database('./server/persistence/sqlite/minitwit.db', (err) => {
     if (err) {
         return console.error(err.message);
     }
