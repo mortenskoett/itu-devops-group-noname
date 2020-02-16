@@ -7,7 +7,7 @@
 const userService = require('../services/userService');
 
 // Check if username/password are valid in which case session data is set accordingly.
-async function checkUserCredentials(req, res, next) {
+async function checkUserCredentials(req, res, next) {       // TODO: Example controller method! Not used by UI.
     console.log('loginUser called.')
 
     const user = req.body.username;

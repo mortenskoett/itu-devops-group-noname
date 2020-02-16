@@ -10,12 +10,6 @@ const basicAuth = require('express-basic-auth');
 const router = express.Router();
 const timeUtil = require('../utilities/timeDateUtil');
 
-// Example middleware time logging specific to this router
-router.use(function timeLog(req, res, next) {
-    console.log(req.baseUrl + ' : ' + timeUtil.getFormattedDate());
-    next();
-})
-
 // Setting HTTP Basic Authentication
 // Header : Authorization
 // Value : Basic base64('simulator:super_safe!');

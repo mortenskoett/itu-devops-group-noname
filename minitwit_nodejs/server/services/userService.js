@@ -52,6 +52,36 @@ function addUser(username, password, email) {
     }
 };
 
+// TODO: Should be implemented
+// /**
+//  * Checks if followerID is following followedID.
+//  * @param {int} followerID
+//  * @param {int} followedID
+//  */
+// function following(followerID, followedID) {
+//     return helper.getSingle(`select 1 from follower where follower.who_id = ? and follower.whom_id = ?`, [followerID, followedID]);
+// };
+
+// /**
+//  * Makes followerID follow followedID.
+//  * @param {int} followerID
+//  * @param {int} followedID
+//  */
+// function follow(followerID, followedID) {
+//     return helper.insert(`insert into follower 
+//         (who_id, whom_id) values (?, ?)`, [followerID, followedID]);
+// };
+
+// /**
+//  * Makes followerID unfollow followedID.
+//  * @param {int} followerID
+//  * @param {int} followedID
+//  */
+// function unfollow(followerID, followedID) {
+//     return helper.insert(`delete from follower 
+//         where who_id=? and whom_id=?`, [followerID, followedID]);
+// };
+
 module.exports = {
     getIdUsingPassword,
     getUserID,

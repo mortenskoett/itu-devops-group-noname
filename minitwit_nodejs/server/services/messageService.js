@@ -53,6 +53,18 @@ function getFollowedMessages(user_id, amount) {
     }
 };
 
+// TODO: Should be implemented
+// /**
+//  * Get amount messages from the database.
+//  * @param {int} userID
+//  * @param {int} amount 
+//  */
+// function getUserMessages(userID, amount) {
+//     return helper.getAll(`select message.*, user.* from message, user
+//                 where message.author_id = user.user_id and (user.user_id = ?)
+//                 order by message.pub_date desc limit ?`, [userID, amount])
+// };
+
 module.exports = {
     getAllMessages,
     postMessage,

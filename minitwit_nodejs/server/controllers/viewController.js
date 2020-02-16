@@ -10,16 +10,6 @@ const router = express.Router();
 const messageService = require('../services/messageService');
 const userService = require('../services/userService');
 
-/* Routes */
-router.get('/', mainView);
-router.get('/view/public', renderPublicTimeLine);
-router.get('/view/home', renderUserTimeline);
-router.get('/view/login', renderLoginPage);
-router.post('/view/login/auth', loginButton);
-router.get('/view/logout', logoutButton);
-router.get('/view/signup', renderSignupPage);
-router.post('/view/signup/create', signupButton);
-
 async function mainView(req, res, next) {
     console.log("mainview called")
 
@@ -184,4 +174,14 @@ async function signupButton(req, res, next) {
     }
 }
 
-module.exports = router;
+module.exports = {
+    router,
+    mainView,
+    renderPublicTimeLine,
+    renderUserTimeline,
+    renderLoginPage,
+    renderSignupPage,
+    loginButton,
+    logoutButton,
+    signupButton
+}

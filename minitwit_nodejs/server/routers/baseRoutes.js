@@ -1,16 +1,16 @@
 'use strict'
 
 /**
- * Base routing of requests.
+ * Base routing of requests to other routers.
  */
 
 const express = require('express');
 const router = express.Router();
 
-const viewController = require('../controllers/viewController');
 const simulatorRoutes = require('./simulatorRoutes');
 const messageRoutes = require('./messageRoutes');
 const userRoutes = require('./userRoutes');
+const viewRoutes = require('./viewRoutes');
 
 const API_ROUTE = '/api/v1';
 
@@ -21,7 +21,7 @@ router.use(API_ROUTE, function timeLog(req, res, next) {
 })
 
 /* Routes */
-router.use('/', viewController);
+router.use('/', viewRoutes);
 router.use(API_ROUTE + '/simulator', simulatorRoutes);
 router.use(API_ROUTE + '/message', messageRoutes);
 router.use(API_ROUTE + '/user', userRoutes);
