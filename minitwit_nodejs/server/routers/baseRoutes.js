@@ -7,9 +7,10 @@
 const express = require('express');
 const router = express.Router();
 
-const viewRoutes = require('./viewRoutes');
+const viewController = require('../controllers/viewController');
 const simulatorRoutes = require('./simulatorRoutes');
 const messageRoutes = require('./messageRoutes');
+const userRoutes = require('./userRoutes');
 
 const API_ROUTE = '/api/v1';
 
@@ -20,8 +21,9 @@ router.use(API_ROUTE, function timeLog (req, res, next) {
 })
 
 /* Routes */
-router.get('/', viewRoutes);
+router.use('/', viewController);
 router.use(API_ROUTE + '/simulator', simulatorRoutes);
 router.use(API_ROUTE + '/message', messageRoutes); 
+router.use(API_ROUTE + '/user', userRoutes);
 
 module.exports = router;

@@ -9,25 +9,23 @@
 const messageService = require('../services/messageService');
 
 async function getAllMessages(req, res) {
-    console.log('getAllMessages called.')
+    console.log('messageService.getAllMessages called.')
     let amount = (req.param.amount) ? req.param.amount : 50;
-    try {
-        return await messageService.getAllMessages(amount);
+    let messages = await messageService.getAllMessages(amount);
+    if (messages) {
+        return messages;
     }
-    catch (err) {
-        console.log(err);
-        res.status(401).send({ url: req.originalUrl + ` : ${err}` });
-    };
 };
 
 async function postMessage(req, res) {
-    console.log('messageController::postMessage called.')
+    console.log('messageController.postMessage called.')
 
-    if (!req.session.loggedin) {
-        res.status(401)
-            .send({ url: req.originalUrl + ' : Unauthorized: user not logged in.' })
-            .end();
-    };
+    // TODO: This code below should reside in viewcontroller
+    // if (!req.session.loggedin) {
+    //     res.status(401)
+    //         .send({ url: req.originalUrl + ' : Unauthorized: user not logged in.' })
+    //         .end();
+    // };
 
     let message = req.body.message;
     let userId = req.session.userid;
@@ -41,7 +39,12 @@ async function postMessage(req, res) {
     };
 };
 
+async function getFollowedMessages(req, res) {
+    console.log('messageController.postMessage called.')
+    throw new Error('Not implemented');
+}
+
 module.exports = {
     getAllMessages,
-    postMessage
+    postMessage,
 }

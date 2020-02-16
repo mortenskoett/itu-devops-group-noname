@@ -37,95 +37,12 @@ END POINT ROUTING VERTICAL SLICE START:
 // app.use('/', (req, res) => res.send("App is working"));
 app.use('/', baseRouter);
 
-// /* Routing endpoints below*/
-// // Public or User timeline
-// app.get('/', async function (req, res) {
 
-//     // User already logged in
-//     if (req.session.loggedin) {
-//         res.redirect('/home');
-//         res.end();
-//     }
-
-//     // Unkown user
-//     else {
-//         res.redirect('/public');
-//         res.end();
-//     }
-// });
-
-// // User timeline
-// app.get('/home', async function (req, res) {
-//     if (!req.session.loggedin) {
-//         res.redirect('/public');
-//         res.end();
-//     }
-
-//     let userId = req.session.userid;
-//     console.log(userId);
-
-//     console.log('userId: ' + userId);
-//     let allMesages = await messageRepository.getFollowedMessages(userId, 30);
-
-//     console.log('messages: ' + allMesages.length);
-
-//     res.render('pages/timeline', {
-//         messages: allMesages,
-//         loggedin: req.session.loggedin,
-//         username: req.session.username
-//     });
-//     res.end();
-// });
-
-
-// // Public timeline
-// app.get('/public', async function (req, res) {
-//     let allMesages = await messageRepository.getAllMessages(30);
-//     res.render('pages/timeline', {
-//         messages: allMesages,
-//         username: req.session.username,
-//         loggedin: req.session.loggedin
-//     });
-// });
-
-// // User login page
-// app.get('/login', async function (req, res) {
-//     res.render('pages/login');
-// });
-
-// // User authorization
-// app.post('/login/auth', async function (req, res) {
-//     const user = req.body.username;
-//     var pass = req.body.password;
-
-//     if (user && pass) {
-//         console.log('user: ' + user);
-//         console.log('pass: ' + pass);
-
-//         let userId = await userRepository.getIdUsingPassword(user, pass);
-
-//         if (userId) {
-//             console.log('userid: ' + userId.user_id);
-//             req.session.loggedin = true;
-//             req.session.username = user;
-//             req.session.userid = userId.user_id;
-//             res.redirect('/home');
-//             res.end();
-//         }
-//         else {
-//             res.render('pages/login', {
-//                 error: 'Incorrect username or password.'
-//             });
-//             res.end();
-//         }
-//     }
-//     else {
-//         res.render('pages/login', {
-//             error: 'Please enter username and password'
-//         });
-//         res.end();
-//     }
-// });
+/* 
+=======================================
+NOT YET REFACTORED BELOW:
+=======================================
+*/
 
 // // User logout page
 // app.get('/logout', async function (req, res) {
@@ -192,33 +109,6 @@ app.use('/', baseRouter);
 //     }
 // });
 
-// // User page
-// app.get('/user/:username', async function (req, res) {
-//     let username = req.params.username;
-//     let user = await userRepository.getUserID(username);
-//     if (user == null) {
-//         res.status(404).send({ url: req.originalUrl + ' : was not found.' }); // Render page?
-//     }
-//     console.log(user.user_id);
-
-//     let allMessages = await messageRepository.getUserMessages(user.user_id, 30);
-
-//     var followed = false;
-//     if (req.session.loggedin) {
-//         let follows = await userRepository.following(req.session.userid, user.user_id);
-//         if (follows) {
-//             followed = true;
-//         }
-//     }
-
-//     res.render('pages/user', {
-//         messages: allMessages,
-//         user: username,
-//         following: followed,
-//         loggedin: req.session.loggedin
-//     });
-//     res.end();
-// });
 
 // // Follow
 // app.get('/user/follow/:username', async function (req, res) { //get?
