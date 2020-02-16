@@ -44,14 +44,6 @@ NOT YET REFACTORED BELOW:
 =======================================
 */
 
-// // User logout page
-// app.get('/logout', async function (req, res) {
-//     req.session.loggedin = false;
-//     req.session.username = null;
-//     req.session.userid = null;
-//     res.redirect('/public');
-// });
-
 // // User signup page
 // app.get('/signup', async function (req, res) {
 //     res.render('pages/signup');
