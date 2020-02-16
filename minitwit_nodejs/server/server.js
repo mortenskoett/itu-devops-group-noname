@@ -5,7 +5,7 @@
 'use strict'
 
 require('dotenv').config();
-const config = require('./configs')();
+const config = require('./configs');
 const express = require('express');
 const session = require('express-session');
 const app = express();

@@ -26,6 +26,7 @@
     "dotenv": "^8.2.0",
     "ejs": "^3.0.1",
     "express": "^4.17.1",
+    "express-basic-auth": "^1.2.0",
     "express-session": "^1.17.0",
     "nodemon": "^2.0.2",
     "sqlite3": "^4.1.1"
