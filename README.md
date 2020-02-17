@@ -21,7 +21,20 @@ Report page: [insert link to overleaf]
 	The EFS stuff which is sort of javascript written directly in the DOM I find a little bit annoying and we 
 	will probably have to read som documentation. In the end I used bootstrap to quickly simulate a UI. 
 	(see views/partial/head.efs)
-- Setting up end points is happening in `server.js` where there are already examples.
+- The code base is split into separate modules that slices the logic into layers.
+Seen going from outside to inside of the application:
+
+`server.js -> routing -> controllers -> services -> persistence`
+
+- routing: routes the requests to a meaningful place.
+- controllers unwraps the request and also handles returning appropirate responds.
+- service layer handles all primary business logic and doesn't care about the API.
+- persistence is separated from everything to make it possible to implement a DB abstraction asap.
+
+The UI has its own controller where all logic is handled, sort of like an MVC pattern.
+
+OBS: Not everything is wired up atm.
+
 - See minitwit_nodejs/readme for how to run the server etc.
 - See CONTRIBUTING.md on how to follow conventions.
 
