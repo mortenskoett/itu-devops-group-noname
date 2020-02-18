@@ -4,7 +4,10 @@
  * Service handling message related business logic.
  */
 
-const helper = require('../persistence/sqlite/sqliteDatabaseHelper');
+const models = require('../persistence/models/models.js');
+const Message = models.getMessageModel();
+const User = models.getUserModel();
+//const sequelize = models.getSequelize();
 
 /**
  * Get 'amount' messages from the database.
@@ -12,9 +15,15 @@ const helper = require('../persistence/sqlite/sqliteDatabaseHelper');
  */
 function getAllMessages(amount) {
     try {
-        return helper.getAll(`select message.*, user.* from message, user
-                where message.author_id = user.user_id
-                order by message.pub_date desc limit ?`, [amount]);
+        return Message.findAll({ 
+            limit: amount,
+            include: [{
+                model: User,
+                attributes: ['username']
+
+            }]
+            //order: sequelize.fn('max', sequelize.col('createdAt')) 
+        });
     } catch (err) {
         console.log(err);
     }
@@ -28,8 +37,7 @@ function getAllMessages(amount) {
  */
 function postMessage(userID, text, date) {
     try {
-        return helper.insert(`insert into message 
-    (author_id, text, pub_date) values (?, ?, ?)`, [userID, text, date])
+        return Message.create({userId: userID, text: text})
     }
     catch (err) {
         console.log(err);
@@ -43,10 +51,13 @@ function postMessage(userID, text, date) {
  */
 function getFollowedMessages(user_id, amount) {
     try {
-        return helper.getAll(`select message.*, user.* from message, user 
-        where message.author_id = user.user_id and (user.user_id = ? 
-        or user.user_id in (select whom_id from follower where who_id = ?)) 
-        order by message.pub_date desc limit ?`, [user_id, user_id, amount])
+        return Message.findAll({
+            limit: amount,
+            include: [{// Notice `include` takes an ARRAY
+                model: User
+            }]
+            //order: sequelize.fn('max', sequelize.col('createdAt'))
+        });
     }
     catch (err) {
         console.log("sqliteDatabaseHelper: " + err);

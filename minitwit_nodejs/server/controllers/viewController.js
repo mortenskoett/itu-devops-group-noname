@@ -106,13 +106,14 @@ async function attemptLoginUser(request, username, password) {
         let userIdRow = await userService.getIdUsingPassword(username, password);
 
         if (userIdRow) {
-            updateSessionUserData(request, username, userIdRow.user_id);
+            updateSessionUserData(request, username, userIdRow.id);
             return userIdRow;
         }
     }
 }
 
 function updateSessionUserData(request, username, userId) {
+    console.log("Userid:", userId);
     request.session.loggedin = true;
     request.session.username = username;
     request.session.userid = userId;

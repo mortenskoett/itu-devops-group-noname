@@ -4,7 +4,8 @@
  * Service handling user related business logic.
  */
 
-const helper = require('../persistence/sqlite/sqliteDatabaseHelper');
+const models = require('../persistence/models/models.js');
+const User = models.getUserModel();
 
 /**
  * Authenticate user using username and password.
@@ -13,10 +14,9 @@ const helper = require('../persistence/sqlite/sqliteDatabaseHelper');
  */
 function getIdUsingPassword(username, password) {
     try {
-        return helper.getSingle(
-            `select user.user_id from user 
-                where user.username = ? 
-                and user.pw_hash = ?`, [username, password]);
+        return User.findOne({
+            where: {username: username, password: password}
+        });
     }
     catch (err) {
         console.log(err);
@@ -29,7 +29,9 @@ function getIdUsingPassword(username, password) {
  */
 function getUserID(username) {
     try {
-        return helper.getSingle(`select user.user_id from user where user.username = ?`, [username]);
+        return User.findOne({
+            where: {username: username}
+        });
     }
     catch (err) {
         console.log(err);
@@ -44,8 +46,7 @@ function getUserID(username) {
  */
 function addUser(username, password, email) {
     try {
-        helper.insert(`insert into user (username, pw_hash, email) values (?, ?, ?)`, [username, password, email]);
-        return getUserID(username);
+        return User.create({username: username, email: email, password: password});
     }
     catch (err) {
         console.log(err);
