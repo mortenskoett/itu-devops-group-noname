@@ -6,6 +6,14 @@ API Used with external MiniTweet Simulator
 var LATEST = 0;
 
 // TODO Autorization TODO
+function not_req_from_simulator(request) {
+    let from_simulator = request.getHeader("Authorization");
+    let error = null;
+    if (from_simulator !=  "Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh") {
+        error = {"status": 403, "error_msg": "You are not authorized to use this resource!"};
+    }
+    return error;
+}
 
 // def not_req_from_simulator(request):
 //     from_simulator = request.headers.get("Authorization")
@@ -24,7 +32,8 @@ var LATEST = 0;
 //         return None
 
 function update_latest(req) {
-    LATEST = -1
+    let { latest } = req.body;
+    if (latest != -1) LATEST = latest;
 }
 
 // Get latest value (stored for each api request)
