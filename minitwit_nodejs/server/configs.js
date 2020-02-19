@@ -4,6 +4,7 @@ module.exports = {
     simulator: {
         user: 'simulator',
         pass: 'super_safe!',
+        port: 5001
     },
     app: {
         name: process.env.APP_NAME,

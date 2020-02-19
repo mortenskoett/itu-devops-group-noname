@@ -32,7 +32,7 @@ function getUserID(username) {
         return helper.getSingle(`select user.user_id from user where user.username = ?`, [username]);
     }
     catch (err) {
-        console.log(err);
+        throw new Error("Failed to get user from database: ", err);
     }
 };
 
@@ -48,7 +48,7 @@ function addUser(username, password, email) {
         return getUserID(username);
     }
     catch (err) {
-        console.log(err);
+        throw new Error("Failed to insert user into database: ", err);
     }
 };
 
@@ -62,28 +62,56 @@ function addUser(username, password, email) {
 //     return helper.getSingle(`select 1 from follower where follower.who_id = ? and follower.whom_id = ?`, [followerID, followedID]);
 // };
 
-// /**
-//  * Makes followerID follow followedID.
-//  * @param {int} followerID
-//  * @param {int} followedID
-//  */
-// function follow(followerID, followedID) {
-//     return helper.insert(`insert into follower 
-//         (who_id, whom_id) values (?, ?)`, [followerID, followedID]);
-// };
+/**
+ * Makes followerID follow followedID.
+ * @param {int} followerID
+ * @param {int} followedID
+ */
+function follow(followerID, followedID) {
+    try {
+        return helper.insert(`insert into follower 
+        (who_id, whom_id) values (?, ?)`, [followerID, followedID]);
+    } catch (err) {
+        throw new Error("Failed to insert follow into database: ", err);
+    }
+};
 
-// /**
-//  * Makes followerID unfollow followedID.
-//  * @param {int} followerID
-//  * @param {int} followedID
-//  */
-// function unfollow(followerID, followedID) {
-//     return helper.insert(`delete from follower 
-//         where who_id=? and whom_id=?`, [followerID, followedID]);
-// };
+/**
+ * Makes followerID unfollow followedID.
+ * @param {int} followerID
+ * @param {int} followedID
+ */
+function unfollow(followerID, followedID) {
+    try {
+        return helper.insert(`delete from follower 
+        where who_id=? and whom_id=?`, [followerID, followedID]);
+    } catch (err) {
+        throw new Error("Failed to delete follow from database: ", err);
+    }
+};
+
+/**
+ * Get all users followed by followerID.
+ * @param {int} followerID
+ * @param {int} limit
+ */
+function getFollows(followerID, limit) {
+    try {
+        return helper.getAll(`SELECT user.username FROM user
+        INNER JOIN follower ON follower.whom_id=user.user_id
+        WHERE follower.who_id=?
+        LIMIT ?`, [followerID, limit]);
+    } catch (err) {
+        throw new Error("Failed to get follows from database: ", err);
+    }
+
+};
 
 module.exports = {
     getIdUsingPassword,
     getUserID,
-    addUser
-}
+    addUser,
+    follow,
+    unfollow,
+    getFollows
+};

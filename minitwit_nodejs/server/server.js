@@ -11,6 +11,9 @@ const session = require('express-session');
 const app = express();
 const port = config.app.port;
 const baseRouter = require('./routers/baseRoutes');
+const simulator = express();
+const simPort = config.simulator.port;
+const simRouter = require('./routers/simulatorRoutes');
 
 /* Repositories */
 // const messageRepository = require('./repositories/messageRepository');
@@ -26,7 +29,6 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
-
 
 /* 
 =======================================
@@ -97,3 +99,21 @@ NOT YET REFACTORED BELOW:
 
 /* Start server */
 app.listen(port, () => console.log(`Minitwit server listening on port ${port}.`));
+
+
+/* 
+=======================================
+SIMULATOR
+=======================================
+*/
+simulator.use(express.json());
+simulator.use(express.urlencoded({ extended: true }));
+simulator.use(express.static('static')); // needed ?
+simulator.use(session({ // needed?
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+}));
+
+simulator.use('/', simRouter)
+simulator.listen(simPort, () => console.log(`Simulator server listening on port ${simPort}.`));
