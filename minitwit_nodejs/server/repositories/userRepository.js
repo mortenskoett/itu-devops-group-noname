@@ -52,7 +52,7 @@ function addUser(username, password, email) {
     }
 };
 
-// TODO: Should be implemented
+// TODO: Should be implemented and used to circumvent duplicate followings, which right now are happening
 // /**
 //  * Checks if followerID is following followedID.
 //  * @param {int} followerID

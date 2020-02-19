@@ -13,7 +13,7 @@ const viewRoutes = require('./routers/viewRoutes');
 const simRouter = require('./routers/simulatorRoutes');
 
 
-/* WEB APP */
+/* WEB APP SERVER */
 const appPort = config.app.port;
 const app = express();
 
@@ -31,7 +31,7 @@ app.use('/', viewRoutes);
 app.listen(appPort, () => console.log(`Minitwit server listening on port ${appPort}.`));
 
 
-/* SIMULATOR */
+/* SIMULATOR SERVER */
 const simPort = config.simulator.port;
 const simulator = express();
 

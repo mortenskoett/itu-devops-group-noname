@@ -4,7 +4,6 @@
     Endpoints for simulator
 */
 const timeUtil = require('../utilities/timeDateUtil');
-const repository = require('../repositories/repository');
 const userRepository = require('../repositories/userRepository');
 const messageRepository = require('../repositories/messageRepository');
 
@@ -18,7 +17,6 @@ module.exports = {
     setFollow
 };
 
-let repo = repository();
 var LATEST = 0; // Latest recieved 'latest' value
 
 function update_latest(req) {
@@ -146,14 +144,22 @@ async function getFollows(req, res) {
     console.log("getFollows: ");
     update_latest(req)
 
+    let username = req.params.username;
     let no_messages = req.query.no ? req.query.no : 100;
 
-    let follows = await repo.getFollows(req.params.username, no_messages);
+    let { user_id } = await userRepository.getUserID(username);
+    if (!user_id) {
+        res.status(404).send({ error_msg: `Error finding user "${username}"` });
+        return;
+    }
+
+    let follows = await userRepository.getFollows(user_id, no_messages);
     if (!follows) {
         res.status(400).send({ error_msg: "A database error occurred." });
         return;
     }
 
+    console.log(follows);
     let jsonFollows = follows.map(e => e.username);
 
     res.status(200).send({ follows: jsonFollows }) // contains the right result, but test says it is the wrong types
