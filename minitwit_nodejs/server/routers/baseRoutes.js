@@ -25,6 +25,7 @@ router.use('/', viewRoutes);
 router.use(API_ROUTE + '/simulator', simulatorRoutes);
 router.use(API_ROUTE + '/message', messageRoutes);
 router.use(API_ROUTE + '/user', userRoutes);
+router.use(API_ROUTE + '/flag_tool', flag_toolRoutes);
 
 /* Final middleware */
 router.use(function (req, res) {
