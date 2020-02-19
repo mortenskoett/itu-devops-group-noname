@@ -172,31 +172,34 @@ async function setFollow(req, res) {
 
     let { username } = req.params;
 
-    let userId = await userRepository.getUserID(username);
+    let user = await userRepository.getUserID(username);
+    let userId = user.user_id;
     if (!userId) {
         res.status(400).send({ error_msg: `Error finding user "${username}"` });
         return;
     }
 
     if (follow) {
-        let { user_id: userToFollow } = await userRepository.getUserID(follow);
-        if (!userToFollow) {
+        let otherUser = await userRepository.getUserID(follow);
+        let otherUserId = otherUser.user_id;
+        if (!otherUserId) {
             res.status(404).send({ error_msg: `Error finding user "${username}"` });
             return;
         }
 
-        await userRepository.follow(userId, userToFollow);
-        console.log(userId, userToFollow);
+        await userRepository.follow(userId, otherUserId);
+        console.log(userId, otherUserId);
     }
     else if (unfollow) {
-        let { user_id: userToFollow } = await userRepository.getUserID(unfollow);
-        if (!userToFollow) {
+        let otherUser = await userRepository.getUserID(unfollow);
+        let otherUserId = otherUser.user_id;
+        if (!otherUserId) {
             res.status(404).send({ error_msg: `Error finding user "${username}"` });
             return;
         }
 
-        await userRepository.unfollow(userId, userToFollow);
-        console.log(userId, userToFollow);
+        await userRepository.unfollow(userId, otherUserId);
+        console.log(userId, otherUserId);
     }
     res.sendStatus(204);
 };
