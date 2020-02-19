@@ -1,15 +1,27 @@
-<ul class=messages>
-    <% if (locals.messages) { %>
-    <% messages.forEach( msg => { %>
-    <p>
-        <img class="avatar" src="/user.png">
-        <strong><a href="/view/user/<%= msg.user.username %>"><%= msg.user.username %></a></strong>
-        <br>
+<% if (locals.messages) { %>
+<% messages.forEach( msg => { %>
+<div class="post">
+    <!-- Post header-->
+    <div>
+        <span>
+            <img class="avatar" src="/user.png">
+        <strong>
+            <a href="/view/user/<%= msg.user.username %>"><%= msg.user.username %></a>
+        </strong>
+        </span>
+        <span style="">
+            <button>Flag</button>
+        </span>
+    </div>
+    <!-- Post body-->
+    <div>
         <%= msg.text %>
+    </div>
+    <!-- Post footer-->
+    <div>
         <small>&mdash; <%= msg.createdAt %></small>
-        <% }) %>
-        <% } else { %>
-        <em>There's no message so far.</em>
-    </p>
-    <% } %>
-</ul>
+    </div>
+</div>
+<% }) } else { %>
+<em>There's no message so far.</em>
+<% } %>
