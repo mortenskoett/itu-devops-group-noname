@@ -16,7 +16,7 @@ Report page: [insert link to overleaf]
 - [ ] Have nasty words flagged
 
 ### Thoughts on current Node.js architecture
-- Sqlite db works locally right now.
+- Uses sequelize as ORM - currently with a local sqlite db
 - EFS is a template framework that resembles what was used in the Python app to wire up the UI. 
 	The EFS stuff which is sort of javascript written directly in the DOM I find a little bit annoying and we 
 	will probably have to read som documentation. In the end I used bootstrap to quickly simulate a UI. 
@@ -40,6 +40,6 @@ OBS: Not everything is wired up atm.
 
 ## Goals before next lecture
 0) - [ ] Conform our API to the simulator API
-1) - [ ] Implement database abstraction layer (ORM)
+1) - [x] Implement database abstraction layer (ORM)
 2) - [ ] Release and deploy (the application should run on a server and be accessible to the WWW)
 3) - [ ] Write down dependencies of our version of the Minitwit application.
