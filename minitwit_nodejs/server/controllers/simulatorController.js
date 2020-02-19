@@ -74,8 +74,8 @@ async function getMessages(req, res) {
     let jsonMessages = allMessages.map(m => {
         return {
             "content": m.text,
-            "pub_date": m.pub_date,
-            "user": m.username
+            "pub_date": m.createdAt,
+            "user": m.user.username
         }
     });
 
@@ -107,8 +107,8 @@ async function getUserMessages(req, res) {
     let jsonMessages = messages.map(m => {
         return {
             "content": m.text,
-            "pub_date": m.pub_date,
-            "user": m.username
+            "pub_date": m.createdAt,
+            "user": m.user.username
         }
     });
 
