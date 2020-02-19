@@ -29,8 +29,9 @@ function getAllMessages(amount) {
  */
 function postMessage(userID, text, date) {
     try {
-        return helper.insert(`insert into message 
-    (author_id, text, pub_date) values (?, ?, ?)`, [userID, text, date])
+        helper.insert(`insert into message 
+        (author_id, text, pub_date) values (?, ?, ?)`, [userID, text, date]);
+        return userID;  // TODO: Might not be best approach
     }
     catch (err) {
         console.log(err);

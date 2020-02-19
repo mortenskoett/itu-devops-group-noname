@@ -65,10 +65,6 @@ async function getMessages(req, res) {
     console.log("simulatorController: getMessages");
     update_latest(req);
 
-    // not_from_sim_response = not_req_from_simulator(request)      // TODO: MISSING IN ALL FUNCTIONS!!!
-    // if not_from_sim_response:
-    //     return not_from_sim_response
-
     let no_messages = req.query.no ? req.query.no : 100;
     let allMessages = await messageRepository.getAllMessages(no_messages);
 
@@ -96,14 +92,9 @@ async function getUserMessages(req, res) {
     update_latest(req)
 
     let { username } = req.params;
-    // not_from_sim_response = not_req_from_simulator(request)
-    // if not_from_sim_response:
-    //     return not_from_sim_response
-
     let no_messages = req.query.no ? req.query.no : 100;
 
     let { user_id } = await userRepository.getUserID(username);
-
     if (!user_id) {
         res.status(404).send({ error_msg: "User id not found." });
         return;
@@ -123,26 +114,31 @@ async function getUserMessages(req, res) {
         }
     });
 
-    console.log("Sending messages return:", jsonMessages);
     res.status(200).send(jsonMessages);
 };
 
 async function postMessage(req, res) {
     update_latest(req)
 
-    // not_from_sim_response = not_req_from_simulator(request)
-    // if not_from_sim_response:
-    //     return not_from_sim_response
-
     let { content } = req.body;
     let { username } = req.params
+    let date = timeUtil.getFormattedDate();
 
-    try {
-        await repo.postMessageAsUser(username, content, timeUtil.getFormattedDate());
-        res.status(204).json("");
-    } catch (err) {
-        res.status(400).json({ "status": 400, "error_msg": err });
+    console.log(content, username, date);
+
+    let { user_id } = await userRepository.getUserID(username);
+    if (!user_id) {
+        res.status(404).send({ error_msg: `Error finding user "${username}"` });
+        return;
     }
+
+    let isSuccess = await messageRepository.postMessage(user_id, content, date);
+    if (!isSuccess) {
+        res.status(404).send({ error_msg: "Error posting message." });
+        return;
+    }
+
+    res.status(204).send();
 };
 
 // @app.route("/fllws/<username>", methods=["GET", "POST"])
