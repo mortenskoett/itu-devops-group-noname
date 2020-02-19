@@ -6,10 +6,11 @@
 
 const models = require('../persistence/models/models.js');
 const Message = models.Message;
+const Op = Sequelize.Op;
 
 function getAllMsg() {
     try {
-       //return Message...
+        return Message.findAll();
     }
     catch (err) {
         console.log(err);
@@ -18,7 +19,15 @@ function getAllMsg() {
 
 function getAllMsgContaining(word) {
     try {
-        //Return Message...
+        return Message.findAll(
+            {
+                where: {
+                    text: {
+                        [Op.substring]: word
+                    }
+                }
+            }
+        );
     }
     catch (err) {
         console.log(err);
@@ -27,7 +36,19 @@ function getAllMsgContaining(word) {
 
 function flagMessage(tweetId) {
     try {
-        //Return  Message... update(tweetID)
+        return Message.update(
+
+            {
+                flagMessage: 1
+            },
+            { 
+                where: 
+                { 
+                    message_id: tweetId 
+                } 
+            }
+
+        );
     }
     catch (err) {
         console.log(err);
@@ -36,7 +57,18 @@ function flagMessage(tweetId) {
 
 function flagMessagesContaining(word) {
     try {
-        //Return  Message... update(word)
+        return Message.update(
+            {
+                flagMessage: 1
+            },
+            { 
+                where: 
+                { 
+                    [Op.substring]: word
+                } 
+            }
+
+        );
     }
     catch (err) {
         console.log(err);
@@ -45,5 +77,5 @@ function flagMessagesContaining(word) {
 
 //Functions to export, comma seperated
 module.exports = {
-    
+
 }

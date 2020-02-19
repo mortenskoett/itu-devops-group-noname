@@ -32,9 +32,17 @@ const User = sequelize.define('user', {
 
 const Message = sequelize.define('message', {
     //attributes
+    message_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
     text: {
         type: Sequelize.STRING,
         allowNull: false
+    },
+    flagged: {
+        type: Sequelize.INTEGER,
+        allowNull: true
     }
 }, {
     //options
