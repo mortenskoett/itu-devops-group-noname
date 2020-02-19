@@ -6,6 +6,7 @@
 
 const models = require('../persistence/models/models.js');
 const Message = models.Message;
+const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 function getAllMsg() {

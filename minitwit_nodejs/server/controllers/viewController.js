@@ -260,9 +260,15 @@ async function unfollowButton(req, res, next) {
     res.redirect('/view/user/' + followedUsername);  
 }
 
+ function flag_tool(req, res)
+{
+    console.log('flag_tool called');
+    res.render('pages/flag_tool'); 
+}
 
 
-module.exports = {
+
+module.exports = { 
     router,
     mainView,
     renderPublicTimeLine,
@@ -275,5 +281,6 @@ module.exports = {
     signupButton,
     newMessageButton,
     followButton,
-    unfollowButton
+    unfollowButton,
+    flag_tool
 }

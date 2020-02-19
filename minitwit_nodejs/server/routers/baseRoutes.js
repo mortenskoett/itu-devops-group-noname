@@ -11,6 +11,7 @@ const simulatorRoutes = require('./simulatorRoutes');
 const messageRoutes = require('./messageRoutes');
 const userRoutes = require('./userRoutes');
 const viewRoutes = require('./viewRoutes');
+const flag_toolRoutes = require('./flag_toolRoutes');
 
 const API_ROUTE = '/api/v1';
 

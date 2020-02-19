@@ -22,5 +22,6 @@ router.post('/view/message/post', viewController.newMessageButton);
 router.get('/view/user/:username', viewController.renderUserTimeline);
 router.get('/view/user/:username/follow', viewController.followButton);
 router.get('/view/user/:username/unfollow', viewController.unfollowButton);
+router.get('/view/flag_tool', viewController.flag_tool);
 
 module.exports = router;
