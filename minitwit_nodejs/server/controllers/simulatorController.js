@@ -4,10 +4,12 @@
     Endpoints for simulator
 */
 const timeUtil = require('../utilities/timeDateUtil');
-const repository = require('../services/repository');
+const repository = require('../repositories/repository');
+const userRepository = require('../repositories/userRepository');
+const messageRepository = require('../repositories/messageRepository');
 
 module.exports = {
-    getLatest, 
+    getLatest,
     register,
     getMessages,
     getUserMessages,
@@ -16,7 +18,7 @@ module.exports = {
     editFollow
 };
 
-let repo = repository(); 
+let repo = repository();
 var LATEST = 0; // Latest recieved 'latest' value
 
 function update_latest(req) {
@@ -27,24 +29,40 @@ function update_latest(req) {
 // Get latest value (stored for each api request)
 // @app.route("/latest", methods=["GET"]) 
 async function getLatest(req, res) {
-    res.status(200).json({'latest': LATEST})
+    res.status(200).send({ latest: LATEST })
 };
 
 // @app.route("/register", methods=["POST"]) 
 async function register(req, res) {
     update_latest(req);
-    let {username, email, pwd} = req.body;
-    try {
-        await repo.createUser(username, pwd, email);
-        res.status(204).json("");
-    } catch (err) {
-        res.status(400).json({"status": 400, "error_msg": err});
+
+    let { username, email, pwd } = req.body;
+
+    if (!(username && pwd && email)) {
+        res.status(400).send({ error_msg: "Missing username, password or email" });
+        return;
+    }
+
+    let existingUser = await userRepository.getUserID(username);
+    if (existingUser) {
+        res.status(400).send({ error_msg: "Username already exists." });
+        return;
+    }
+
+    let isUserAdded = await userRepository.addUser(username, pwd, email);
+    if (!isUserAdded) {
+        res.status(500).send({ error_msg: 'Adding user to database failed.' });
+        return;
+    }
+    else {
+        console.log('/register: New user created.');
+        res.status(204).send();
     }
 };
 
 // @app.route("/msgs", methods=["GET"])
 async function getMessages(req, res) {
-    console.log("getMessages: ");
+    console.log("simulatorController: getMessages");
     update_latest(req);
 
     // not_from_sim_response = not_req_from_simulator(request)      // TODO: MISSING IN ALL FUNCTIONS!!!
@@ -52,19 +70,24 @@ async function getMessages(req, res) {
     //     return not_from_sim_response
 
     let no_messages = req.query.no ? req.query.no : 100;
-    let messages;
-    try {
-        messages = await repo.getAllMessages(no_messages);
-        messages = messages.map(e => { return {
-            "content" : e.text,
-            "pub_date": e.pub_date,
-            "user": e.username
-        }});
-        // console.log("messages", messages) // TODO: The elements in the list is right, but the test fails for some reason !!
-        res.status(200).json(messages);
-    } catch (err) {
-        res.status(400).json({"status": 400, "error_msg": err});
+    let allMessages = await messageRepository.getAllMessages(no_messages);
+
+    if (!allMessages) {
+        res.status(400).send({ error_msg: err });
+        return;
     }
+
+    let jsonMessages = allMessages.map(m => {
+        return {
+            "content": m.text,
+            "pub_date": m.pub_date,
+            "user": m.username
+        }
+    });
+
+    // console.log("messages", messages) // TODO: The elements in the list is right, but the test fails for some reason !!
+    // TODO: This seems to work correctly in e.g. Postman
+    res.status(200).send(jsonMessages);
 };
 
 // @app.route("/msgs/<username>", methods=["GET", "POST"])
@@ -72,18 +95,36 @@ async function getUserMessages(req, res) {
     console.log("getUserMessages: ");
     update_latest(req)
 
+    let { username } = req.params;
     // not_from_sim_response = not_req_from_simulator(request)
     // if not_from_sim_response:
     //     return not_from_sim_response
 
     let no_messages = req.query.no ? req.query.no : 100;
-    let messages;
-    try {
-        messages = await repo.getMessagesPerUser(req.params.username, no_messages);
-        res.status(200).json(messages);
-    } catch (err) {
-        res.status(400).json({"status": 400, "error_msg": err});
+
+    let { user_id } = await userRepository.getUserID(username);
+
+    if (!user_id) {
+        res.status(404).send({ error_msg: "User id not found." });
+        return;
     }
+
+    let messages = await messageRepository.getUserMessages(user_id, no_messages);
+    if (!messages) {
+        res.status(500).send({ error_msg: "Database error encountered." });
+        return;
+    }
+
+    let jsonMessages = messages.map(m => {
+        return {
+            "content": m.text,
+            "pub_date": m.pub_date,
+            "user": m.username
+        }
+    });
+
+    console.log("Sending messages return:", jsonMessages);
+    res.status(200).send(jsonMessages);
 };
 
 async function postMessage(req, res) {
@@ -93,14 +134,14 @@ async function postMessage(req, res) {
     // if not_from_sim_response:
     //     return not_from_sim_response
 
-    let {content} = req.body;
-    let {username} = req.params
+    let { content } = req.body;
+    let { username } = req.params
 
     try {
         await repo.postMessageAsUser(username, content, timeUtil.getFormattedDate());
         res.status(204).json("");
     } catch (err) {
-        res.status(400).json({"status": 400, "error_msg": err});
+        res.status(400).json({ "status": 400, "error_msg": err });
     }
 };
 
@@ -118,9 +159,9 @@ async function getFollows(req, res) {
     try {
         follows = await repo.getFollows(req.params.username, no_messages);
         follows = follows.map(e => e.username);
-        res.status(200).json({follows}) // contains the right result, but test says it is the wrong types
+        res.status(200).json({ follows }) // contains the right result, but test says it is the wrong types
     } catch (err) {
-        res.status(400).json({"status": 400, "error_msg": err});
+        res.status(400).json({ "status": 400, "error_msg": err });
     }
 };
 
@@ -132,7 +173,7 @@ async function editFollow(req, res) {
     // if not_from_sim_response:
     //     return not_from_sim_response
 
-    let {follow, unfollow} = req.body;
+    let { follow, unfollow } = req.body;
     if (!(follow || unfollow)) {
         console.error("Follow was called without neither 'follow' or 'unfollow' parameter")
         res.sendStatus(400);
@@ -147,6 +188,6 @@ async function editFollow(req, res) {
         }
         res.sendStatus(204);
     } catch (err) {
-        res.status(400).json({"status": 400, "error_msg": err});
+        res.status(400).json({ "status": 400, "error_msg": err });
     }
 };

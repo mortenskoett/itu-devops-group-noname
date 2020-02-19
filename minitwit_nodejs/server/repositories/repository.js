@@ -1,6 +1,6 @@
 // This is the place to do input validation, before sending the requests to the database helpers
-const userService = require('./userService');
-const messageService = require('./messageService');
+const userRespository = require('./userRepository');
+const messageRepository = require('./messageRepository');
 
 module.exports = () => {
     return {
@@ -32,8 +32,8 @@ async function createUser(username, password, email) {
     // console.log('pass: ' + password);
 
     try {
-        await userService.getUserID(username);
-        await userService.addUser(username, password, email);
+        await userRespository.getUserID(username);
+        await userRespository.addUser(username, password, email);
     } catch (err) {
         throw new Error("Error on createUser: ", err);
     }
@@ -41,17 +41,17 @@ async function createUser(username, password, email) {
 
 async function getAllMessages(amount) {
     let messages;
-    await call(async () => { messages = await messageService.getAllMessages(amount) }, "Error getting messages: ");
+    await call(async () => { messages = await messageRepository.getAllMessages(amount) }, "Error getting messages: ");
     return messages;
 };
 
 async function getMessagesPerUser(username, amount) {
     let res;
-    await call( async () => res = await userService.getUserID(username), `Error finding user "${username}": `);
+    await call( async () => res = await userRespository.getUserID(username), `Error finding user "${username}": `);
 
     let messages;
     try {
-        messages = await messageService.getUserMessages(res.user_id, amount)    // have to call res.user_id, because the result from 'getUserID' a json object??
+        messages = await messageRepository.getUserMessages(res.user_id, amount)    // have to call res.user_id, because the result from 'getUserID' a json object??
     } catch (err) {
         throw new Error(`Error finding messages for user "${username}": `, err);
     }
@@ -61,28 +61,28 @@ async function getMessagesPerUser(username, amount) {
 
 async function postMessageAsUser(username, text, date) {
     let res;
-    await call(async () => res = await userService.getUserID(username), `Error finding user "${username}": `);
-    await call(async () => await messageService.postMessage(res.user_id, text, date), "Error posting message: ");
+    await call(async () => res = await userRespository.getUserID(username), `Error finding user "${username}": `);
+    await call(async () => await messageRepository.postMessage(res.user_id, text, date), "Error posting message: ");
 
     return;
 }
 
 async function follow(username, other) {
     let res;
-    await call(async () => res = await userService.getUserID(username), `Error finding user "${username}": `);
+    await call(async () => res = await userRespository.getUserID(username), `Error finding user "${username}": `);
     let res2;
-    await call(async () => res2 = await userService.getUserID(other), `Error finding user "${other}": `);
-    await call(async () => await userService.follow(res.user_id, res2.user_id),     "Error when trying to follow user: " );
+    await call(async () => res2 = await userRespository.getUserID(other), `Error finding user "${other}": `);
+    await call(async () => await userRespository.follow(res.user_id, res2.user_id),     "Error when trying to follow user: " );
 
     return;
 }
 
 async function unfollow(username, other) {
     let user_id;
-    await call(async () => user_id = await userService.getUserID(username), `Error finding user "${username}": `);
+    await call(async () => user_id = await userRespository.getUserID(username), `Error finding user "${username}": `);
     let other_id;
-    await call(async () => other_id = await userService.getUserID(other), `Error finding user "${other}": `);
-    await call(async () => await userService.unfollow(user_id, other_id), "Error when trying to unfollow user: " );
+    await call(async () => other_id = await userRespository.getUserID(other), `Error finding user "${other}": `);
+    await call(async () => await userRespository.unfollow(user_id, other_id), "Error when trying to unfollow user: " );
     
     return;
 }
@@ -90,11 +90,11 @@ async function unfollow(username, other) {
 
 async function getFollows(username, no_followers) {   // TODO remove code duplication
     let res;
-    await call(async () => res = await userService.getUserID(username), `Error finding user "${username}": `);
+    await call(async () => res = await userRespository.getUserID(username), `Error finding user "${username}": `);
 
     let following;
     try {
-        following = await userService.getFollows(res.user_id, no_followers);
+        following = await userRespository.getFollows(res.user_id, no_followers);
         return following;
     } catch (err) {
         throw new Error(`Error finding following users for "${username}": `, err)
@@ -105,7 +105,7 @@ function validateEmail(email) {
     if(!email) { return false; }
 
     email = email.trim();
-    // if(!email.match(/^.+@.+$/)) {                // TODO check validity of mail as in python code!!!
+    // if(!email.match(/^.+@.+$/)) {                // TODO check validity of mail as in python code
     //     return false;
     // }
 

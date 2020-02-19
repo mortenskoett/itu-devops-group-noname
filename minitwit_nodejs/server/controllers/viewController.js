@@ -7,8 +7,8 @@
 
 const express = require('express');
 const router = express.Router();
-const messageService = require('../services/messageService');
-const userService = require('../services/userService');
+const messageRepository = require('../repositories/messageRepository');
+const userRepository = require('../repositories/userRepository');
 
 async function mainView(req, res, next) {
     console.log("mainview called")
@@ -31,7 +31,7 @@ async function renderPublicTimeLine(req, res) {
 
     let amount = (req.param.amount) ? req.param.amount : 50;
 
-    let allMessages = await messageService.getAllMessages(amount);
+    let allMessages = await messageRepository.getAllMessages(amount);
 
     if (!allMessages) {
         res.status(500).send({ url: req.originalUrl + 'Error getting messages.' });
@@ -53,7 +53,7 @@ async function renderUserTimeline(req, res) {
     }
 
     let userId = req.session.userid;
-    let followedMessages = await messageService.getFollowedMessages(userId, 30);
+    let followedMessages = await messageRepository.getFollowedMessages(userId, 30);
     res.render('pages/timeline', {
         messages: followedMessages,
         loggedin: req.session.loggedin,
@@ -103,7 +103,7 @@ async function loginButton(req, res, next) {
 async function attemptLoginUser(request, username, password) {
     console.log("attemtLoginUser called");
     if (username && password) {
-        let userIdRow = await userService.getIdUsingPassword(username, password);
+        let userIdRow = await userRepository.getIdUsingPassword(username, password);
 
         if (userIdRow) {
             updateSessionUserData(request, username, userIdRow.user_id);
@@ -142,7 +142,7 @@ async function signupButton(req, res, next) {
     console.log('email: ' + username);
     console.log('pass: ' + password);
 
-    let existingUser = await userService.getUserID(username);
+    let existingUser = await userRepository.getUserID(username);
 
     if (existingUser) {
         res.render('pages/signup', {
@@ -152,7 +152,7 @@ async function signupButton(req, res, next) {
         return;
     }
 
-    let isUserAdded = await userService.addUser(username, password, email);
+    let isUserAdded = await userRepository.addUser(username, password, email);
     if (!isUserAdded) {
         res.render('pages/signup', {
             error: 'Adding user to database failed.'

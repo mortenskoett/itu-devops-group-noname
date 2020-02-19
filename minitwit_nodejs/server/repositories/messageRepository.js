@@ -5,7 +5,6 @@
  */
 
 const helper = require('../persistence/sqlite/sqliteDatabaseHelper');
-const userService = require('./userService');
 
 
 /**
@@ -56,7 +55,7 @@ function getFollowedMessages(user_id, amount) {
 };
 
 /**
- * Get amount messages from the database.
+ * Get user messages from userid
  * @param {int} userID
  * @param {int} amount 
  */
@@ -69,7 +68,6 @@ function getUserMessages(userID, amount) {
     catch (err) {
         console.log("sqliteDatabaseHelper: " + err);
     }
-
 };
 
 module.exports = {
