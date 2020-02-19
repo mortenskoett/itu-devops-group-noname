@@ -160,7 +160,7 @@ async function getFollows(req, res) {
     }
 
     console.log(follows);
-    let jsonFollows = follows.map(e => e.username);
+    let jsonFollows = follows.map(e => e.fllwed.username);
 
     res.status(200).send({ follows: jsonFollows }) // contains the right result, but test says it is the wrong types
 };

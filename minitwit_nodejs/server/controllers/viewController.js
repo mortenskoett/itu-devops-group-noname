@@ -26,6 +26,30 @@ async function mainView(req, res, next) {
     }
 }
 
+async function newMessageButton(req, res){
+    console.log("newMessage called")
+
+    // TODO: This code below should reside in viewcontroller
+    // if (!req.session.loggedin) {
+    //     res.status(401)
+    //         .send({ url: req.originalUrl + ' : Unauthorized: user not logged in.' })
+    //         .end();
+    // };
+
+    let message = req.body.message;
+    let userId = req.session.userid;
+
+    try {
+        await messageRepository.postMessage(userId, message);
+
+        res.redirect('/view/home');
+    }
+    catch (err) {
+        console.log(err);
+        res.status(401).send({ url: req.originalUrl + ` : ${err}` });
+    };
+}
+
 async function renderPublicTimeLine(req, res) {
     console.log("renderPublicTimeline called")
 
@@ -45,19 +69,42 @@ async function renderPublicTimeLine(req, res) {
     });
 }
 
-async function renderUserTimeline(req, res) {
-    console.log("renderUserTimeline called")
-
+async function renderPrivateTimeline(req, res) {
+    console.log("renderPrivateTimeline called")
+    
     if (!req.session.loggedin) {
         res.status(403).send({ url: req.originalUrl + ' : Unauthorized user not logged in.' });
     }
-
+    
     let userId = req.session.userid;
+
     let followedMessages = await messageRepository.getFollowedMessages(userId, 30);
+
+    if (!followedMessages) {
+        res.status(500).send({ url: req.originalUrl + 'Error getting messages.' });
+        res.end();
+    }
+
     res.render('pages/timeline', {
         messages: followedMessages,
         loggedin: req.session.loggedin,
         username: req.session.username
+    });
+    res.end();
+}
+
+async function renderUserTimeline(req, res) {
+    console.log("renderUserTimeline called")
+
+    let username = req.params.username;
+    let user = await userRepository.getUserID(username);
+    let messages = await messageRepository.getUserMessages(user.id, 30);
+    let following = await userRepository.following(req.session.userid, user.id);
+    res.render('pages/user', {
+        messages: messages,
+        loggedin: req.session.loggedin,
+        username: username,
+        following: following
     });
     res.end();
 }
@@ -106,13 +153,14 @@ async function attemptLoginUser(request, username, password) {
         let userIdRow = await userRepository.getIdUsingPassword(username, password);
 
         if (userIdRow) {
-            updateSessionUserData(request, username, userIdRow.user_id);
+            updateSessionUserData(request, username, userIdRow.id);
             return userIdRow;
         }
     }
 }
 
 function updateSessionUserData(request, username, userId) {
+    console.log("Userid:", userId);
     request.session.loggedin = true;
     request.session.username = username;
     request.session.userid = userId;
@@ -174,14 +222,59 @@ async function signupButton(req, res, next) {
     }
 }
 
+async function followButton(req, res, next) {
+    console.log('followButton called');
+
+    if (!req.session.loggedin) {
+        res.status(401).send({ url: req.originalUrl + ' : unautorized - user not followed.' });
+    }
+    let followerID = req.session.userid;
+
+    let followedUsername = req.params.username;
+    let followedID = await userRepository.getUserID(followedUsername);
+    if (followedID == null) {
+        res.status(404).send({ url: req.originalUrl + ' : was not found.' }); // Render page?
+    }
+    console.log("id: " + followerID + "now follows id: " + followedID.id);
+    await userRepository.follow(followerID, followedID.id);
+
+    res.redirect('/view/user/' + followedUsername);
+
+}
+
+async function unfollowButton(req, res, next) {
+    console.log('unfollowButton called');
+
+    if (!req.session.loggedin) {
+        res.status(401).send({ url: req.originalUrl + ' : unautorized - user not unfollowed.' });
+    }
+    let followerID = req.session.userid;
+
+    let followedUsername = req.params.username;
+    let followedID = await userRepository.getUserID(followedUsername);
+    if (followedID == null) {
+        res.status(404).send({ url: req.originalUrl + ' : was not found.' }); // Render page?
+    }
+    console.log("id: " + followerID + "no longer follows id: " + followedID.id);
+    await userRepository.unfollow(followerID, followedID.id);
+
+    res.redirect('/view/user/' + followedUsername);  
+}
+
+
+
 module.exports = {
     router,
     mainView,
     renderPublicTimeLine,
+    renderPrivateTimeline,
     renderUserTimeline,
     renderLoginPage,
     renderSignupPage,
     loginButton,
     logoutButton,
-    signupButton
+    signupButton,
+    newMessageButton,
+    followButton,
+    unfollowButton
 }

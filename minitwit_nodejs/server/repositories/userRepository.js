@@ -4,7 +4,9 @@
  * Service handling user related business logic.
  */
 
-const helper = require('../persistence/sqlite/sqliteDatabaseHelper');
+const models = require('../persistence/models/models.js');
+const User = models.User;
+const Follower = models.Follower;
 
 /**
  * Authenticate user using username and password.
@@ -13,10 +15,9 @@ const helper = require('../persistence/sqlite/sqliteDatabaseHelper');
  */
 function getIdUsingPassword(username, password) {
     try {
-        return helper.getSingle(
-            `select user.user_id from user 
-                where user.username = ? 
-                and user.pw_hash = ?`, [username, password]);
+        return User.findOne({
+            where: {username: username, password: password}
+        });
     }
     catch (err) {
         console.log(err);
@@ -29,7 +30,9 @@ function getIdUsingPassword(username, password) {
  */
 function getUserID(username) {
     try {
-        return helper.getSingle(`select user.user_id from user where user.username = ?`, [username]);
+        return User.findOne({
+            where: {username: username}
+        });
     }
     catch (err) {
         throw new Error("Failed to get user from database: ", err);
@@ -44,23 +47,28 @@ function getUserID(username) {
  */
 function addUser(username, password, email) {
     try {
-        helper.insert(`insert into user (username, pw_hash, email) values (?, ?, ?)`, [username, password, email]);
-        return getUserID(username);
+        return User.create({username: username, email: email, password: password});
     }
     catch (err) {
         throw new Error("Failed to insert user into database: ", err);
     }
 };
 
-// TODO: Should be implemented and used to circumvent duplicate followings, which right now are happening
-// /**
-//  * Checks if followerID is following followedID.
-//  * @param {int} followerID
-//  * @param {int} followedID
-//  */
-// function following(followerID, followedID) {
-//     return helper.getSingle(`select 1 from follower where follower.who_id = ? and follower.whom_id = ?`, [followerID, followedID]);
-// };
+/**
+ * Checks if followerID is following followedID.
+ * @param {int} followerID
+ * @param {int} followedID
+ */
+function following(followerID, followedID) {
+    try {
+        return Follower.findOne({
+            where: {followerId: followerID, followedId: followedID}
+        });
+    }
+    catch (err) {
+        console.log(err);
+    }
+};
 
 /**
  * Makes followerID follow followedID.
@@ -69,24 +77,10 @@ function addUser(username, password, email) {
  */
 function follow(followerID, followedID) {
     try {
-        return helper.insert(`insert into follower 
-        (who_id, whom_id) values (?, ?)`, [followerID, followedID]);
-    } catch (err) {
-        throw new Error("Failed to insert follow into database: ", err);
+        return Follower.create({followerId: followerID, followedId: followedID});
     }
-};
-
-/**
- * Makes followerID unfollow followedID.
- * @param {int} followerID
- * @param {int} followedID
- */
-function unfollow(followerID, followedID) {
-    try {
-        return helper.insert(`delete from follower 
-        where who_id=? and whom_id=?`, [followerID, followedID]);
-    } catch (err) {
-        throw new Error("Failed to delete follow from database: ", err);
+    catch (err) {
+        console.log(err);
     }
 };
 
@@ -97,14 +91,42 @@ function unfollow(followerID, followedID) {
  */
 function getFollows(followerID, limit) {
     try {
-        return helper.getAll(`SELECT user.username FROM user
-        INNER JOIN follower ON follower.whom_id=user.user_id
-        WHERE follower.who_id=?
-        LIMIT ?`, [followerID, limit]);
+        return Follower.findAll({
+            limit: limit,
+            where: {followerId: followerID},
+            include: [{
+                model: User,
+                as: "fllwed",
+                attributes: ['username']
+            }]
+        });
+        // return helper.getAll(`SELECT user.username FROM user
+        // INNER JOIN follower ON follower.whom_id=user.user_id
+        // WHERE follower.who_id=?
+        // LIMIT ?`, [followerID, limit]);
     } catch (err) {
         throw new Error("Failed to get follows from database: ", err);
     }
+};
 
+/**
+ * Makes followerID unfollow followedID.
+ * @param {int} followerID
+ * @param {int} followedID
+ */
+
+function unfollow(followerID, followedID) {
+    try {
+        return Follower.destroy({
+            where: {
+                followerId: followerID,
+                followedId: followedID
+            }
+        });
+    }
+    catch (err) {
+        console.log(err);
+    }
 };
 
 module.exports = {
@@ -113,5 +135,6 @@ module.exports = {
     addUser,
     follow,
     unfollow,
-    getFollows
-};
+    getFollows,
+    following
+}

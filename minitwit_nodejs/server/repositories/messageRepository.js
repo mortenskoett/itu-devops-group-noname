@@ -4,7 +4,11 @@
  * Service handling message related business logic.
  */
 
-const helper = require('../persistence/sqlite/sqliteDatabaseHelper');
+const models = require('../persistence/models/models.js');
+const Message = models.Message;
+const User = models.User;
+const Follower = models.Follower;
+const Sequelize = require('sequelize');
 
 
 /**
@@ -13,9 +17,14 @@ const helper = require('../persistence/sqlite/sqliteDatabaseHelper');
  */
 function getAllMessages(amount) {
     try {
-        return helper.getAll(`select message.*, user.* from message, user
-                where message.author_id = user.user_id
-                order by message.pub_date desc limit ?`, [amount]);
+        return Message.findAll({ 
+            limit: amount,
+            order: [['createdAt', 'DESC']],
+            include: [{
+                model: User,
+                attributes: ['username']
+            }]
+        });
     } catch (err) {
         console.log(err);
     }
@@ -29,9 +38,7 @@ function getAllMessages(amount) {
  */
 function postMessage(userID, text, date) {
     try {
-        helper.insert(`insert into message 
-        (author_id, text, pub_date) values (?, ?, ?)`, [userID, text, date]);
-        return userID;  // TODO: Might not be best approach
+        return Message.create({userId: userID, text: text})
     }
     catch (err) {
         console.log(err);
@@ -40,18 +47,25 @@ function postMessage(userID, text, date) {
 
 /**
  * Gets up to 'amount' messsages written by users followed by given 'user_id'.
- * @param {int} user_id
+ * @param {int} userId
  * @param {int} amount 
  */
-function getFollowedMessages(user_id, amount) {
+async function getFollowedMessages(userId, amount) {
     try {
-        return helper.getAll(`select message.*, user.* from message, user 
-        where message.author_id = user.user_id and (user.user_id = ? 
-        or user.user_id in (select whom_id from follower where who_id = ?)) 
-        order by message.pub_date desc limit ?`, [user_id, user_id, amount])
+        var ids = await Follower.findAll({where: {followerId: userId}, attributes: ['followedId']});
+        var following_ids = ids.map(obj => { return obj.followedId });
+        return Message.findAll({
+            where: Sequelize.or(
+                {userId: following_ids},
+                {userId: userId}
+            ),
+            include: [ { model: User } ],
+            order: [['createdAt', 'DESC']],
+            limit: amount
+        });
     }
     catch (err) {
-        console.log("sqliteDatabaseHelper: " + err);
+        console.log(err);
     }
 };
 
@@ -62,12 +76,19 @@ function getFollowedMessages(user_id, amount) {
  */
 function getUserMessages(userID, amount) {
     try {
-        return helper.getAll(`select message.*, user.* from message, user
-        where message.author_id = user.user_id and (user.user_id = ?)
-        order by message.pub_date desc limit ?`, [userID, amount])
+        return Message.findAll({
+            limit: amount,
+            order: [['createdAt', 'DESC']],
+            where: {
+                userId: userID
+            },
+            include: [{
+                model: User
+            }]
+        });
     }
     catch (err) {
-        console.log("sqliteDatabaseHelper: " + err);
+        console.log(err);
     }
 };
 
