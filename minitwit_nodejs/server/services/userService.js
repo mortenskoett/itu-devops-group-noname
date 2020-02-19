@@ -5,7 +5,8 @@
  */
 
 const models = require('../persistence/models/models.js');
-const User = models.getUserModel();
+const User = models.User;
+const Follower = models.Follower;
 
 /**
  * Authenticate user using username and password.
@@ -53,38 +54,61 @@ function addUser(username, password, email) {
     }
 };
 
-// TODO: Should be implemented
-// /**
-//  * Checks if followerID is following followedID.
-//  * @param {int} followerID
-//  * @param {int} followedID
-//  */
-// function following(followerID, followedID) {
-//     return helper.getSingle(`select 1 from follower where follower.who_id = ? and follower.whom_id = ?`, [followerID, followedID]);
-// };
+/**
+ * Checks if followerID is following followedID.
+ * @param {int} followerID
+ * @param {int} followedID
+ */
+function following(followerID, followedID) {
+    try {
+        return Follower.findOne({
+            where: {followerId: followerID, followedId: followedID}
+        });
+    }
+    catch (err) {
+        console.log(err);
+    }
+};
 
-// /**
-//  * Makes followerID follow followedID.
-//  * @param {int} followerID
-//  * @param {int} followedID
-//  */
-// function follow(followerID, followedID) {
-//     return helper.insert(`insert into follower 
-//         (who_id, whom_id) values (?, ?)`, [followerID, followedID]);
-// };
+/**
+ * Makes followerID follow followedID.
+ * @param {int} followerID
+ * @param {int} followedID
+ */
+function follow(followerID, followedID) {
+    try {
+        return Follower.create({followerId: followerID, followedId: followedID});
+    }
+    catch (err) {
+        console.log(err);
+    }
+};
 
-// /**
-//  * Makes followerID unfollow followedID.
-//  * @param {int} followerID
-//  * @param {int} followedID
-//  */
-// function unfollow(followerID, followedID) {
-//     return helper.insert(`delete from follower 
-//         where who_id=? and whom_id=?`, [followerID, followedID]);
-// };
+/**
+ * Makes followerID unfollow followedID.
+ * @param {int} followerID
+ * @param {int} followedID
+ */
+
+function unfollow(followerID, followedID) {
+    try {
+        return Follower.destroy({
+            where: {
+                followerId: followerID,
+                followedId: followedID
+            }
+        });
+    }
+    catch (err) {
+        console.log(err);
+    }
+};
 
 module.exports = {
     getIdUsingPassword,
     getUserID,
-    addUser
+    addUser,
+    follow,
+    following,
+    unfollow
 }

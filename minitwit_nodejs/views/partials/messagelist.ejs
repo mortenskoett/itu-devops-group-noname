@@ -3,7 +3,7 @@
     <% messages.forEach( msg => { %>
     <p>
         <img class="avatar" src="/user.png">
-        <strong><a href="/user/<%= msg.username %>"><%= msg.userId %></a></strong>
+        <strong><a href="/view/user/<%= msg.user.username %>"><%= msg.user.username %></a></strong>
         <br>
         <%= msg.text %>
         <small>&mdash; <%= msg.createdAt %></small>

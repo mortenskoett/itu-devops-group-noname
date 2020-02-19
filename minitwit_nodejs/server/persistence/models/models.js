@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize({
     dialect: 'sqlite',
+    logging: false,
     storage: './server/persistence/sqlite/minitwit.db'
 });
 
@@ -11,9 +12,8 @@ sequelize.authenticate().then(() => {
     console.error(err);
 });
 
-
 const User = sequelize.define('user', {
-    //atributes
+    //attributes
     username: {
         type: Sequelize.STRING,
         allowNull: false
@@ -30,10 +30,8 @@ const User = sequelize.define('user', {
     //options
 });
 
-//User.belongsToMany(User, {through: 'followerId', foreignKey: 'followedId'})
-
 const Message = sequelize.define('message', {
-    //atributes
+    //attributes
     text: {
         type: Sequelize.STRING,
         allowNull: false
@@ -41,35 +39,50 @@ const Message = sequelize.define('message', {
 }, {
     //options
 });
+    
+const Follower = sequelize.define('follower', {
+    //attributes
+    followerId: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
+    followedId: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    }
+}, {
+    //options
+});
 
-Message.belongsTo(User); // Will also add userId to Message model
+//associations
+User.belongsToMany(User, {
+    as: 'following',
+    through: Follower,
+    foreignKey: 'followerId'
+});
+User.belongsToMany(User, {
+    as: 'followers',
+    through: Follower,
+    foreignKey: 'followedId'
+});
+User.hasMany(Message, { foreignKey: 'userId'});
+Follower.belongsTo(User, { as: 'fllwed', foreignKey: 'followedId' });
+Follower.belongsTo(User, { as: 'fllwer', foreignKey: 'followerId' });
+Message.belongsTo(User);
 
-//Message.sync({force: true});
+//Apply changes to db (MIGHT DELETE ENTRIES)
+// User.sync({ force: true });
+// Message.sync({ force: true });
+// Follower.sync({ force: true });
 
-/**
- * Returns the user model.
- */
-function getUserModel() {
-    return User;
-};
-
-/**
- * Returns the message model.
- */
-function getMessageModel() {
-    return Message;
-};
-
-/**
- * Returns sequelize db ref.
- */
-function getSequelize() {
-    return sequelize;
-};
-
+//Delete everything
+// User.destroy({
+//     where: {},
+//     truncate: true
+//   })
 
 module.exports = {
-    getUserModel,
-    getMessageModel,
-    getSequelize
+    User,
+    Message,
+    Follower
 }

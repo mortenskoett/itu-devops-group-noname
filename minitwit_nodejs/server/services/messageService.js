@@ -5,9 +5,10 @@
  */
 
 const models = require('../persistence/models/models.js');
-const Message = models.getMessageModel();
-const User = models.getUserModel();
-//const sequelize = models.getSequelize();
+const Message = models.Message;
+const User = models.User;
+const Follower = models.Follower;
+const Sequelize = require('sequelize');
 
 /**
  * Get 'amount' messages from the database.
@@ -17,12 +18,11 @@ function getAllMessages(amount) {
     try {
         return Message.findAll({ 
             limit: amount,
+            order: [['createdAt', 'DESC']],
             include: [{
                 model: User,
                 attributes: ['username']
-
             }]
-            //order: sequelize.fn('max', sequelize.col('createdAt')) 
         });
     } catch (err) {
         console.log(err);
@@ -46,38 +46,54 @@ function postMessage(userID, text, date) {
 
 /**
  * Gets up to 'amount' messsages written by users followed by given 'user_id'.
- * @param {int} user_id
+ * @param {int} userId
  * @param {int} amount 
  */
-function getFollowedMessages(user_id, amount) {
+async function getFollowedMessages(userId, amount) {
     try {
+        var ids = await Follower.findAll({where: {followerId: userId}, attributes: ['followedId']});
+        var following_ids = ids.map(obj => { return obj.followedId });
         return Message.findAll({
-            limit: amount,
-            include: [{// Notice `include` takes an ARRAY
-                model: User
-            }]
-            //order: sequelize.fn('max', sequelize.col('createdAt'))
+            where: Sequelize.or(
+                {userId: following_ids},
+                {userId: userId}
+            ),
+            include: [ { model: User } ],
+            order: [['createdAt', 'DESC']],
+            limit: amount
         });
     }
     catch (err) {
-        console.log("sqliteDatabaseHelper: " + err);
+        console.log(err);
     }
 };
 
-// TODO: Should be implemented
-// /**
-//  * Get amount messages from the database.
-//  * @param {int} userID
-//  * @param {int} amount 
-//  */
-// function getUserMessages(userID, amount) {
-//     return helper.getAll(`select message.*, user.* from message, user
-//                 where message.author_id = user.user_id and (user.user_id = ?)
-//                 order by message.pub_date desc limit ?`, [userID, amount])
-// };
+/**
+ * Get amount messages from the database.
+ * @param {int} userID
+ * @param {int} amount 
+ */
+function getUserMessages(userID, amount) {
+    try {
+        return Message.findAll({
+            limit: amount,
+            order: [['createdAt', 'DESC']],
+            where: {
+                userId: userID
+            },
+            include: [{
+                model: User
+            }]
+        });
+    }
+    catch (err) {
+        console.log(err);
+    }
+};
 
 module.exports = {
     getAllMessages,
     postMessage,
-    getFollowedMessages
+    getFollowedMessages,
+    getUserMessages
 }
