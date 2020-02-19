@@ -25,7 +25,7 @@ router.get('/msgs', sim.getMessages);
 router.get('/msgs/:username',sim.getUserMessages);
 router.post('/msgs/:username', sim.postMessage);
 router.get("/fllws/:username", sim.getFollows);
-router.post("/fllws/:username", sim.editFollow);
+router.post("/fllws/:username", sim.setFollow);
 
 function getUnauthorizedResponse(req) {
     return req.auth

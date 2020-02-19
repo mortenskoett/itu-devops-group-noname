@@ -15,7 +15,7 @@ module.exports = {
     getUserMessages,
     postMessage,
     getFollows,
-    editFollow
+    setFollow
 };
 
 let repo = repository();
@@ -146,28 +146,23 @@ async function getFollows(req, res) {
     console.log("getFollows: ");
     update_latest(req)
 
-    // not_from_sim_response = not_req_from_simulator(request)
-    // if not_from_sim_response:
-    //     return not_from_sim_response
-
     let no_messages = req.query.no ? req.query.no : 100;
-    let follows;
-    try {
-        follows = await repo.getFollows(req.params.username, no_messages);
-        follows = follows.map(e => e.username);
-        res.status(200).json({ follows }) // contains the right result, but test says it is the wrong types
-    } catch (err) {
-        res.status(400).json({ "status": 400, "error_msg": err });
+
+    let follows = await repo.getFollows(req.params.username, no_messages);
+    if (!follows) {
+        res.status(400).send({ error_msg: "A database error occurred." });
+        return;
     }
+
+    let jsonFollows = follows.map(e => e.username);
+
+    res.status(200).send({ follows: jsonFollows }) // contains the right result, but test says it is the wrong types
 };
 
-async function editFollow(req, res) {
-    console.log("editFollow: ");
+// TODO: Does not seems to work -- maybe data issue in db
+async function setFollow(req, res) {
+    console.log("setFollow: ");
     update_latest(req)
-
-    // not_from_sim_response = not_req_from_simulator(request)
-    // if not_from_sim_response:
-    //     return not_from_sim_response
 
     let { follow, unfollow } = req.body;
     if (!(follow || unfollow)) {
@@ -175,15 +170,33 @@ async function editFollow(req, res) {
         res.sendStatus(400);
     }
 
-    try {
-        if (follow) {
-            await repo.follow(req.params.username, follow);
-        }
-        else if (unfollow) {
-            await repo.unfollow(req.params.username, unfollow);
-        }
-        res.sendStatus(204);
-    } catch (err) {
-        res.status(400).json({ "status": 400, "error_msg": err });
+    let { username } = req.params;
+
+    let userId = await userRepository.getUserID(username);
+    if (!userId) {
+        res.status(400).send({ error_msg: `Error finding user "${username}"` });
+        return;
     }
+
+    if (follow) {
+        let { user_id: userToFollow } = await userRepository.getUserID(follow);
+        if (!userToFollow) {
+            res.status(404).send({ error_msg: `Error finding user "${username}"` });
+            return;
+        }
+
+        await userRepository.follow(userId, userToFollow);
+        console.log(userId, userToFollow);
+    }
+    else if (unfollow) {
+        let { user_id: userToFollow } = await userRepository.getUserID(unfollow);
+        if (!userToFollow) {
+            res.status(404).send({ error_msg: `Error finding user "${username}"` });
+            return;
+        }
+
+        await userRepository.unfollow(userId, userToFollow);
+        console.log(userId, userToFollow);
+    }
+    res.sendStatus(204);
 };
