@@ -105,7 +105,7 @@ function validateEmail(email) {
     if(!email) { return false; }
 
     email = email.trim();
-    // if(!email.match(/^.+@.+$/)) {
+    // if(!email.match(/^.+@.+$/)) {                // TODO check validity of mail as in python code!!!
     //     return false;
     // }
 
