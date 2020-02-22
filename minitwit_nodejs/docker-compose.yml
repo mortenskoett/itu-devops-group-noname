@@ -1,0 +1,27 @@
+version: '3.5'
+
+networks:
+  main:
+    name: itu-minitwit-network
+
+services:
+
+  minitwit-app:
+    image: ${DOCKER_USERNAME}/minitwit-app
+    container_name: minitwit
+    networks:
+      - main
+    depends_on:
+      - minitwit-mysql
+    ports:
+        - '5000:5000'
+
+  minitwit-mysql:
+    image: ${DOCKER_USERNAME}/minitwit-mysql
+    container_name: minitwit_mysql
+    networks:
+      - main
+    ports:
+      - '3306:3306'
+    environment:
+        - MYSQL_ROOT_PASSWORD=root
