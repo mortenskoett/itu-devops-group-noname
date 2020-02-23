@@ -13,7 +13,7 @@ jobs:
       - run: 
           name: Build docker images
           command: |
-            echo "Build app"
+            echo "Building images..."
             docker build -t $DOCKER_USERNAME/minitwit-app -f Dockerfile-minitwit .
             docker build -t $DOCKER_USERNAME/minitwit-tests -f Dockerfile-minitwit-tests .
 
