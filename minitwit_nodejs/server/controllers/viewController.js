@@ -134,11 +134,7 @@ async function loginButton(req, res, next) {
     const {username, password} = req.body;
 
     if (!(username && password)) {
-        res.render('pages/login', {
-            error: 'Please enter username and password'
-        });
-        res.end();
-        return;
+        return handleError('Please enter username and password', 'pages/login');
     }
 
     let isUserLoggedIn = await attemptLoginUser(req, username, password);
@@ -147,10 +143,7 @@ async function loginButton(req, res, next) {
         res.end();
     }
     else {
-        res.render('pages/login', {
-            error: 'Incorrect username or password.'
-        });
-        res.end();
+        return handleError('Incorrect username or password.','pages/login');
     }
 }
 
@@ -227,6 +220,7 @@ async function signupButton(req, res, next) {
 
 }
 
+// TODO NEVER USED AND NOT TESTET
 async function followButton(req, res, next) {
     console.log('followButton called');
 
