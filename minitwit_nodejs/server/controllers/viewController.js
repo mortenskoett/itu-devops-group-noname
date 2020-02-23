@@ -25,29 +25,6 @@ async function mainView(req, res, next) {
     }
 }
 
-async function postMessage(req, res){
-    console.log("postMessage called")
-
-    // TODO: This code below should reside in viewcontroller
-    // if (!req.session.loggedin) {
-    //     res.status(401)
-    //         .send({ url: req.originalUrl + ' : Unauthorized: user not logged in.' })
-    //         .end();
-    // };
-
-    let message = req.body.message;
-    let userId = req.session.userid;
-
-    try {
-        await messageRepository.postMessage(userId, message);
-        res.redirect('/home');
-    }
-    catch (err) {
-        console.log(err);
-        res.status(401).send({ url: req.originalUrl + ` : ${err}` });
-    };
-}
-
 async function renderPublicTimeLine(req, res) {
     console.log("renderPublicTimeline called")
 
@@ -60,8 +37,13 @@ async function renderPublicTimeLine(req, res) {
         res.end();
     }
 
+    renderTimeline(req,res,allMessages);
+    res.end();
+}
+
+function renderTimeline(req, res, msgs) {
     res.render('pages/timeline', {
-        messages: allMessages,
+        messages: msgs,
         username: req.session.username,
         loggedin: req.session.loggedin
     });
@@ -83,21 +65,50 @@ async function renderPrivateTimeline(req, res) {
         res.end();
     }
 
-    res.render('pages/timeline', {
-        messages: followedMessages,
-        loggedin: req.session.loggedin,
-        username: req.session.username
-    });
+    renderTimeline(req, res, followedMessages);
     res.end();
+}
+
+
+async function postMessage(req, res){
+    console.log("postMessage called")
+
+    // TODO: This code below should reside in viewcontroller
+    if (!req.session.loggedin) {
+        res.status(401)
+            .send({ url: req.originalUrl + ' : Unauthorized: user not logged in.' })
+            .end();
+    };
+
+    let message = req.body.message;
+    let userId = req.session.userid;
+
+    try {
+        await messageRepository.postMessage(userId, message);
+        res.redirect('/home');
+    }
+    catch (err) {
+        console.log(err);
+        res.status(401).send({ url: req.originalUrl + ` : ${err}` });
+    };
 }
 
 async function renderUserTimeline(req, res) {
     console.log("renderUserTimeline called")
+    if (!req.session.loggedin || req.session.userId) { // if user not logged in, the call to userRepository.following would fail because userid is undefined
+        console.log("logged in: ", req.session.loggedin, "username: ", req.session.userid )
+        res.redirect('/login');
+        return;
+    };
 
     let username = req.params.username;
+
     let user = await userRepository.getUserID(username);
+
     let messages = await messageRepository.getUserMessages(user.id, 30);
+
     let following = await userRepository.following(req.session.userid, user.id);
+    console.log(following);
     res.render('pages/user', {
         messages: messages,
         loggedin: req.session.loggedin,
@@ -236,7 +247,7 @@ async function followButton(req, res, next) {
     console.log("id: " + followerID + "now follows id: " + followedID.id);
     await userRepository.follow(followerID, followedID.id);
 
-    res.redirect('/user/' + followedUsername);
+    res.redirect('/' + followedUsername);
 
 }
 
@@ -256,7 +267,7 @@ async function unfollowButton(req, res, next) {
     console.log("id: " + followerID + "no longer follows id: " + followedID.id);
     await userRepository.unfollow(followerID, followedID.id);
 
-    res.redirect('/user/' + followedUsername);  
+    res.redirect('/' + followedUsername);  
 }
 
 

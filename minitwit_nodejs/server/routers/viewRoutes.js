@@ -18,8 +18,8 @@ router.get('/logout', viewController.logoutButton);
 router.get('/signup', viewController.renderSignupPage);
 router.post('/signup/create', viewController.signupButton);
 router.post('/msg', viewController.postMessage);
-router.get('/user/:username', viewController.renderUserTimeline);
-router.get('/user/:username/follow', viewController.followButton);
-router.get('/user/:username/unfollow', viewController.unfollowButton);
+router.get('/:username', viewController.renderUserTimeline);
+router.get('/:username/follow', viewController.followButton);
+router.get('/:username/unfollow', viewController.unfollowButton);
 
 module.exports = router;

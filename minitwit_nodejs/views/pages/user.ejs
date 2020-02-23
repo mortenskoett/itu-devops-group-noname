@@ -16,9 +16,9 @@
 
 <body>
     <% if (locals.following) { %>
-    <strong><a href="/user/<%= locals.username %>/unfollow">Unfollow <%= locals.user %></a></strong>
+    <strong><a href="/<%= locals.username %>/unfollow">Unfollow <%= locals.user %></a></strong>
     <% } else { %>
-    <strong><a href="/user/<%= locals.username %>/follow">Follow <%= locals.user %></a></strong>
+    <strong><a href="/<%= locals.username %>/follow">Follow <%= locals.user %></a></strong>
     <% } %>
 
     <%- include('../partials/messagelist.ejs', {loggedin: locals.loggedin, username: locals.messages}); %>
