@@ -7,7 +7,7 @@ from contextlib import closing
 
 
 BASE_URL = 'http://127.0.0.1:5001'
-DATABASE = "/tmp/minitwit.db"
+# DATABASE = "/tmp/minitwit.db"
 USERNAME = 'simulator'
 PWD = 'super_safe!'
 CREDENTIALS = ':'.join([USERNAME, PWD]).encode('ascii')
