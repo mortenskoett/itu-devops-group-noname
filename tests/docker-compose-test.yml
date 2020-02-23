@@ -9,7 +9,7 @@ services:
     image: ${DOCKER_USERNAME}/minitwit-app
     container_name: minitwit-app
     networks:
-      - minitwit-network
+      - main
     ports:
       - '5000:5000'
       - '5001:5001'
@@ -18,4 +18,4 @@ services:
     image: ${DOCKER_USERNAME}/minitwit-tests
     container_name: minitwit-tests
     networks:
-      - minitwit-network
+      - main
