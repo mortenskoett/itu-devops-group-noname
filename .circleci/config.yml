@@ -15,9 +15,7 @@ jobs:
             echo "Running py-tests...."
             docker build -t $DOCKER_USERNAME/minitwit-app -f Dockerfile-minitwit .
             docker build -t $DOCKER_USERNAME/minitwit-tests -f Dockerfile-minitwit-tests .
-#            echo "yes" | docker-compose up -d
             docker run -it --rm --network=itu-minitwit-network $DOCKER_USERNAME/minitwit-tests
-
       - run: 
           name: Build and push Docker image
           command: |
@@ -30,7 +28,7 @@ jobs:
             echo "PUSH"
             docker push $DOCKER_USERNAME/minitwit-app:latest
 
-      # ----------------- OLD:
+    # ----------------- OLD:
     #   - run:
     #       name: Build and push Docker image
     #       command: |
