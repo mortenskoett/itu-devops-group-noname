@@ -1,16 +1,17 @@
-FROM python:3.7-alpine
-
-RUN mkdir /minitwit
-
-COPY minitwit_mysql.py /minitwit/
-COPY requirements.txt /minitwit/
-COPY static /minitwit/static
-COPY templates /minitwit/templates
+FROM node:10-alpine
 
 WORKDIR /minitwit
 
-RUN pip install -r requirements.txt
+COPY package*.json ./
+COPY server /minitwit/server
+COPY static /minitwit/static
+COPY views /minitwit/views
+
+RUN npm install
 
 EXPOSE 5000
+EXPOSE 5001
 
-ENTRYPOINT ["python", "minitwit_mysql.py"]
+WORKDIR /minitwit/server
+
+CMD ["npm", "start"]

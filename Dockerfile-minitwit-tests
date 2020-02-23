@@ -1,14 +1,14 @@
 FROM python:3.7-alpine
 
-RUN mkdir /minitwit-tests
+RUN mkdir /minitwit-api-tests
 
-COPY minitwit_tests.py /minitwit-tests/
-COPY requirements.txt /minitwit-tests/
+COPY tests/minitwit_sim_api_tests.py /minitwit-api-tests/
+COPY tests/requirements.txt /minitwit-api-tests/
 
-WORKDIR /minitwit-tests
+WORKDIR /minitwit-api-tests
 
 RUN pip install -r requirements.txt
 
-EXPOSE 5000
+# EXPOSE 5000 # TODO: Not needed right?
 
 ENTRYPOINT ["pytest", "-s", "minitwit_tests.py"]
