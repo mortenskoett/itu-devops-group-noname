@@ -7,6 +7,8 @@ services:
   minitwit-app:
     image: ${DOCKER_USERNAME}/minitwit-app
     container_name: minitwit
+    volumes:
+        - data-volume:./data/
     networks:
       - main
     ports:

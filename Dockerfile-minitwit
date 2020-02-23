@@ -3,10 +3,10 @@ FROM node:10-alpine
 WORKDIR /minitwit
 
 COPY package*.json ./
-COPY data ./
-COPY server /minitwit/server
-COPY static /minitwit/static
-COPY views /minitwit/views
+COPY data minitwit/data
+COPY server minitwit/server
+COPY static minitwit/static
+COPY views minitwit/views
 
 RUN npm install
 
