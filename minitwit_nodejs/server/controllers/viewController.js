@@ -131,11 +131,9 @@ async function renderSignupPage(req, res, next) {
 
 async function loginButton(req, res, next) {
     console.log("loginButton called");
+    const {username, password} = req.body;
 
-    const user = req.body.username;
-    const pass = req.body.password;
-
-    if (!(user && pass)) {
+    if (!(username && password)) {
         res.render('pages/login', {
             error: 'Please enter username and password'
         });
@@ -143,7 +141,7 @@ async function loginButton(req, res, next) {
         return;
     }
 
-    let isUserLoggedIn = await attemptLoginUser(req, user, pass);
+    let isUserLoggedIn = await attemptLoginUser(req, username, password);
     if (isUserLoggedIn) {
         res.redirect('/home')
         res.end();
@@ -181,10 +179,16 @@ function logoutButton(req, res, next) {
     res.redirect('/public');
 }
 
+function handleError(res, errormsg, redirection) {
+    res.render(redirection, {
+        error: errormsg
+    });
+    res.end();
+    return;
+}
+
 async function signupButton(req, res, next) {
-    const username = req.body.username;
-    const email = req.body.email;
-    const password = req.body.password;
+    const {username, email, password} = req.body;
 
     if (!(username && password && email)) {
         res.render('pages/signup', {
@@ -202,33 +206,25 @@ async function signupButton(req, res, next) {
     let existingUser = await userRepository.getUserID(username);
 
     if (existingUser) {
-        res.render('pages/signup', {
-            error: 'Username is invalid.'
-        });
-        res.end();
-        return;
+        return handleError(res, 'Username is invalid.', 'pages/signup');
     }
 
     let isUserAdded = await userRepository.addUser(username, password, email);
     if (!isUserAdded) {
-        res.render('pages/signup', {
-            error: 'Adding user to database failed.'
-        });
-        res.end();
-        return;
+        return handleError('Adding user to database failed.', 'pages/signup');
     }
 
     let isUserLoggedIn = await attemptLoginUser(req, username, password);
     if (isUserLoggedIn) {
         res.redirect('/home');
-        res.end();
     }
     else {
         res.render('pages/signup', {
             error: 'Sign up failed'
         });
-        res.end();
     }
+    res.end();
+
 }
 
 async function followButton(req, res, next) {
