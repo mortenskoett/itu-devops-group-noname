@@ -15,14 +15,14 @@ services:
         - '5000:5000'
         - '5001:5001'
 
-#  minitwit-sim-tests:
-#    image: ${DOCKER_USERNAME}/minitwit-tests
-#    container_name: minitwit-tests
-#    networks:
-#      - main
-#     depends_on:
-#       - minitwit-minitwit-app
-#    ports:
+  minitwit-sim-tests:
+    image: ${DOCKER_USERNAME}/minitwit-tests
+    container_name: minitwit-tests
+    networks:
+      - main
+     depends_on:
+       - minitwit-minitwit-app
+    ports:
 
 #   minitwit-sqlite:
 #     image: ${DOCKER_USERNAME}/minitwit-sqlite
