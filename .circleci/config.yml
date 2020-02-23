@@ -13,7 +13,6 @@ jobs:
           name: Run simulator api pytest on build server
           command: |
             echo "Setting up environment and running py-tests...."
-            docker build -t $DOCKER_USERNAME/minitwit-tests -f Dockerfile-minitwit-tests .
             echo "yes" | docker-compose -f tests/docker-compose-test.yml up -d
             docker run -it --rm --network=itu-minitwit-network $DOCKER_USERNAME/minitwit-tests
     #   - run: 
@@ -29,6 +28,8 @@ jobs:
     #         docker push $DOCKER_USERNAME/minitwit-app:latest
 
     # ----------------- TEMP:
+            # docker build -t $DOCKER_USERNAME/minitwit-tests -f Dockerfile-minitwit-tests .
+
             # docker build -t $DOCKER_USERNAME/minitwit-app -f Dockerfile-minitwit .
             # docker build -t $DOCKER_USERNAME/minitwit-tests -f Dockerfile-minitwit-tests .
 
