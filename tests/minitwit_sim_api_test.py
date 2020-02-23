@@ -1,7 +1,7 @@
 import os
 import json
 import base64
-import sqlite3
+# import sqlite3
 import requests
 from contextlib import closing
 
@@ -17,17 +17,17 @@ HEADERS = {'Connection': 'close',
            f'Authorization': f'Basic {ENCODED_CREDENTIALS}'}
 
 
-def init_db():
-    """Creates the database tables."""
-    with closing(sqlite3.connect(DATABASE)) as db:
-        with open("schema.sql") as fp:
-            db.cursor().executescript(fp.read())
-        db.commit()
+# def init_db():
+#     """Creates the database tables."""
+#     with closing(sqlite3.connect(DATABASE)) as db:
+#         with open("schema.sql") as fp:
+#             db.cursor().executescript(fp.read())
+#         db.commit()
 
 
-# Empty the database and initialize the schema again
-os.system(f'rm {DATABASE}')
-init_db()
+# # Empty the database and initialize the schema again
+# os.system(f'rm {DATABASE}')
+# init_db()
 
 
 def test_latest():
