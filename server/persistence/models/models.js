@@ -1,8 +1,11 @@
 const Sequelize = require('sequelize');
+const config = require('../../configs');
+const db_path = config.sqlite.path;
+
 const sequelize = new Sequelize({
     dialect: 'sqlite',
     logging: false,
-    storage: './server/persistence/sqlite/minitwit.db'
+    storage: db_path
 });
 
 sequelize.authenticate().then(() => {
