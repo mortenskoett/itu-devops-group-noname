@@ -10,13 +10,22 @@ jobs:
           fingerprints:
             - "d4:22:e0:82:69:3b:81:31:42:e1:68:75:2e:75:4b:d5"
 
+      - run: 
+          name: Build docker images
+          command: |
+            echo "Build app"
+            docker build -t $DOCKER_USERNAME/minitwit-app -f Dockerfile-minitwit .
+            docker build -t $DOCKER_USERNAME/minitwit-tests -f Dockerfile-minitwit-tests .
+
       - run:
           name: Run simulator api pytest on build server
           command: |
             echo "Setting up environment and running py-tests...."
             echo "yes" | docker-compose -f tests/docker-compose-test.yml up -d
-            # docker run -it --rm --network=itu-minitwit-network $DOCKER_USERNAME/minitwit-tests
+
+
     # ----------------- TEMP: (works)
+            # docker run -it --rm --network=itu-minitwit-network $DOCKER_USERNAME/minitwit-tests
 
     #   - run: 
     #       name: Build and push to Dockerhub
