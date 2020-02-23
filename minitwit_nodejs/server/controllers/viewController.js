@@ -2,7 +2,6 @@
 
 /**
  * Controller to handle interaction using views of the web application.
- * Endpoint: '/view/'
  */
 
 const express = require('express');
@@ -15,19 +14,19 @@ async function mainView(req, res, next) {
 
     // User already logged in
     if (req.session.loggedin) {
-        console.log('/view/home')
-        res.redirect('/view/home');
+        console.log('/home')
+        res.redirect('/home');
     }
 
     // Unkown user
     else {
-        console.log('/view/public')
-        res.redirect('/view/public');
+        console.log('/public')
+        res.redirect('/public');
     }
 }
 
-async function newMessageButton(req, res){
-    console.log("newMessage called")
+async function postMessage(req, res){
+    console.log("postMessage called")
 
     // TODO: This code below should reside in viewcontroller
     // if (!req.session.loggedin) {
@@ -41,8 +40,7 @@ async function newMessageButton(req, res){
 
     try {
         await messageRepository.postMessage(userId, message);
-
-        res.redirect('/view/home');
+        res.redirect('/home');
     }
     catch (err) {
         console.log(err);
@@ -136,7 +134,7 @@ async function loginButton(req, res, next) {
 
     let isUserLoggedIn = await attemptLoginUser(req, user, pass);
     if (isUserLoggedIn) {
-        res.redirect('/view/home')
+        res.redirect('/home')
         res.end();
     }
     else {
@@ -169,7 +167,7 @@ function updateSessionUserData(request, username, userId) {
 function logoutButton(req, res, next) {
     console.log('logoutButton called: ' + req.session.username);
     req.session.destroy();
-    res.redirect('/view/public');
+    res.redirect('/public');
 }
 
 async function signupButton(req, res, next) {
@@ -211,7 +209,7 @@ async function signupButton(req, res, next) {
 
     let isUserLoggedIn = await attemptLoginUser(req, username, password);
     if (isUserLoggedIn) {
-        res.redirect('/view/home');
+        res.redirect('/home');
         res.end();
     }
     else {
@@ -238,7 +236,7 @@ async function followButton(req, res, next) {
     console.log("id: " + followerID + "now follows id: " + followedID.id);
     await userRepository.follow(followerID, followedID.id);
 
-    res.redirect('/view/user/' + followedUsername);
+    res.redirect('/user/' + followedUsername);
 
 }
 
@@ -258,7 +256,7 @@ async function unfollowButton(req, res, next) {
     console.log("id: " + followerID + "no longer follows id: " + followedID.id);
     await userRepository.unfollow(followerID, followedID.id);
 
-    res.redirect('/view/user/' + followedUsername);  
+    res.redirect('/user/' + followedUsername);  
 }
 
 
@@ -274,7 +272,7 @@ module.exports = {
     loginButton,
     logoutButton,
     signupButton,
-    newMessageButton,
+    postMessage,
     followButton,
     unfollowButton
 }
