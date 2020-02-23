@@ -4,8 +4,7 @@
     Endpoints for simulator
 */
 const timeUtil = require('../utilities/timeDateUtil');
-const userRepository = require('../repositories/userRepository');
-const messageRepository = require('../repositories/messageRepository');
+const db = require('../persistence/models/models');
 
 module.exports = {
     getLatest,
@@ -24,6 +23,15 @@ function update_latest(req) {
     if (latest != -1) LATEST = parseInt(latest);
 }
 
+async function validate(username, pwd, email) {
+    if (!username) return "You have to enter a username"
+    else if (!email /* && !contains @ */) return "You have to enter a valid email address"
+    else if (!pwd) return "You have to enter a password"
+    let user = await db.User.findOne({ where: {username: username} });
+    if (user) return "Username already exists."
+    return null
+}
+
 // Get latest value (stored for each api request)
 // @app.route("/latest", methods=["GET"]) 
 async function getLatest(req, res) {
@@ -35,27 +43,21 @@ async function register(req, res) {
     update_latest(req);
 
     let { username, email, pwd } = req.body;
-
-    if (!(username && pwd && email)) {
-        res.status(400).send({ error_msg: "Missing username, password or email" });
+    
+    let err = await validate(username, pwd, email);
+    if (err) {
+        res.status(400).send({ error_msg: err });
         return;
     }
 
-    let existingUser = await userRepository.getUserID(username);
-    if (existingUser) {
-        res.status(400).send({ error_msg: "Username already exists." });
-        return;
-    }
-
-    let isUserAdded = await userRepository.addUser(username, pwd, email);
+    let isUserAdded = await db.User.create({username, password: pwd, email});
     if (!isUserAdded) {
         res.status(500).send({ error_msg: 'Adding user to database failed.' });
         return;
     }
-    else {
-        console.log('/register: New user created.');
-        res.status(204).send();
-    }
+
+    console.log('/register: New user created, named: ', username);
+    res.status(204).send();
 };
 
 // @app.route("/msgs", methods=["GET"])
@@ -64,12 +66,13 @@ async function getMessages(req, res) {
     update_latest(req);
 
     let no_messages = req.query.no ? req.query.no : 100;
-    let allMessages = await messageRepository.getAllMessages(no_messages);
 
-    if (!allMessages) {
-        res.status(400).send({ error_msg: err });
-        return;
-    }
+    let allMessages = await db.Message.findAll({ 
+        limit: no_messages,
+        order: [['createdAt', 'DESC']],
+        include: [db.User]
+        // where: { flagged: false }
+    })
 
     let jsonMessages = allMessages.map(m => {
         return {
@@ -89,20 +92,20 @@ async function getUserMessages(req, res) {
     console.log("getUserMessages: ");
     update_latest(req)
 
-    let { username } = req.params;
     let no_messages = req.query.no ? req.query.no : 100;
 
-    let { user_id } = await userRepository.getUserID(username);
-    if (!user_id) {
+    let user = await db.User.findOne({ where: {username: req.params.username} });
+    if (!user) {
         res.status(404).send({ error_msg: "User id not found." });
         return;
     }
 
-    let messages = await messageRepository.getUserMessages(user_id, no_messages);
-    if (!messages) {
-        res.status(500).send({ error_msg: "Database error encountered." });
-        return;
-    }
+    let messages = await user.getMessages({
+        limit: no_messages,
+        order: [['createdAt', 'DESC']],
+        include: [db.User]
+        // where: { flagged: false }
+    });
 
     let jsonMessages = messages.map(m => {
         return {
@@ -116,26 +119,20 @@ async function getUserMessages(req, res) {
 };
 
 async function postMessage(req, res) {
-    update_latest(req)
+    console.log("posting message");
 
-    let { content } = req.body;
-    let { username } = req.params
+    update_latest(req)
+    let username = req.params.username;
     let date = timeUtil.getFormattedDate();
 
-    console.log(content, username, date);
-
-    let { user_id } = await userRepository.getUserID(username);
-    if (!user_id) {
+    let user = await db.User.findOne({ where: {username: username} });
+    if (!user) {
         res.status(404).send({ error_msg: `Error finding user "${username}"` });
         return;
     }
-
-    let isSuccess = await messageRepository.postMessage(user_id, content, date);
-    if (!isSuccess) {
-        res.status(404).send({ error_msg: "Error posting message." });
-        return;
-    }
-
+    let msg = await user.createMessage({ text: req.body.content, date });
+    if (!msg) console.log("ERROR CREATING MESSAGE")
+    
     res.status(204).send();
 };
 
@@ -147,20 +144,15 @@ async function getFollows(req, res) {
     let username = req.params.username;
     let no_messages = req.query.no ? req.query.no : 100;
 
-    let { user_id } = await userRepository.getUserID(username);
-    if (!user_id) {
+    let user = await db.User.findOne({ where: {username: username} });
+    if (!user) {
         res.status(404).send({ error_msg: `Error finding user "${username}"` });
         return;
     }
 
-    let follows = await userRepository.getFollows(user_id, no_messages);
-    if (!follows) {
-        res.status(400).send({ error_msg: "A database error occurred." });
-        return;
-    }
+    let follows = await user.getFollowers({limit: no_messages});
 
-    console.log(follows);
-    let jsonFollows = follows.map(e => e.fllwed.username);
+    let jsonFollows = follows.map(e => e.dataValues.username);
 
     res.status(200).send({ follows: jsonFollows }) // contains the right result, but test says it is the wrong types
 };
@@ -175,37 +167,31 @@ async function setFollow(req, res) {
         console.error("Follow was called without neither 'follow' or 'unfollow' parameter")
         res.sendStatus(400);
     }
-
+ 
     let { username } = req.params;
 
-    let user = await userRepository.getUserID(username);
-    let userId = user.user_id;
-    if (!userId) {
+    let user = await db.User.findOne({ where: {username: username} });
+    if (!user) {
         res.status(400).send({ error_msg: `Error finding user "${username}"` });
         return;
     }
 
     if (follow) {
-        let otherUser = await userRepository.getUserID(follow);
-        let otherUserId = otherUser.user_id;
-        if (!otherUserId) {
-            res.status(404).send({ error_msg: `Error finding user "${username}"` });
+        let otherUser = await db.User.findOne({ where: {username: follow} });
+        if (!otherUser) {
+            res.status(400).send({ error_msg: `Error finding user "${username}"` });
             return;
         }
-
-        await userRepository.follow(userId, otherUserId);
-        console.log(userId, otherUserId);
+        await user.addFollower(otherUser);
     }
     else if (unfollow) {
-        let otherUser = await userRepository.getUserID(unfollow);
-        let otherUserId = otherUser.user_id;
-        if (!otherUserId) {
-            res.status(404).send({ error_msg: `Error finding user "${username}"` });
+        let otherUser = await db.User.findOne({ where: {username: unfollow} });
+        if (!otherUser) {
+            res.status(400).send({ error_msg: `Error finding user "${username}"` });
             return;
         }
 
-        await userRepository.unfollow(userId, otherUserId);
-        console.log(userId, otherUserId);
+        await user.removeFollowers(otherUser);
     }
     res.sendStatus(204);
 };
