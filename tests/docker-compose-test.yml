@@ -17,5 +17,7 @@ services:
   minitwit-sim-tests:
     image: ${DOCKER_USERNAME}/minitwit-tests
     container_name: minitwit-tests
+    depends_on: 
+      - minitwit-app
     networks:
       - main
