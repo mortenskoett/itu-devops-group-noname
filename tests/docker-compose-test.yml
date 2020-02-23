@@ -2,6 +2,7 @@ version: '3.5'
 networks:
   main:
     name: minitwit-network
+
 services:
 
   minitwit-app:
@@ -15,14 +16,14 @@ services:
         - '5000:5000'
         - '5001:5001'
 
-  minitwit-sim-tests:
-    image: ${DOCKER_USERNAME}/minitwit-tests
-    container_name: minitwit-tests
-    networks:
-      - main
-     depends_on:
-       - minitwit-app
-    ports:
+#   minitwit-sim-tests:
+#     image: ${DOCKER_USERNAME}/minitwit-tests
+#     container_name: minitwit-tests
+#     networks:
+#       - main
+#      depends_on:
+#        - minitwit-app
+#     ports:
 
 #   minitwit-sqlite:
 #     image: ${DOCKER_USERNAME}/minitwit-sqlite
