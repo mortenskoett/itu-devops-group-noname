@@ -21,7 +21,7 @@ services:
     networks:
       - main
      depends_on:
-       - minitwit-minitwit-app
+       - minitwit-app
     ports:
 
 #   minitwit-sqlite:
