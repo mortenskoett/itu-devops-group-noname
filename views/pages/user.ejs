@@ -1,6 +1,11 @@
 <%- include('../partials/head.ejs'); %>
 
 <p> <%= locals.username %>'s profile page </p>
+<% if (locals.following) { %>
+    <p><a href="/<%= locals.username %>/unfollow"> - unfollow <%= locals.username %></a></p>
+<% } else { %>
+    <p><a href="/<%= locals.username %>/follow"> + follow <%= locals.username %></a></p>
+<% } %>
 
 <%- include('../partials/header.ejs'); %>
 
@@ -15,12 +20,6 @@
 </head>
 
 <body>
-    <% if (locals.following) { %>
-    <strong><a href="/<%= locals.username %>/unfollow">Unfollow <%= locals.user %></a></strong>
-    <% } else { %>
-    <strong><a href="/<%= locals.username %>/follow">Follow <%= locals.user %></a></strong>
-    <% } %>
-
     <%- include('../partials/messagelist.ejs', {loggedin: locals.loggedin, username: locals.messages}); %>
 </body>
 
