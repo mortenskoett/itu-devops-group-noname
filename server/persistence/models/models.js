@@ -8,6 +8,9 @@ const sequelize = new Sequelize({
     storage: db_path
 });
 
+// Create tables if they do not already exist
+sequelize.sync();
+
 sequelize.authenticate().then(() => {
     console.log('Connection to sequelize has been established succesfully.');
 }).catch(err => {
