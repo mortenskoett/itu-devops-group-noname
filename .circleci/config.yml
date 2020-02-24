@@ -22,10 +22,10 @@ jobs:
           command: |
             echo "Setting up environment and running py-tests...."
             echo "yes" | docker-compose -f server/tests/docker-compose-test.yml up -d
-            docker run -it --rm --network=minitwit-network $DOCKER_USERNAME/minitwit-tests
 
 
     # ----------------- TEMP: (works)
+            # docker run -it --rm --network=minitwit-network $DOCKER_USERNAME/minitwit-tests
 
     #   - run: 
     #       name: Build and push to Dockerhub
