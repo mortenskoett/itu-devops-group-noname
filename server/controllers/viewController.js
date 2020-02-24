@@ -256,8 +256,7 @@ async function followButton(req, res, next) {
     console.log("id: " + followerID + "now follows id: " + followedID.id);
     await userRepository.follow(followerID, followedID.id);
 
-    // Redirect to previous page?
-    res.redirect('/' + req.params.username);
+    res.back();
 
 }
 
@@ -277,7 +276,7 @@ async function unfollowButton(req, res, next) {
     console.log("id: " + followerID + "no longer follows id: " + followedID.id);
     await userRepository.unfollow(followerID, followedID.id);
 
-    res.redirect('/' + followedUsername);  
+    res.back(); 
 }
 
 
