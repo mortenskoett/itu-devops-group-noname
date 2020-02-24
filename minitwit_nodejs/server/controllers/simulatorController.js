@@ -82,8 +82,6 @@ async function getMessages(req, res) {
         }
     });
 
-    // console.log("messages", messages) // TODO: The elements in the list is right, but the test fails for some reason !!
-    // TODO: This seems to work correctly in e.g. Postman
     res.status(200).send(jsonMessages);
 };
 
@@ -159,7 +157,7 @@ async function getFollows(req, res) {
 
 // TODO: Does not seems to work -- maybe data issue in db
 async function setFollow(req, res) {
-    console.log("setFollow: ");
+    console.log("Called setFollow");
     update_latest(req)
 
     let { follow, unfollow } = req.body;
