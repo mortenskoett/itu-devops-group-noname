@@ -1,13 +1,13 @@
 import os
 import json
 import base64
-import sqlite3
+# import sqlite3
 import requests
 from contextlib import closing
 
 
 BASE_URL = 'http://127.0.0.1:5001'
-DATABASE = "/tmp/minitwit.db"
+# DATABASE = "/tmp/minitwit.db"
 USERNAME = 'simulator'
 PWD = 'super_safe!'
 CREDENTIALS = ':'.join([USERNAME, PWD]).encode('ascii')
@@ -17,17 +17,17 @@ HEADERS = {'Connection': 'close',
            f'Authorization': f'Basic {ENCODED_CREDENTIALS}'}
 
 
-def init_db():
-    """Creates the database tables."""
-    with closing(sqlite3.connect(DATABASE)) as db:
-        with open("./server/test/schema.sql") as fp:
-            db.cursor().executescript(fp.read())
-        db.commit()
+# def init_db():
+#     """Creates the database tables."""
+#     with closing(sqlite3.connect(DATABASE)) as db:
+#         with open("schema.sql") as fp:
+#             db.cursor().executescript(fp.read())
+#         db.commit()
 
 
-# Empty the database and initialize the schema again
-os.system(f'rm {DATABASE}')
-init_db()
+# # Empty the database and initialize the schema again
+# os.system(f'rm {DATABASE}')
+# init_db()
 
 
 def test_latest():
@@ -194,3 +194,4 @@ def test_a_unfollows_b():
     # verify that latest was updated
     response = requests.get(f'{BASE_URL}/latest', headers=HEADERS)
     assert response.json()['latest'] == 11
+

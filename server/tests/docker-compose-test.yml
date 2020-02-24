@@ -1,0 +1,23 @@
+version: '3.5'
+
+networks:
+  main:
+    name: minitwit-network
+
+services:
+  minitwit-app:
+    image: ${DOCKER_USERNAME}/minitwit-app
+    container_name: minitwit-app
+    networks:
+      - main
+    ports:
+      - '5000:5000'
+      - '5001:5001'
+
+  minitwit-sim-tests:
+    image: ${DOCKER_USERNAME}/minitwit-tests
+    container_name: minitwit-tests
+    depends_on: 
+      - minitwit-app
+    networks:
+      - main

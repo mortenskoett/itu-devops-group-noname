@@ -15,7 +15,8 @@ module.exports = {
     sqlite: {
         port: process.env.DB_PORT,
         host: process.env.DB_HOST,
-        name: process.env.DB_NAME
+        name: process.env.DB_NAME,
+        path: './data/sqlite/minitwit.db'
     },
     application_logging: {
         file: process.env.LOG_PATH,
