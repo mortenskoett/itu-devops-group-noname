@@ -1,0 +1,27 @@
+<% if (locals.messages) { %>
+<% messages.forEach( msg => { %>
+<div class="post">
+    <!-- Post header-->
+    <div>
+        <span>
+            <img class="avatar" src="/user.png">
+        <strong>
+            <a href="/<%= msg.user.username %>"><%= msg.user.username %></a>
+        </strong>
+        </span>
+        <span style="">
+            <button>Flag</button>
+        </span>
+    </div>
+    <!-- Post body-->
+    <div>
+        <%= msg.text %>
+    </div>
+    <!-- Post footer-->
+    <div>
+        <small>&mdash; <%= msg.createdAt %></small>
+    </div>
+</div>
+<% }) } else { %>
+<em>There's no message so far.</em>
+<% } %>
