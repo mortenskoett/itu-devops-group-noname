@@ -28,7 +28,7 @@ app.use(session({
 }));
 
 app.use('/', viewRoutes);
-app.listen(appPort, () => console.log(`Minitwit server listening on port ${appPort}.`));
+app.listen(appPort, () => console.log(`Minitwit web app server listening on port ${appPort}.`));
 
 
 /* SIMULATOR SERVER */
@@ -38,4 +38,4 @@ const simulator = express();
 simulator.use(express.json());
 simulator.use('/', simRouter)
 
-simulator.listen(simPort, () => console.log(`Simulator server listening on port ${simPort}.`));
+simulator.listen(simPort, () => console.log(`Simulator API server listening on port ${simPort}.`));

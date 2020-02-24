@@ -95,7 +95,7 @@ async function postMessage(req, res){
 async function renderUserTimeline(req, res) {
     console.log("renderUserTimeline called")
 
-    if (!req.session.loggedin || req.session.userId) { // if user not logged in, the call to userRepository.following would fail because userid is undefined
+    if (!(req.session.loggedin || req.session.userId)) {
         console.log("logged in: ", req.session.loggedin, "username: ", req.session.userid )
         res.redirect('/login');
         return;
@@ -221,7 +221,7 @@ async function signupButton(req, res, next) {
 
 }
 
-// TODO NEVER USED AND NOT TESTET
+// TODO Needs to be implemented in UI. Put it in backlog
 async function followButton(req, res, next) {
     console.log('followButton called');
 

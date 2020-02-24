@@ -85,7 +85,7 @@ Message.belongsTo(User);
 //   })
 
 // It will wipe the database upon each startup
-sequelize.sync({ force: true });
+// sequelize.sync({ force: true });
 
 module.exports = {
     User,
