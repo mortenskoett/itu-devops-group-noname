@@ -1,12 +1,21 @@
 const Sequelize = require('sequelize');
 const config = require('../../configs');
-const db_path = config.sqlite.path;
 
-const sequelize = new Sequelize({
-    dialect: 'sqlite',
-    logging: false,
-    storage: db_path
-});
+var sequelize = null;
+
+if(config.database.protocol == 'sqlite'){
+    sequelize = new Sequelize({
+        dialect: 'sqlite',
+        logging: false,
+        storage: config.database.path
+    });
+} else {
+    sequelize = new Sequelize(config.database.url, {
+        dialect: config.database.protocol,
+        logging: false
+    });
+}
+
 
 // Create tables if they do not already exist
 sequelize.sync();
