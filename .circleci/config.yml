@@ -57,8 +57,8 @@ jobs:
            cd /vagrant && \
 
            echo "Pulling and starting docker containers on server"
-           docker-compose --file ./dockerfiles/docker-compose-deploy.yml pull && \
-           docker-compose --file ./dockerfiles/docker-compose-deploy.yml up -d"
+           docker-compose --file dockerfiles/docker-compose-deploy.yml pull && \
+           docker-compose --file dockerfiles/docker-compose-deploy.yml up -d"
 
 workflows:
   version: 2
@@ -71,55 +71,3 @@ workflows:
           filters:
             branches:
               only: deployment_from_release
-
-
-
-    # ----------------- TEMP: (WIP)
-            # docker run -it --rm --network=minitwit-network $DOCKER_USERNAME/minitwit-tests
-
-    #   - run: 
-    #       name: Build and push to Dockerhub
-    #       command: |
-    #         echo "Login"
-    #         echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-
-    #         echo "Build app"
-    #         docker build -t $DOCKER_USERNAME/minitwit-app . -f Dockerfile-minitwit
-    #         docker build -t $DOCKER_USERNAME/minitwit-tests -f Dockerfile-minitwit-tests .
-
-    #         echo "Push"
-    #         docker push $DOCKER_USERNAME/minitwit-app
-    #         docker push $DOCKER_USERNAME/minitwit-tests
-
-
-    #         # docker build -t $DOCKER_USERNAME/minitwit-app -f Dockerfile-minitwit .
-    #         # docker build -t $DOCKER_USERNAME/minitwit-tests -f Dockerfile-minitwit-tests .
-
-    # ----------------- OLD:
-    #   - run:
-    #       name: Build and push Docker image
-    #       command: |
-    #         echo "LOGIN"
-    #         echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-    #         echo "BUILD"
-    #         docker build -t $DOCKER_USERNAME/minitwit-app:latest . -f Dockerfile-minitwit
-    #         docker build -t $DOCKER_USERNAME/minitwit-mysql:latest . -f Dockerfile-mysql
-    #         echo "PUSH"
-    #         docker push $DOCKER_USERNAME/minitwit-app:latest
-    #         docker push $DOCKER_USERNAME/minitwit-mysql:latest
-    #   - run:
-    #       name: Run pytest on build server
-    #       command: |
-    #         echo "Running Py tests...."
-    #         docker build -t $DOCKER_USERNAME/minitwit-tests -f Dockerfile-minitwit-tests .
-    #         echo "yes" | docker-compose up -d
-    #         docker run -it --rm --network=itu-minitwit-network $DOCKER_USERNAME/minitwit-tests
-
-    #  - run:
-    #      name: Deploy app to Digital Ocean Server via Docker
-    #      command: |
-    #        ssh -o "StrictHostKeyChecking no" ${MT_USER}@${MT_SERVER} \
-    #        "source /root/.bash_profile && \
-    #        cd /vagrant && \
-    #        docker-compose pull && \
-    #        docker-compose up -d"
