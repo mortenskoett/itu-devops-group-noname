@@ -70,4 +70,4 @@ workflows:
             - build
           filters:
             branches:
-              only: deployment_from_release
+              only: release
