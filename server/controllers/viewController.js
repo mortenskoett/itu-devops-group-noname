@@ -37,7 +37,21 @@ async function renderPublicTimeLine(req, res) {
         res.end();
     }
 
-    renderTimeline(req, res, allMessages);
+    if (req.session.loggedin) {
+        for (var i in allMessages) {
+            let m = allMessages[i];
+            let msgUserId = await userRepository.getUserID(m.user.username);
+            if (await userRepository.following(req.session.userid, msgUserId.id)){
+                m.following = true;
+
+            } else {
+                m.following = false;
+            }
+            allMessages[i] = m;
+          }
+    }
+
+    renderTimeline(req,res,allMessages);
     res.end();
     return;
 }
@@ -56,6 +70,10 @@ async function renderPrivateTimeline(req, res) {
     if (!followedMessages) {
         res.status(500).send({ url: req.originalUrl + 'Error getting messages.' });
         res.end();
+    }
+
+    for (var i in followedMessages) {
+        followedMessages[i].following = true;
     }
 
     renderTimeline(req, res, followedMessages);
@@ -237,7 +255,7 @@ async function followButton(req, res, next) {
     console.log("id: " + followerID + "now follows id: " + followedID.id);
     await userRepository.follow(followerID, followedID.id);
 
-    res.redirect('/' + followedUsername);
+    res.back();
 
 }
 
@@ -257,7 +275,7 @@ async function unfollowButton(req, res, next) {
     console.log("id: " + followerID + "no longer follows id: " + followedID.id);
     await userRepository.unfollow(followerID, followedID.id);
 
-    res.redirect('/' + followedUsername);
+    res.back(); 
 }
 
 
