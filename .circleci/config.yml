@@ -28,9 +28,11 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
+
       - add_ssh_keys:
           fingerprints:
             - "d4:22:e0:82:69:3b:81:31:42:e1:68:75:2e:75:4b:d5"
+
       - run: 
           name: Build and push docker images to Dockerhub
           command: |
@@ -46,7 +48,7 @@ jobs:
       - run:
          name: Deploy to Digital Ocean Server via Docker
          command: |
-           scp -o StrictHostKeyChecking=no -r -i ./private/ssh_keys/mskk-digital-ocean-ssh ./dockerfiles/ root@46.101.215.40:/vagrant/
+           scp -o StrictHostKeyChecking=no -r ./dockerfiles/ ${MT_USER}@${MT_SERVER}:/vagrant/
         #    ssh -o "StrictHostKeyChecking no" ${MT_USER}@${MT_SERVER} \
         #    "source /root/.bash_profile && \
         #    cd /minitwit && \
