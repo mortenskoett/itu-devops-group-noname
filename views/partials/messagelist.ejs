@@ -10,7 +10,11 @@
         </strong>
         </span>
         <span style="">
-            <button>Flag</button>
+            <% if (msg.following == true) { %>
+                <small><a href="/<%= msg.user.username %>/unfollow">   - unfollow</a></small>
+                <% } else if (msg.following == false) { %>
+                <small><a href="/<%= msg.user.username %>/follow">   + follow</a></small>
+            <% } %>
         </span>
     </div>
     <!-- Post body-->

@@ -8,6 +8,7 @@ require('dotenv').config();
 const config = require('./configs');
 const express = require('express');
 const session = require('express-session');
+const back = require('express-back');
 
 const viewRoutes = require('./routers/viewRoutes');
 const simRouter = require('./routers/simulatorRoutes');
@@ -26,6 +27,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+app.use(back());
 
 app.use('/', viewRoutes);
 app.listen(appPort, () => console.log(`Minitwit web app server listening on port ${appPort}.`));
