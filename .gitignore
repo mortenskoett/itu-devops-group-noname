@@ -2,6 +2,7 @@
 /data/minitwit_db
 deprecated
 private
+.vscode
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

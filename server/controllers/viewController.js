@@ -58,11 +58,11 @@ async function renderPublicTimeLine(req, res) {
 
 async function renderPrivateTimeline(req, res) {
     console.log("renderPrivateTimeline called")
-    
+
     if (!req.session.loggedin) {
         res.status(403).send({ url: req.originalUrl + ' : Unauthorized user not logged in.' });
     }
-    
+
     let userId = req.session.userid;
 
     let followedMessages = await messageRepository.getFollowedMessages(userId, 30);
@@ -88,7 +88,7 @@ function renderTimeline(req, res, msgs) {
     });
 }
 
-async function postMessage(req, res){
+async function postMessage(req, res) {
     console.log("postMessage called")
 
     if (!req.session.loggedin) {
@@ -113,14 +113,13 @@ async function postMessage(req, res){
 async function renderUserTimeline(req, res) {
     console.log("renderUserTimeline called")
 
-    if (!(req.session.loggedin || req.session.userId)) {
-        console.log("logged in: ", req.session.loggedin, "username: ", req.session.userid )
+    if (!(req.session.loggedin || req.session.userid)) {
         res.redirect('/login');
         return;
     };
 
     let username = req.params.username;
-    
+
     let user = await userRepository.getUserID(username);
     let messages = await messageRepository.getUserMessages(user.id, 30);
     let following = await userRepository.following(req.session.userid, user.id);
@@ -146,7 +145,7 @@ async function renderSignupPage(req, res, next) {
 
 async function loginButton(req, res, next) {
     console.log("loginButton called");
-    const {username, password} = req.body;
+    const { username, password } = req.body;
 
     if (!(username && password)) {
         res.render('pages/login', {
@@ -194,7 +193,7 @@ function logoutButton(req, res, next) {
 }
 
 async function signupButton(req, res, next) {
-    const {username, email, password} = req.body;
+    const { username, email, password } = req.body;
 
     if (!(username && password && email)) {
         res.render('pages/signup', {
