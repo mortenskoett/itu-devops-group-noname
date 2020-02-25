@@ -48,12 +48,17 @@ jobs:
       - run:
          name: Deploy to Digital Ocean Server via Docker
          command: |
+           echo "Transferring docker files to production server"
            scp -o StrictHostKeyChecking=no -r ./dockerfiles/ ${MT_USER}@${MT_SERVER}:/vagrant/
-        #    ssh -o "StrictHostKeyChecking no" ${MT_USER}@${MT_SERVER} \
-        #    "source /root/.bash_profile && \
-        #    cd /minitwit && \
-        #    docker-compose -f ./dockerfiles/ pull && \
-        #    docker-compose -f ./dockerfiles/ up -d"
+
+           echo "Connecting to production server..."
+           ssh -o "StrictHostKeyChecking=no" ${MT_USER}@${MT_SERVER} \
+           "source /root/.bash_profile && \
+           cd /vagrant && \
+
+           echo "Pulling and starting docker containers on server"
+           docker-compose --file ./dockerfiles/docker-compose-deploy.yml pull && \
+           docker-compose --file ./dockerfiles/docker-compose-deploy.yml up -d"
 
 workflows:
   version: 2
