@@ -1,6 +1,7 @@
 version: 2
 jobs:
-  Run tests on circleCI server:
+  build:
+    name: Run tests on circleCI test server
     docker:
         - image: circleci/node
     steps:
@@ -20,11 +21,11 @@ jobs:
             echo "Setting up environment and running py-tests...."
             echo "yes" | docker-compose -f ./dockerfiles/docker-compose-test.yml up -d
 
-  Deploy to digital ocean:
+  deploy:
     docker:
-      - image: cimg/base:2020.01
+        - image: cimg/base:2020.01
     branches:
-      - release
+        - deployment_from_release
     steps:
       - checkout
       - setup_remote_docker
@@ -43,7 +44,7 @@ jobs:
             echo "Pushing images..."
             docker push $DOCKER_USERNAME/minitwit-app:latest
 
-     - run:
+      - run:
          name: Deploy to Digital Ocean Server via Docker
          command: |
            scp -r ./dockerfiles/* ${MT_USER}@${MT_SERVER}:/minitwit/dockerfiles/ \
