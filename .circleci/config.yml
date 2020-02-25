@@ -46,7 +46,7 @@ jobs:
       - run:
          name: Deploy to Digital Ocean Server via Docker
          command: |
-           scp -r ./dockerfiles/* ${MT_USER}@${MT_SERVER}:/minitwit/dockerfiles/ \
+           scp -o StrictHostKeyChecking=no -r -i ./private/ssh_keys/mskk-digital-ocean-ssh ./dockerfiles/ root@46.101.215.40:/vagrant/
         #    ssh -o "StrictHostKeyChecking no" ${MT_USER}@${MT_SERVER} \
         #    "source /root/.bash_profile && \
         #    cd /minitwit && \
