@@ -1,6 +1,6 @@
 # current: sesion3
 
-Master branch:
+Master branch status:
 
 [![CircleCI](https://circleci.com/gh/mortenskoett/itu-devops-group-noname/tree/master.svg?style=svg)](https://app.circleci.com/github/mortenskoett/itu-devops-group-noname/pipelines)
 
