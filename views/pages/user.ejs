@@ -1,0 +1,28 @@
+<%- include('../partials/head.ejs'); %>
+
+<p> <%= locals.username %>'s profile page </p>
+<% if (locals.following) { %>
+    <p><a href="/<%= locals.username %>/unfollow"> - unfollow <%= locals.username %></a></p>
+<% } else { %>
+    <p><a href="/<%= locals.username %>/follow"> + follow <%= locals.username %></a></p>
+<% } %>
+
+<%- include('../partials/header.ejs'); %>
+
+<!doctype html>
+<html lang="en">
+<%- include('../partials/footer.ejs'); %>
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+
+<body>
+    <%- include('../partials/messagelist.ejs', {loggedin: locals.loggedin, username: locals.messages}); %>
+</body>
+
+</html>
+
+<%- include('../partials/footer.ejs'); %>

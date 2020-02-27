@@ -1,0 +1,39 @@
+{
+  "name": "minitwit-nodejs",
+  "version": "1.0.0",
+  "description": "A Node.js version of the minitwit application",
+  "main": "./server/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pytest": "pytest ./server/test/minitwit_sim_api_test.py",
+    "start": "echo \"Running production\" && export NODE_ENV=production && nodemon server.js",
+    "dev": "echo \"Running development\" && export NODE_ENV=dev && nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mortenskoett/minitwit-nodejs.git"
+  },
+  "keywords": [
+    "minitwit",
+    "itu",
+    "devops"
+  ],
+  "author": "group-noname",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mortenskoett/minitwit-nodejs/issues"
+  },
+  "homepage": "https://github.com/mortenskoett/minitwit-nodejs#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "express-back": "0.0.2",
+    "express-basic-auth": "^1.2.0",
+    "express-session": "^1.17.0",
+    "nodemon": "^2.0.2",
+    "pg": "^7.18.2",
+    "sequelize": "^5.21.4",
+    "sqlite3": "^4.1.1"
+  }
+}

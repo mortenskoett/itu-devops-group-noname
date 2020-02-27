@@ -1,0 +1,27 @@
+<%- include('../partials/head.ejs'); %>
+
+<% if (locals.username) { %>
+<p> Welcome back, <%= locals.username %> ! </p>
+<% } else { %>
+<p>Hi stranger, please login.</p>
+<% } %>
+
+<%- include('../partials/header.ejs', {loggedin: locals.loggedin}); %>
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+</head>
+
+<body>
+    <%- include('../partials/messagelist.ejs', {loggedin: locals.loggedin, username: locals.messages}); %>
+</body>
+
+</html>
+
+<%- include('../partials/footer.ejs'); %>
