@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "pytest": "pytest ./server/test/minitwit_sim_api_test.py",
-    "start": "nodemon server.js"
+    "start": "echo \"Running production\" && export NODE_ENV=production && nodemon server.js",
+    "dev": "echo \"Running development\" && export NODE_ENV=dev && nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,7 @@
     "express-basic-auth": "^1.2.0",
     "express-session": "^1.17.0",
     "nodemon": "^2.0.2",
+    "pg": "^7.18.2",
     "sequelize": "^5.21.4",
     "sqlite3": "^4.1.1"
   }
