@@ -49,8 +49,8 @@ const production = {
 };
 
 const config = {
- dev,
- production
+    dev,
+    production
 };
 
 module.exports = config[env];

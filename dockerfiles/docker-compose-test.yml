@@ -1,10 +1,14 @@
-version: '3.5'
+version: '3.3'
 
-networks: 
+networks:
   main:
+    external: true
 
 services:
   minitwit-app:
+    build:
+      context: ../
+      dockerfile: ./dockerfiles/Dockerfile-minitwit
     image: $DOCKER_USERNAME/minitwit-app
     container_name: minitwit-app
     networks: 
@@ -15,21 +19,22 @@ services:
       - '5000:5000'
       - '5001:5001'
 
-  minitwit-sim-tests:
-    image: $DOCKER_USERNAME/minitwit-tests
-    container_name: minitwit-tests
-    networks: 
-      - main
-    depends_on: 
-      - minitwit-app
+#   minitwit-sim-tests:
+#     build:
+#       context: ../
+#       dockerfile: ./dockerfiles/Dockerfile-minitwit-tests
+#     image: $DOCKER_USERNAME/minitwit-tests
+#     container_name: minitwit-tests
+#     networks: 
+#       - main
+#     depends_on: 
+#       - minitwit-app
 
   minitwit-database:
-    command: echo "Setting up postgres database..."
     image: postgres
+    container_name: minitwit-database
     networks: 
       - main
-    restart: always
+#    restart: always
     env_file:
       - database.env 
-    ports:
-      - 5432:5432

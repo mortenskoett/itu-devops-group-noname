@@ -6,4 +6,4 @@ COPY ./server/tests/* ./
 
 RUN pip install -r requirements.txt
 
-ENTRYPOINT ["pytest", "-s"]
+CMD ["pytest"]

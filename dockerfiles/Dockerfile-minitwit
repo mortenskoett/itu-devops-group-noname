@@ -3,7 +3,6 @@ FROM node:10-alpine
 WORKDIR /minitwit
 
 COPY package*.json ./
-COPY data ./data
 COPY server ./server
 COPY static ./static
 COPY views ./views
@@ -15,4 +14,4 @@ EXPOSE 5001
 
 WORKDIR /minitwit/server
 
-CMD ["npm", "start"]
+ENTRYPOINT ["npm", "start"]
