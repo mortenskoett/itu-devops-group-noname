@@ -11,9 +11,9 @@ services:
   minitwit-app:
     image: $DOCKER_USERNAME/minitwit-app
     container_name: minitwit-app
-    network_mode: host
+#    network_mode: host
     depends_on: 
-      - postgres-database
+      - minitwit-database
     networks:
       - main
     ports:
@@ -23,14 +23,16 @@ services:
 #      - db-data:/minitwit/data/
 #      - db-data-backup:/minitwit/db-data-backup/
 
-  postgres-database:
+  minitwit-database:
     image: postgres
-    container_name: postgres-database
-    network_mode: host
+    container_name: minitwit-database
+#    network_mode: host
+    networks:
+      - main
     restart: always
     env_file:
       - database.env 
     volumes:
       - ./db-data/postgres/:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
+#    ports:
+#      - 5432:5432
