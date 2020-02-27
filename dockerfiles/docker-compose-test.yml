@@ -19,6 +19,7 @@ services:
       - minitwit-app
 
   postgres-database:
+    command: echo "Setting up postgres database..."
     image: postgres
     network_mode: host
     restart: always
