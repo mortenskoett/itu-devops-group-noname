@@ -1,14 +1,13 @@
 version: 2
+
 jobs:
+
   build:
     docker:
         - image: circleci/node
     steps:
       - checkout
       - setup_remote_docker
-      - add_ssh_keys:
-          fingerprints:
-            - "d4:22:e0:82:69:3b:81:31:42:e1:68:75:2e:75:4b:d5"
 
       - run: 
           name: Build docker images
@@ -22,3 +21,54 @@ jobs:
           command: |
             echo "Setting up environment and running py-tests...."
             echo "yes" | docker-compose -f ./dockerfiles/docker-compose-test.yml up -d
+
+  deploy:
+    docker:
+        - image: cimg/base:2020.01
+    steps:
+      - checkout
+      - setup_remote_docker
+
+      - add_ssh_keys:
+          fingerprints:
+            - "d4:22:e0:82:69:3b:81:31:42:e1:68:75:2e:75:4b:d5"
+
+      - run: 
+          name: Build and push docker images to Dockerhub
+          command: |
+            echo "Logging in to Dockerhub..."
+            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+
+            echo "Building images..."
+            docker build -t $DOCKER_USERNAME/minitwit-app -f ./dockerfiles/Dockerfile-minitwit .
+
+            echo "Pushing images..."
+            docker push $DOCKER_USERNAME/minitwit-app:latest
+
+      - run:
+         name: Deploy to Digital Ocean Server via Docker
+         command: |
+           echo "Transferring docker files to production server"
+           scp -o StrictHostKeyChecking=no -r ./dockerfiles/ ${MT_USER}@${MT_SERVER}:/vagrant/
+
+           echo "Connecting to production server..."
+           ssh -o "StrictHostKeyChecking=no" ${MT_USER}@${MT_SERVER} \
+           "source /root/.bash_profile && \
+           cd /vagrant && \
+
+           echo "Pulling and starting docker containers on server"
+           docker-compose --file dockerfiles/docker-compose-deploy.yml pull && \
+           docker-compose --file dockerfiles/docker-compose-deploy.yml down"
+           docker-compose --file dockerfiles/docker-compose-deploy.yml up -d"
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: release

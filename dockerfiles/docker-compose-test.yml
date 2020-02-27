@@ -3,8 +3,7 @@ version: '3.5'
 services:
   minitwit-app:
     network_mode: host
-    # image: $DOCKER_USERNAME/minitwit-app
-    image: mskkitu/minitwit-app
+    image: $DOCKER_USERNAME/minitwit-app
     container_name: minitwit-app
     ports:
       - '5000:5000'
@@ -12,8 +11,7 @@ services:
 
   minitwit-sim-tests:
     network_mode: host
-    # image: $DOCKER_USERNAME/minitwit-tests
-    image: mskkitu/minitwit-tests
+    image: $DOCKER_USERNAME/minitwit-tests
     container_name: minitwit-tests
     depends_on: 
       - minitwit-app

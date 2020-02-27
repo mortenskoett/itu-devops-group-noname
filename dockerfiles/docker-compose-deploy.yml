@@ -1,0 +1,21 @@
+version: '3.3'
+
+volumes: 
+    db-data:
+    db-data-backup:
+
+networks:
+  main:
+
+services:
+  minitwit-app:
+    image: $DOCKER_USERNAME/minitwit-app
+    container_name: minitwit-app
+    networks:
+      - main
+    ports:
+      - '5000:5000'
+      - '5001:5001'
+    volumes:
+      - db-data:/minitwit/data/
+      - db-data-backup:/minitwit/db-data-backup/
