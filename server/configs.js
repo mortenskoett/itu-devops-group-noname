@@ -38,7 +38,7 @@ const production = {
         logpath: process.env.LOG_PATH,
     },
     database: {
-        url: 'postgres://embu:123@localhost:5432/embu',
+        url: 'postgres://embu:magic@localhost:5432/minitwit-database',
         protocol: "postgres",
     },
     application_logging: {
