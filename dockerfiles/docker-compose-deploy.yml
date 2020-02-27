@@ -12,7 +12,8 @@ services:
     image: $DOCKER_USERNAME/minitwit-app
     container_name: minitwit-app
     network_mode: host
-    depends_on: postgres-database
+    depends_on:
+      - postgres-database
     networks:
       - main
     ports:
