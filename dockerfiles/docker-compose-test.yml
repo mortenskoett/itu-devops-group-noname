@@ -3,17 +3,32 @@ version: '3.5'
 services:
   minitwit-app:
     network_mode: host
-    # image: $DOCKER_USERNAME/minitwit-app
-    image: mskkitu/minitwit-app
+    image: $DOCKER_USERNAME/minitwit-app
     container_name: minitwit-app
+    depends_on:
+      - postgres-database
     ports:
       - '5000:5000'
       - '5001:5001'
 
   minitwit-sim-tests:
     network_mode: host
-    # image: $DOCKER_USERNAME/minitwit-tests
-    image: mskkitu/minitwit-tests
+    image: $DOCKER_USERNAME/minitwit-tests
     container_name: minitwit-tests
     depends_on: 
       - minitwit-app
+
+  postgres-database:
+    command: echo "Setting up postgres database..."
+    image: postgres
+    network_mode: host
+    restart: always
+    env_file:
+      - database.env 
+#    volumes:
+#      - db-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+#volumes:
+#  db-data:
