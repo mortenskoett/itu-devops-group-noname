@@ -1,6 +1,6 @@
 FROM python:3.7-alpine
 
-WORKDIR /minitwit-api-tests
+WORKDIR /minitwit-python-test
 
 COPY ./server/tests/* ./
 

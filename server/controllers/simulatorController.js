@@ -57,7 +57,7 @@ async function register(req, res) {
     }
 
     console.log('/register: New user created, named: ', username);
-    res.status(404).send();
+    res.status(204).send();
 };
 
 // @app.route("/msgs", methods=["GET"])

@@ -6,7 +6,6 @@ from contextlib import closing
 
 
 BASE_URL = 'http://minitwit-app:5001'
-# BASE_URL = 'http://localhost:5001'
 USERNAME = 'simulator'
 PWD = 'super_safe!'
 CREDENTIALS = ':'.join([USERNAME, PWD]).encode('ascii')

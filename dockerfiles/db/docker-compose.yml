@@ -1,0 +1,13 @@
+version: '3.5'
+
+networks:
+  default:
+    name: minitwit-net
+
+services:
+  minitwit-db:
+    image: postgres
+    container_name: minitwit-db
+    restart: always
+    env_file:
+      - db.env 
