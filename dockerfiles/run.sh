@@ -3,9 +3,15 @@
 set -e 
 set -o pipefail
 
-set -a
-source .env
-set +a
+# Path to environment file w. key=value pairs
+ENV=.env
+
+if [ -f "$ENV" ]; then
+    echo "Loading environment..."
+    set -a
+    source "$ENV"
+    set +a
+fi
 
 app() {
     echo "Running app..."
