@@ -13,13 +13,15 @@ jobs:
           name: Build docker images
           command: |
             echo "Building images..."
-            ./dockerfiles/run.sh build
+            cd dockerfiles/
+            ./run.sh build
 
       - run:
           name: Run simulator API pytest
           command: |
             echo "Running py-tests..."
-            ./dockerfiles/run.sh full_test
+            cd dockerfiles/
+            ./run.sh full_test
 
   deploy:
     docker:
