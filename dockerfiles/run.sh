@@ -69,6 +69,15 @@ setup_and_run_test() {
     run_app &
     wait_for 10 "Waiting for application..."
     run_test
+
+    if [ $? -eq 0 ]
+    then
+        echo "The tests passed."
+        return 0
+    else
+        echo "The tests failed." >&2
+        return 1
+    fi
 }
 
 case "$1" in
@@ -97,5 +106,3 @@ case "$1" in
         echo "Command not found." >&2
         exit 1
 esac
-
-exit 0
