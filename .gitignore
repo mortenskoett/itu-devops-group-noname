@@ -4,6 +4,8 @@ deprecated
 private
 .vscode
 data
+.env
+db-data
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

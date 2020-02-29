@@ -1,12 +1,18 @@
 #! /bin/bash
 # Script to help manage various actions using docker. See possible args in bottom.
 
+# set -eo pipefail
+
 # Path to environment file w. key=value pairs
 ENV=.env
+
+LOCAL_RUN="false"
+CONTEXT=$(pwd)
 
 # Load .env if exists, otherwise use environment variables
 if [ -f "$ENV" ]; then
     echo "Loading environment..."
+    LOCAL_RUN="true"
     set -a
     source "$ENV"
     set +a
@@ -38,15 +44,6 @@ run_test() {
     docker-compose up \
         --abort-on-container-exit \
         --exit-code-from minitwit-python-test
-
-    if [ $? -eq 0 ]
-    then
-        echo "The tests passed."
-        exit 0
-    else
-        echo "The tests failed." >&2
-        exit 1
-    fi
 }
 
 # Start up db
@@ -76,8 +73,12 @@ down() {
 }
 
 # Try to clean up as much as possible
+# Should only be used in testing/locally
 clean() {
+    cd "$CONTEXT"
+    down
     echo "Running clean..."
+    sudo sh -c "rm -rf ../db-data/"     # unsafe use of sudo
     docker stop $(docker ps -a -q)
     echo y | docker rm $(docker ps -a -q)
     echo y | docker container prune
@@ -85,14 +86,30 @@ clean() {
     echo "Clean done."
 }
 
+# Setup and run application and database
+setup_run_app() {
+    echo "Setting up database and nodejs application."
+    run_db &
+    wait_for 8 "Waiting for database..."
+    run_app &
+    wait_for 6 "Waiting for application..."
+    echo "\nApplication and database running."
+}
+
 # Setup up all dependencies and run python pytest suite
 setup_run_test() {
     echo "Setting up env and running python test..."
-    run_db &
-    wait_for 10 "Waiting for database..."
-    run_app &
-    wait_for 6 "Waiting for application..."
+    setup_run_app
     run_test
+
+    if [ $? -eq 0 ]
+    then
+        echo "The tests passed."
+        exit 0
+    else
+        echo "The tests failed." >&2
+        exit 1
+    fi
 }
 
 case "$1" in
@@ -116,6 +133,9 @@ case "$1" in
         ;;
     setup_run_test)
         setup_run_test
+        ;;
+    setup_run_app)
+        setup_run_app
         ;;
     *)
         echo "Command not found." >&2
