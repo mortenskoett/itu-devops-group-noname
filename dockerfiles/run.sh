@@ -13,19 +13,30 @@ if [ -f "$ENV" ]; then
     set +a
 fi
 
-app() {
+# arg1: message
+# arg2: time to wait
+wait_for() {
+    echo "$2"
+    for (( i = 0; i < "$1"; i++ ))
+    do 
+        echo "$i"
+        sleep 1
+    done
+}
+
+run_app() {
     echo "Running app..."
     cd app/
     docker-compose up
 }
 
-test() {
+run_test() {
     echo "Running test"
     cd test/python
     docker-compose up 
 }
 
-db() {
+run_db() {
     echo "Running db..."
     cd db/
     docker-compose up
@@ -40,6 +51,7 @@ build() {
 
 down() {
     echo "Take all down..."
+    docker network disconnect minitwit-net minitwit-db
     docker-compose -f ./app/docker-compose.yml down
     docker-compose -f ./test/python/docker-compose.yml down
     docker-compose -f ./db/docker-compose.yml down
@@ -50,15 +62,24 @@ clean() {
     docker container prune
 }
 
+setup_and_run_test() {
+    echo "Setting up and running python test..."
+    run_db &
+    wait_for 10 "Waiting for database..."
+    run_app &
+    wait_for 10 "Waiting for application..."
+    run_test
+}
+
 case "$1" in
     app)
-        app
+        run_app
         ;;
     test)
-        test
+        run_test
         ;;
     db)
-        db
+        run_db
         ;;
     build)
         build
@@ -68,6 +89,9 @@ case "$1" in
         ;;
     down)
         down
+        ;;
+    full_test)
+        setup_and_run_test
         ;;
     *)
         echo "Command not found." >&2
