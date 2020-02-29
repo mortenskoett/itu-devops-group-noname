@@ -6,4 +6,4 @@ COPY ./server/tests/* ./
 
 RUN pip install -r requirements.txt
 
-CMD ["pytest"]
+CMD ["pytest", "minitwit_sim_api_test.py"]

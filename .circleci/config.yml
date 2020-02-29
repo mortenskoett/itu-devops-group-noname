@@ -21,7 +21,7 @@ jobs:
           command: |
             echo "Running py-tests..."
             cd dockerfiles/
-            ./run.sh full_test
+            ./run.sh setup_run_test
 
   deploy:
     docker:
