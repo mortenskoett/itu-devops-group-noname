@@ -14,14 +14,13 @@ jobs:
           command: |
             echo "Building images..."
             cd dockerfiles/
-            chmod +x run.sh
             ./run.sh build
 
       - run:
           name: Run simulator API pytest
           command: |
-            echo "Running py-tests...."
-            ./run.sh test
+            echo "Running py-tests..."
+            ./run.sh full_test
 
   deploy:
     docker:
