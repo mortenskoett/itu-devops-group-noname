@@ -13,14 +13,18 @@ jobs:
           name: Build docker images
           command: |
             echo "Building images..."
-            docker build -t $DOCKER_USERNAME/minitwit-app ./dockerfiles/app/Dockerfile.
-            docker build -t $DOCKER_USERNAME/minitwit-python-test ./dockerfiles/test/python/Dockerfile.
+            cd dockerfiles/
+            chmod +x run.sh
+            ./run.sh build
+            echo "Very nice it worked"
+#            docker build -t $DOCKER_USERNAME/minitwit-app ./dockerfiles/app/Dockerfile.
+#            docker build -t $DOCKER_USERNAME/minitwit-python-test ./dockerfiles/test/python/Dockerfile.
 
-      - run:
-          name: Run simulator api pytest on build server
-          command: |
-            echo "Setting up environment and running py-tests...."
-            docker-compose -f ./dockerfiles/docker-compose-test.yml up
+    #   - run:
+    #       name: Run simulator api pytest on build server
+    #       command: |
+    #         echo "Setting up environment and running py-tests...."
+    #         docker-compose -f ./dockerfiles/docker-compose-test.yml up
 
   deploy:
     docker:
