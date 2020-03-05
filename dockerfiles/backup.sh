@@ -3,16 +3,6 @@
 
 set -eo pipefail
 
-# Validates that given argument is valid
-# arg1: path/file
-validate_arg() {
-    if [ ! -f "$1" ]; 
-    then
-        echo "No arg given or file does not exist"
-        exit 1
-    fi
-}
-
 # Will create create local backup inside container
 create_local_backup(){
     echo "Backing up data inside docker volume..."
@@ -37,6 +27,11 @@ delete_database() {
 # Backup and make database dump (.tar) to given location
 # arg1: location to save the backup
 backup() {
+    if [ -z "$1" ]; 
+    then
+        echo "No arg given"
+        exit 1
+    fi
     create_local_backup
     copy_to_host $1
     echo "Backup done."
@@ -45,7 +40,11 @@ backup() {
 # Restore from .tar database dump
 # arg1: location of the database dump to restore from (.tar)
 restore() {
-    validate_arg "$1"
+    if [ ! -f "$1" ]; 
+    then
+        echo "No arg given or file does not exist"
+        exit 1
+    fi
     create_local_backup
     delete_database
 
