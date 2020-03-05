@@ -157,7 +157,19 @@ case "$1" in
     setup_run_app)
         setup_run_app;;
     *)
-        echo "Command not found." >&2
+        echo "Usage:"
+        echo "cd ./dockerfiles"
+        echo -e "./run.sh <arg>\n"
+
+        echo "<arg>             <action>"
+        echo "app               run app container"
+        echo "test              run python test container"
+        echo "db                run postgres database container"
+        echo "build             rebuild all images"
+        echo "clean             remove everything to get a clean slate"
+        echo "down              take everything down"
+        echo "setup_run_app     setup a complete running application incl database"
+        echo "setup_run_test    setup a complete testing setup and run python tests"
         exit 1
         ;;
 esac
