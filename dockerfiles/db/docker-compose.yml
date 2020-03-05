@@ -1,4 +1,4 @@
-version: '3.5'
+version: '3.6'
 
 networks:
   default:
@@ -12,4 +12,7 @@ services:
     env_file:
       - db.env 
     volumes:
-      - ../../db-data/postgres/:/var/lib/postgresql/data
+      - db-volume:/var/lib/postgresql/data
+
+volumes:
+  db-volume:

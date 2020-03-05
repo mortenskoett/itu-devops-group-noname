@@ -6,6 +6,7 @@ private
 data
 .env
 db-data
+backup.sql
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
