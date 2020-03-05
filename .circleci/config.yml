@@ -38,13 +38,14 @@ jobs:
           name: Build and push docker images to Dockerhub
           command: |
             echo "Logging in to Dockerhub..."
-            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+            cd dockerfiles/
 
             echo "Building images..."
-            docker build -t $DOCKER_USERNAME/minitwit-app -f ./dockerfiles/Dockerfile-minitwit .
+            ./run.sh build
 
             echo "Pushing images..."
-            docker push $DOCKER_USERNAME/minitwit-app:latest
+#            # TODO: PUSH IMAGES TO DOCKER in run.sh
+#            docker push $DOCKER_USERNAME/minitwit-app:latest
 
       - run:
          name: Deploy to Digital Ocean Server via Docker
@@ -58,9 +59,13 @@ jobs:
            cd /vagrant && \
 
            echo "Pulling and starting docker containers on server"
-           docker-compose --file dockerfiles/docker-compose-deploy.yml pull && \
-           docker-compose --file dockerfiles/docker-compose-deploy.yml down
-           docker-compose --file dockerfiles/docker-compose-deploy.yml up -d"
+           cd dockerfiles/
+#           TODO: Setup script to pull
+            ./run.sh setup_run_app
+
+        #    docker-compose --file dockerfiles/docker-compose-deploy.yml pull && \
+        #    docker-compose --file dockerfiles/docker-compose-deploy.yml down
+        #    docker-compose --file dockerfiles/docker-compose-deploy.yml up -d"
 
 workflows:
   version: 2

@@ -12,7 +12,9 @@ services:
     env_file:
       - db.env 
     volumes:
-      - db-volume:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data
+      - db-backup:/db-backup/
 
 volumes:
-  db-volume:
+  db-data:
+  db-backup:

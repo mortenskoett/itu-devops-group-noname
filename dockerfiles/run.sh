@@ -1,14 +1,15 @@
-#! /bin/bash
+#! /usr/bin/env bash
 # Script to help manage various actions using docker. See possible args in bottom.
 # Dependencies: docker-ce postgres postgres-contrib
 
 set -eo pipefail
 
+# Colors
+RED='\033[0;31m'
+WHITE='\033[0m'
+
 # Path to environment file w. key=value pairs
 ENV=.env
-
-# The path from which the script is run (must be ./dockerfiles/ atm)
-CONTEXT=$(pwd)
 
 # Load .env if exists, otherwise use environment variables
 if [ -f "$ENV" ]; then
@@ -66,7 +67,6 @@ run_db() {
 # Build all images
 build() {
     echo "Running build..."
-    # sudo sh -c "rm -rf ../db-data/"   # unsafe use of sudo
     docker-compose -f ./db/docker-compose.yml build
     docker-compose -f ./app/docker-compose.yml build
     docker-compose -f ./test/python/docker-compose.yml build
@@ -95,14 +95,19 @@ down() {
 clean() {
     check_root
     echo "Running clean..."
-
-    # echo "Trying to delete local/test database..."
-    # # sudo sh -c "rm -rf ../db-data/"   # unsafe use of sudo
-
     docker image prune
     docker container prune
     docker network prune
+    docker volume prune
     echo "Clean done."
+}
+
+status() {
+    docker container ls
+    echo
+    docker volume ls
+    echo
+    docker network ls
 }
 
 # Setup and run application and database
@@ -118,7 +123,7 @@ setup_run_app() {
 # Setup up all dependencies and run python pytest suite
 setup_run_test() {
     echo "Setting up env and running python test..."
-    echo "Did you remember to rebuild docker images?"
+    echo -e "${RED}Did you remember to rebuild docker images?${WHITE}"
     setup_run_app
     run_test
 
@@ -134,29 +139,23 @@ setup_run_test() {
 
 case "$1" in
     app)
-        run_app $2
-        ;;
+        run_app $2;;
     test)
-        run_test
-        ;;
+        run_test;;
     db)
-        run_db $2
-        ;;
+        run_db $2;;
     build)
-        build
-        ;;
-    clean)
-        clean
-        ;;
+        build;;
     down)
-        down
-        ;;
+        down;;
+    clean)
+        clean;;
+    status)
+        status;;
     setup_run_test)
-        setup_run_test
-        ;;
+        setup_run_test;;
     setup_run_app)
-        setup_run_app
-        ;;
+        setup_run_app;;
     *)
         echo "Command not found." >&2
         exit 1
