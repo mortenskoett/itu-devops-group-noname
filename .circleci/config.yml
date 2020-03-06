@@ -52,7 +52,7 @@ jobs:
 
            echo 'Pulling and starting docker containers on server' && \
            cd dockerfiles/ && \
-           ./run.sh pull && \
+           ./run.sh pull"
         #    ./migration.sh"
 
 #           TODO: Insert script call to setup and execute app/db
