@@ -77,6 +77,25 @@ build() {
     echo "Build done."
 }
 
+# Push images to Dockerhub
+push() {
+    echo "Logging in to Dockerhub..."
+    docker login --username="$DOCKER_USERNAME" --password="$DOCKER_PASSWORD"
+
+    echo "Pushing images to Dockerhub..."
+    docker push $DOCKER_USERNAME/minitwit-app
+    docker push $DOCKER_USERNAME/minitwit-test
+}
+
+pull() {
+    echo "Logging in to Dockerhub..."
+    docker login --username="$DOCKER_USERNAME" --password="$DOCKER_PASSWORD"
+
+    echo "Pulling latest images from Dockerhub..."
+    docker-compose --file ./app/docker-compose.yml pull
+    docker-compose --file ./db/docker-compose.yml pull
+}
+
 # Try to bring as much down as possible
 down() {
     check_root
@@ -148,6 +167,10 @@ case "$1" in
         run_db $2 ;;
     build)
         build ;;
+    push)
+        push ;;
+    pull)
+        pull ;;
     down)
         down ;;
     clean)
@@ -168,6 +191,8 @@ case "$1" in
         echo "test              run python test container"
         echo "db                run postgres database container"
         echo "build             rebuild all images"
+        echo "push              push newest docker images to Dockerhub"
+        echo "pull              pull latest docker images from Dockerhub"
         echo "clean             remove everything to get a clean slate"
         echo "down              take everything down"
         echo "setup_run_app     setup a complete running application incl database"

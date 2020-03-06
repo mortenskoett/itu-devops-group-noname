@@ -12,14 +12,12 @@ jobs:
       - run: 
           name: Build docker images
           command: |
-            echo "Building images..."
             cd dockerfiles/
             ./run.sh build
 
       - run:
           name: Run simulator API pytest
           command: |
-            echo "Running py-tests..."
             cd dockerfiles/
             ./run.sh setup_run_test
 
@@ -37,15 +35,9 @@ jobs:
       - run: 
           name: Build and push docker images to Dockerhub
           command: |
-            echo "Logging in to Dockerhub..."
             cd dockerfiles/
-
-            echo "Building images..."
             ./run.sh build
-
-            echo "Pushing images..."
-#            # TODO: PUSH IMAGES TO DOCKER in run.sh
-#            docker push $DOCKER_USERNAME/minitwit-app:latest
+            ./run.sh push
 
       - run:
          name: Deploy to Digital Ocean Server via Docker
@@ -60,12 +52,10 @@ jobs:
 
            echo "Pulling and starting docker containers on server"
            cd dockerfiles/
-#           TODO: Setup script to pull
-            ./run.sh setup_run_app
+           ./run.sh pull
 
-        #    docker-compose --file dockerfiles/docker-compose-deploy.yml pull && \
-        #    docker-compose --file dockerfiles/docker-compose-deploy.yml down
-        #    docker-compose --file dockerfiles/docker-compose-deploy.yml up -d"
+#           TODO: Insert script call to setup and execute app/db
+
 
 workflows:
   version: 2
@@ -77,4 +67,5 @@ workflows:
             - build
           filters:
             branches:
-              only: release
+                only: rewrite_docker_setup
+            #   only: release
