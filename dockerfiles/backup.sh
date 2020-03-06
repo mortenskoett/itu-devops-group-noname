@@ -10,10 +10,18 @@ create_local_backup(){
 }
 
 # Copy data from docker backup to host
-# arg1: location to save the backup
+# arg1: Optional where to save the database dump if not at default location
 copy_to_host() {
+    local LOCATION="/db-backup"
+
+    if [ ! -z "$1" ]; 
+    then
+        LOCATION="$1"$LOCATION""
+    fi
+
     echo "Copying to host..."
-    docker cp minitwit-db:/db-backup/db_backup.tar "$1"/db_backup_$(date +%Y-%d-%m_kl_%H.%M.%S).tar
+    mkdir -p "$LOCATION"
+    docker cp minitwit-db:/db-backup/db_backup.tar "$LOCATION"/db_backup_$(date +%Y-%d-%m_kl_%H.%M.%S).tar
 }
 
 # Will delete currently loaded database completely
@@ -25,13 +33,7 @@ delete_database() {
 }
 
 # Backup and make database dump (.tar) to given location
-# arg1: location to save the backup
 backup() {
-    if [ -z "$1" ]; 
-    then
-        echo "No arg given"
-        exit 1
-    fi
     create_local_backup
     copy_to_host $1
     echo "Backup done."
@@ -49,8 +51,8 @@ restore() {
     delete_database
 
     echo "Restoring data..."
-    docker cp $1 minitwit-db:/db-backup/restore_backup.tar
-    docker exec -i minitwit-db pg_restore -U embu -d minitwit-db /db-backup/restore_backup.tar
+    docker cp $1 minitwit-db:/db-backup/restore_backup.tar      # copying data to container
+    docker exec -i minitwit-db pg_restore -U embu -d minitwit-db /db-backup/restore_backup.tar      # restoring from copied data
     echo "Restore done."
 }
 
@@ -61,9 +63,9 @@ case $1 in
         restore $2 ;;
     *)
         echo -e "Usage:\n"
-        echo "arg1      arg2        action"
-        echo "backup    <path>      will create .tar dump of database and place it at <path>."
-        echo "restore   <path>      will restore database from .tar dump found at <path>."
+        echo "arg1      arg2            action"
+        echo "backup    <optional path> will create .tar dump of database and place it default at /db-backup or optional at <path>/db-backup."
+        echo "restore   <path>          will restore database from .tar dump found at <path>."
         exit 1
         ;;
 esac

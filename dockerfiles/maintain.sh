@@ -15,7 +15,7 @@ check_arg() {
 # Enter a docker volume to inspect the data
 # arg1: name of existing docker volume
 open_volume() {
-    check_arg
+    check_arg $1
 
     local VOLUME_EXISTS="$(docker volume ls | grep "$1" | wc -l)"
 
