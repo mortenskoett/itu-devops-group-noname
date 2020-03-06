@@ -13,7 +13,7 @@ create_local_backup(){
 # arg1: location to save the backup
 copy_to_host() {
     echo "Copying to host..."
-    docker cp minitwit-db:/db-backup/db_backup.tar "$1"/db_backup_$(date +%Y-%m-%d).tar
+    docker cp minitwit-db:/db-backup/db_backup.tar "$1"/db_backup_$(date +%Y-%d-%m_kl_%H.%M.%S).tar
 }
 
 # Will delete currently loaded database completely

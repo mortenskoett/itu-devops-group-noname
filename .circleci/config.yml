@@ -47,12 +47,14 @@ jobs:
 
            echo "Connecting to production server..."
            ssh -o "StrictHostKeyChecking=no" ${MT_USER}@${MT_SERVER} \
-           source /root/.bash_profile && \
+           "source /root/.bash_profile && \
            cd /vagrant && \
+           touch hello_test_whatuup"
 
-           echo "Pulling and starting docker containers on server"
-           cd dockerfiles/
-           ./run.sh pull
+        #    echo "Pulling and starting docker containers on server"
+        #    cd dockerfiles/
+        #    ./run.sh pull
+        #    ./backup backup /db-backup/
 
 #           TODO: Insert script call to setup and execute app/db
 
@@ -61,10 +63,10 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - build
+    #   - build
       - deploy:
-          requires:
-            - build
+        #   requires:
+        #     - build
           filters:
             branches:
                 only: rewrite_docker_setup
