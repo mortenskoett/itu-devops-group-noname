@@ -11,6 +11,10 @@ WHITE='\033[0m'
 # Path to environment file w. key=value pairs
 ENV=.env
 
+# Env variables
+NET_NAME="minitwit-net"
+DB_NAME="minitwit-db"
+
 # Load .env if exists, otherwise use environment variables
 if [ -f "$ENV" ]; then
     echo "Loading environment..."
@@ -78,8 +82,6 @@ down() {
     check_root
     echo "Taking all down..."
 
-    NET_NAME="minitwit-net"
-    DB_NAME="minitwit-db"
     if [ $(docker network ls | grep "$NET_NAME" | wc -l) -eq 1 ]; 
     then 
         echo "Disconnecting networks..."
@@ -139,23 +141,23 @@ setup_run_test() {
 
 case "$1" in
     app)
-        run_app $2;;
+        run_app $2 ;;
     test)
-        run_test;;
+        run_test ;;
     db)
-        run_db $2;;
+        run_db $2 ;;
     build)
-        build;;
+        build ;;
     down)
-        down;;
+        down ;;
     clean)
-        clean;;
+        clean ;;
     status)
-        status;;
+        status ;;
     setup_run_test)
-        setup_run_test;;
+        setup_run_test ;;
     setup_run_app)
-        setup_run_app;;
+        setup_run_app ;;
     *)
         echo "Usage:"
         echo "cd ./dockerfiles"
