@@ -49,12 +49,11 @@ jobs:
            ssh -o "StrictHostKeyChecking=no" ${MT_USER}@${MT_SERVER} \
            "source /root/.bash_profile && \
            cd /vagrant && \
-           touch hello_test_whatuup"
 
-        #    echo "Pulling and starting docker containers on server"
-        #    cd dockerfiles/
-        #    ./run.sh pull
-        #    ./backup backup /db-backup/
+           echo 'Pulling and starting docker containers on server' && \
+           cd dockerfiles/ && \
+           ./run.sh pull && \
+        #    ./migration.sh"
 
 #           TODO: Insert script call to setup and execute app/db
 
