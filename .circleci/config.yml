@@ -65,5 +65,4 @@ workflows:
             - build
           filters:
             branches:
-                only: rewrite_docker_setup
-            #   only: release
+              only: release
