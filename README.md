@@ -10,6 +10,8 @@ Session page: https://github.com/itu-devops/2020-spring/blob/master/sessions/ses
 
 Report page: [insert link to overleaf]
 
+Private git repository: https://github.com/mortenskoett/itu-group-noname-private
+
 ### Minitwit functional Requirements
 - [x] Be able to log in
 - [x] See all tweets
