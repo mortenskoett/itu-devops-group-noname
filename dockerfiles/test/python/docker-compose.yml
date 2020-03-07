@@ -1,0 +1,13 @@
+version: '3.5'
+
+networks:
+  default:
+    name: minitwit-net
+
+services:
+  minitwit-python-test:
+    build:
+      context: ../../../
+      dockerfile: ./dockerfiles/test/python/Dockerfile
+    image: $DOCKER_USERNAME/minitwit-test
+    container_name: minitwit-python-test
