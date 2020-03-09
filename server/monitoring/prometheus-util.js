@@ -72,7 +72,6 @@ module.exports.responseCounters = ResponseTime(function (req, res, time) {
  */
 module.exports.injectMetricsRoute = async function (req, res, next) {  
 //    App.get('/metrics', (req, res) => {
-        console.log('metrics called!!!');
         res.set('Content-Type', Register.contentType);
         res.end(Register.metrics());
 //    });
