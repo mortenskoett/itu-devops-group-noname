@@ -109,18 +109,24 @@ pull() {
 # Try to bring as much down as possible
 down() {
     check_root
-    echo "Taking all down..."
-
-    docker-compose -f ./monitoring/docker-compose.yml down
-    docker-compose -f ./app/docker-compose.yml down
+    echo "Taking everything down..."
 
     if [ $(docker network ls | grep "$NET_NAME" | wc -l) -eq 1 ]; 
     then 
-        echo "Disconnecting networks..."
-        docker network disconnect "$NET_NAME" "$DB_NAME"
+        echo "Stopping containers..."
+        CONTAINER_IDS=$(docker ps | awk 'FNR > 1 {print $1}')
+
+        for ID in "$CONTAINER_IDS"
+        do
+            docker stop $ID
+        done
     fi
 
+    echo "Disconnecting networks..."
+    docker-compose -f ./monitoring/docker-compose.yml down
     docker-compose -f ./db/docker-compose.yml down
+    docker-compose -f ./app/docker-compose.yml down
+
     echo "Down done."
 }
 
