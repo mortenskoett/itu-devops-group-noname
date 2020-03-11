@@ -4,6 +4,7 @@ const config = require('../../configs');
 var sequelize = null;
 
 if(config.database.protocol == 'sqlite'){
+    console.log('SQL');
     sequelize = new Sequelize({
         dialect: 'sqlite',
         logging: false,
@@ -15,7 +16,6 @@ if(config.database.protocol == 'sqlite'){
         logging: false
     });
 }
-
 
 // Create tables if they do not already exist
 sequelize.sync();

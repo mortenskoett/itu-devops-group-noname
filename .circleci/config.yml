@@ -12,15 +12,14 @@ jobs:
       - run: 
           name: Build docker images
           command: |
-            echo "Building images..."
-            docker build -t $DOCKER_USERNAME/minitwit-app -f ./dockerfiles/Dockerfile-minitwit .
-            docker build -t $DOCKER_USERNAME/minitwit-tests -f ./dockerfiles/Dockerfile-minitwit-tests .
+            cd dockerfiles/
+            ./run.sh build
 
       - run:
-          name: Run simulator api pytest on build server
+          name: Run simulator API pytest
           command: |
-            echo "Setting up environment and running py-tests...."
-            echo "yes" | docker-compose -f ./dockerfiles/docker-compose-test.yml up -d
+            cd dockerfiles/
+            ./run.sh setup_run_test
 
   deploy:
     docker:
@@ -36,14 +35,9 @@ jobs:
       - run: 
           name: Build and push docker images to Dockerhub
           command: |
-            echo "Logging in to Dockerhub..."
-            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-
-            echo "Building images..."
-            docker build -t $DOCKER_USERNAME/minitwit-app -f ./dockerfiles/Dockerfile-minitwit .
-
-            echo "Pushing images..."
-            docker push $DOCKER_USERNAME/minitwit-app:latest
+            cd dockerfiles/
+            ./run.sh build
+            ./run.sh push
 
       - run:
          name: Deploy to Digital Ocean Server via Docker
@@ -56,10 +50,11 @@ jobs:
            "source /root/.bash_profile && \
            cd /vagrant && \
 
-           echo "Pulling and starting docker containers on server"
-           docker-compose --file dockerfiles/docker-compose-deploy.yml pull && \
-           docker-compose --file dockerfiles/docker-compose-deploy.yml down
-           docker-compose --file dockerfiles/docker-compose-deploy.yml up -d"
+           echo 'Pulling and starting docker containers on server' && \
+           cd dockerfiles/ && \
+           ./run.sh pull && \
+           ./run.sh setup_run_app && \
+           ./run.sh monitor -d"
 
 workflows:
   version: 2

@@ -22,4 +22,5 @@ router.get('/:username', viewController.renderUserTimeline);
 router.get('/:username/follow', viewController.followButton);
 router.get('/:username/unfollow', viewController.unfollowButton);
 
+
 module.exports = router;

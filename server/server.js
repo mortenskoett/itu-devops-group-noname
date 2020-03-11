@@ -12,6 +12,7 @@ const back = require('express-back');
 
 const viewRoutes = require('./routers/viewRoutes');
 const simRouter = require('./routers/simulatorRoutes');
+const Prometheus = require('./monitoring/prometheus-util');
 
 
 /* WEB APP SERVER */
@@ -29,15 +30,23 @@ app.use(session({
 }));
 app.use(back());
 
+
 app.use('/', viewRoutes);
 app.listen(appPort, () => console.log(`Minitwit web app server listening on port ${appPort}.`));
-
 
 /* SIMULATOR SERVER */
 const simPort = config.simulator.port;
 const simulator = express();
 
 simulator.use(express.json());
+
+/* MONITORING */
+//The below arguments start the counter functions
+simulator.use(Prometheus.requestCounters);  
+simulator.use(Prometheus.responseCounters);
+//Enable collection of default metrics
+Prometheus.startCollection(); 
+
 simulator.use('/', simRouter)
 
 simulator.listen(simPort, () => console.log(`Simulator API server listening on port ${simPort}.`));

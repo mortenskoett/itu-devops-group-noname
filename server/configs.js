@@ -15,7 +15,7 @@ const dev = {
         logpath: process.env.LOG_PATH,
     },
     database: {
-        path: './data/sqlite/minitwit.db',
+        path: './server/persistence/sqlite/minitwit.db',
         protocol: "sqlite",
     },
     application_logging: {
@@ -38,7 +38,7 @@ const production = {
         logpath: process.env.LOG_PATH,
     },
     database: {
-        url: 'postgres://embu:magic@minitwit-database:5432/minitwit-database',
+        url: 'postgres://embu:magic@minitwit-db:5432/minitwit-db',
         protocol: "postgres",
     },
     application_logging: {
@@ -49,8 +49,8 @@ const production = {
 };
 
 const config = {
- dev,
- production
+    dev,
+    production
 };
 
 module.exports = config[env];

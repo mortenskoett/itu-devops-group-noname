@@ -1,9 +1,9 @@
 FROM python:3.7-alpine
 
-WORKDIR /minitwit-api-tests
+WORKDIR /minitwit-python-test
 
 COPY ./server/tests/* ./
 
 RUN pip install -r requirements.txt
 
-ENTRYPOINT ["pytest", "-s"]
+CMD ["pytest", "minitwit_sim_api_test.py"]

@@ -10,6 +10,12 @@ const router = express.Router();
 
 const sim = require('../controllers/simulatorController');
 
+const prom = require('../monitoring/prometheus-util');
+
+// Should not require authorization
+router.get('/latest', sim.getLatest);
+router.get('/metrics', prom.injectMetricsRoute);
+
 /*  Setting HTTP Basic Authentication
     Header : Authorization
     Value : Basic base64('simulator:super_safe!'); */
@@ -18,8 +24,7 @@ router.use(basicAuth({
     unauthorizedResponse: getUnauthorizedResponse
 }));
 
-// Routes
-router.get('/latest', sim.getLatest);
+// Routes requiring authentication
 router.post('/register', sim.register);
 router.get('/msgs', sim.getMessages);
 router.get('/msgs/:username',sim.getUserMessages);

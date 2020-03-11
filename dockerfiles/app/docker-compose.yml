@@ -1,0 +1,17 @@
+version: '3.5'
+
+networks:
+  default:
+    name: minitwit-net
+
+services:
+  minitwit-app:
+    build:
+      context: ../../
+      dockerfile: ./dockerfiles/app/Dockerfile
+    image: $DOCKER_USERNAME/minitwit-app
+    container_name: minitwit-app
+    restart: always
+    ports:
+      - '5000:5000'
+      - '5001:5001'
