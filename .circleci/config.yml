@@ -54,6 +54,7 @@ jobs:
            cd dockerfiles/ && \
            ./run.sh pull && \
            ./run.sh setup_run_app"
+           ./run.sh monitor -d
 
 workflows:
   version: 2
