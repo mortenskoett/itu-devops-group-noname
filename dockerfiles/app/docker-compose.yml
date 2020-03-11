@@ -15,19 +15,3 @@ services:
     ports:
       - '5000:5000'
       - '5001:5001'
-    depends_on:
-      - grafana
-      - prometheus
-
-  prometheus:
-    image: prom/prometheus
-    container_name: prometheus
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-    ports:
-      - "9090:9090"
-
-  grafana:
-    image: grafana/grafana:4.5.2
-    ports:
-      - "3000:3000"  

@@ -68,11 +68,19 @@ run_db() {
     docker-compose -f ./db/docker-compose.yml up $1
 }
 
+# Start up monitoring services
+# arg1: Optional flags to docker-compose
+run_monitor() {
+    echo "Running monitoring..."
+    docker-compose -f ./monitoring/docker-compose.yml up $1
+}
+
 # Build all images
 build() {
     echo "Running build..."
     docker-compose -f ./db/docker-compose.yml build
     docker-compose -f ./app/docker-compose.yml build
+    docker-compose -f ./monitoring/docker-compose.yml build
     docker-compose -f ./test/python/docker-compose.yml build
     echo "Build done."
 }
@@ -85,6 +93,7 @@ push() {
     echo "Pushing images to Dockerhub..."
     docker push $DOCKER_USERNAME/minitwit-app
     docker push $DOCKER_USERNAME/minitwit-test
+    docker push $DOCKER_USERNAME/minitwit-prometheus
 }
 
 pull() {
@@ -94,21 +103,30 @@ pull() {
     echo "Pulling latest images from Dockerhub..."
     docker-compose --file ./app/docker-compose.yml pull
     docker-compose --file ./db/docker-compose.yml pull
+    docker-compose --file ./monitoring/docker-compose.yml pull
 }
 
 # Try to bring as much down as possible
 down() {
     check_root
-    echo "Taking all down..."
+    echo "Taking everything down..."
 
     if [ $(docker network ls | grep "$NET_NAME" | wc -l) -eq 1 ]; 
     then 
-        echo "Disconnecting networks..."
-        docker network disconnect "$NET_NAME" "$DB_NAME"
+        echo "Stopping containers..."
+        CONTAINER_IDS=$(docker ps | awk 'FNR > 1 {print $1}')
+
+        for ID in "$CONTAINER_IDS"
+        do
+            docker stop $ID
+        done
     fi
 
-    docker-compose -f ./app/docker-compose.yml down
+    echo "Disconnecting networks..."
+    docker-compose -f ./monitoring/docker-compose.yml down
     docker-compose -f ./db/docker-compose.yml down
+    docker-compose -f ./app/docker-compose.yml down
+
     echo "Down done."
 }
 
@@ -165,6 +183,8 @@ case "$1" in
         run_test ;;
     db)
         run_db $2 ;;
+    monitor)
+        run_monitor $2 ;;
     build)
         build ;;
     push)
@@ -184,19 +204,21 @@ case "$1" in
     *)
         echo "Usage:"
         echo "cd ./dockerfiles"
-        echo -e "./run.sh <arg>\n"
+        echo -e "./run.sh <arg> <opt>\n"
 
-        echo "<arg>             <action>"
-        echo "app               run app container"
-        echo "test              run python test container"
-        echo "db                run postgres database container"
-        echo "build             rebuild all images"
-        echo "push              push newest docker images to Dockerhub"
-        echo "pull              pull latest docker images from Dockerhub"
-        echo "clean             remove everything to get a clean slate"
-        echo "down              take everything down"
-        echo "setup_run_app     setup a complete running application incl database"
-        echo "setup_run_test    setup a complete testing setup and run python tests"
+        echo "<arg>         <opt>       <action>"
+        echo "app           -d          run app container"
+        echo "test          -d          run python test container"
+        echo "db            -d          run postgres database container"
+        echo "monitor       -d          run monitor aka prometheus/grafana container"
+        echo "build                     rebuild all images"
+        echo "push                      push newest docker images to Dockerhub"
+        echo "pull                      pull latest docker images from Dockerhub"
+        echo "clean                     remove everything to get a clean slate"
+        echo "down                      take everything down"
+        echo "status                    show status of docker setup"
+        echo "setup_run_app             setup a complete running application incl database"
+        echo "setup_run_test            setup a complete testing setup and run python tests"
         exit 1
         ;;
 esac
