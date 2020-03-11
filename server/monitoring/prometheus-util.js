@@ -13,7 +13,7 @@ var ResponseTime = require('response-time');
  * e.g. a GET and a POST call will be counted as 2 different calls
  */
 module.exports.numOfRequests = numOfRequests = new Counter({  
-    name: 'numOfRequests',
+    name: 'minitwit_numOfRequests',
     help: 'Number of requests made',
     labelNames: ['method']
 });
@@ -23,7 +23,7 @@ module.exports.numOfRequests = numOfRequests = new Counter({
  * e.g. /foo and /bar will be counted as 2 different paths
  */
 module.exports.pathsTaken = pathsTaken = new Counter({  
-    name: 'pathsTaken',
+    name: 'minitwit_pathsTaken',
     help: 'Paths taken in the app',
     labelNames: ['path']
 });
@@ -32,7 +32,7 @@ module.exports.pathsTaken = pathsTaken = new Counter({
  * A Prometheus summary to record the HTTP method, path, response code and response time
  */
 module.exports.responses = responses = new Summary({  
-    name: 'responses',
+    name: 'minitwit_responses',
     help: 'Response time in millis',
     labelNames: ['method', 'path', 'status']
 });
