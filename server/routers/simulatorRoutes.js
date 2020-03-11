@@ -10,8 +10,11 @@ const router = express.Router();
 
 const sim = require('../controllers/simulatorController');
 
+const prom = require('../monitoring/prometheus-util');
+
 // Should not require authorization
 router.get('/latest', sim.getLatest);
+router.get('/metrics', prom.injectMetricsRoute);
 
 /*  Setting HTTP Basic Authentication
     Header : Authorization
