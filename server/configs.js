@@ -15,7 +15,7 @@ const dev = {
         logpath: process.env.LOG_PATH,
     },
     database: {
-        path: './data/sqlite/minitwit.db',
+        path: './server/persistence/sqlite/minitwit.db',
         protocol: "sqlite",
     },
     application_logging: {

@@ -53,7 +53,8 @@ jobs:
            echo 'Pulling and starting docker containers on server' && \
            cd dockerfiles/ && \
            ./run.sh pull && \
-           ./run.sh setup_run_app"
+           ./run.sh setup_run_app && \
+           ./run.sh monitor -d"
 
 workflows:
   version: 2
