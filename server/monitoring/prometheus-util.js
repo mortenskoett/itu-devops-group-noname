@@ -63,7 +63,7 @@ module.exports.requestCounters = function (req, res, next) {
  */
 module.exports.responseCounters = ResponseTime(function (req, res, time) {  
     if(req.url != '/metrics') {
-        responses.labels(req.method, req.url, res.statusCode).observe(time);
+        responses.labels(res.statusCode);
     }
 })
 
