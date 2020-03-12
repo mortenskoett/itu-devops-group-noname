@@ -3,7 +3,7 @@
  */
 var Register = require('prom-client').register;  
 var Counter = require('prom-client').Counter;  
-var Histogram = require('prom-client').Histogram;  
+//var Histogram = require('prom-client').Histogram;  
 var Summary = require('prom-client').Summary;  
 var ResponseTime = require('response-time');  
 //var Logger = require('./logger');
@@ -22,11 +22,11 @@ module.exports.numOfRequests = numOfRequests = new Counter({
  * A Prometheus counter that counts the invocations with different paths
  * e.g. /foo and /bar will be counted as 2 different paths
  */
-module.exports.pathsTaken = pathsTaken = new Counter({  
-    name: 'minitwit_pathsTaken',
-    help: 'Paths taken in the app',
-    labelNames: ['path']
-});
+// module.exports.pathsTaken = pathsTaken = new Counter({  
+//     name: 'minitwit_pathsTaken',
+//     help: 'Paths taken in the app',
+//     labelNames: ['path']
+// });
 
 /**
  * A Prometheus summary to record the HTTP method, path, response code and response time
@@ -34,7 +34,7 @@ module.exports.pathsTaken = pathsTaken = new Counter({
 module.exports.responses = responses = new Summary({  
     name: 'minitwit_responses',
     help: 'Response time in millis',
-    labelNames: ['method', 'path', 'status']
+    labelNames: ['status']
 });
 
 /**
@@ -52,7 +52,7 @@ module.exports.startCollection = function () {
 module.exports.requestCounters = function (req, res, next) {  
     if (req.path != '/metrics') {
         numOfRequests.inc({ method: req.method });
-        pathsTaken.inc({ path: req.path });
+        //pathsTaken.inc({ path: req.path });
     }
     next();
 }
