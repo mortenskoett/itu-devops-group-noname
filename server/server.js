@@ -43,7 +43,7 @@ simulator.use(express.json());
 /* MONITORING */
 //The below arguments start the counter functions
 simulator.use(Prometheus.requestCounters);  
-simulator.use(Prometheus.responseCounters);
+simulator.use(Prometheus.responseSummary);
 //Enable collection of default metrics
 Prometheus.startCollection(); 
 
