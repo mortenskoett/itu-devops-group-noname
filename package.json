@@ -5,6 +5,7 @@
   "main": "./server/server.js",
   "scripts": {
     "test": "echo 'Error: no test specified' && exit 1",
+    "pretest": "eslint --ignore-path .gitignore .",
     "pytest": "pytest ./server/test/minitwit_sim_api_test.py",
     "start": "echo 'Running production' && export NODE_ENV=production && nodemon server.js",
     "dev": "echo 'Running development' && export NODE_ENV=dev && nodemon server.js"
@@ -27,6 +28,8 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "ejs": "^3.0.1",
+    "eslint": "^6.8.0",
+    "eslint-config-strongloop": "^2.1.0",
     "express": "^4.17.1",
     "express-back": "0.0.2",
     "express-basic-auth": "^1.2.0",
