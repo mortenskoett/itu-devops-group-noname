@@ -1,0 +1,13 @@
+version: '3.5'
+
+networks:
+  default:
+    name: minitwit-net
+
+services:
+  minitwit-app:
+    build:
+      context: ../../../
+      dockerfile: ./dockerfiles/test/eslint/Dockerfile
+    image: $DOCKER_USERNAME/minitwit-eslint
+    container_name: minitwit-eslint

@@ -56,6 +56,7 @@ run_app() {
 # arg1: Optional flags to docker-compose
 run_test() {
     echo "Running test..."
+    docker-compose -f ./test/eslint/docker-compose.yml up
     docker-compose -f ./test/python/docker-compose.yml up \
         --abort-on-container-exit \
         --exit-code-from minitwit-python-test
@@ -82,6 +83,7 @@ build() {
     docker-compose -f ./app/docker-compose.yml build
     docker-compose -f ./monitoring/docker-compose.yml build
     docker-compose -f ./test/python/docker-compose.yml build
+    docker-compose -f ./test/eslint/docker-compose.yml build
     echo "Build done."
 }
 
@@ -92,6 +94,7 @@ push() {
 
     echo "Pushing images to Dockerhub..."
     docker push $DOCKER_USERNAME/minitwit-app
+    docker push $DOCKER_USERNAME/minitwit-eslint
     docker push $DOCKER_USERNAME/minitwit-test
     docker push $DOCKER_USERNAME/minitwit-prometheus
 }

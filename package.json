@@ -38,7 +38,6 @@
     "pg": "^7.18.2",
     "prom-client": "^12.0.0",
     "response-time": "^2.3.2",
-    "sequelize": "^5.21.4",
-    "sqlite3": "^4.1.1"
+    "sequelize": "^5.21.4"
   }
 }
