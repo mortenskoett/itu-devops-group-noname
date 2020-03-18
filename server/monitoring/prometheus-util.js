@@ -74,10 +74,8 @@ module.exports.responseCounters = ResponseTime((req, res) => {
  * In order to have Prometheus get the data from this app a specific URL is registered
  */
 module.exports.injectMetricsRoute = async function (req, res) {
-//    App.get('/metrics', (req, res) => {
 	res.set('Content-Type', Register.contentType);
 	res.end(Register.metrics());
-//    });
 };
 
 module.exports.numOfRequests = numOfRequests;
