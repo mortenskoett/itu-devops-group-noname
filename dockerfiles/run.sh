@@ -53,12 +53,17 @@ run_app() {
 }
 
 # Run python pytest suite w/o dependencies
-# arg1: Optional flags to docker-compose
 run_test() {
     echo "Running test..."
     docker-compose -f ./test/python/docker-compose.yml up \
-        --abort-on-container-exit \
         --exit-code-from minitwit-python-test
+}
+
+# Run eslint
+run_eslint() {
+    echo "Running eslint..."
+    docker-compose -f ./test/eslint/docker-compose.yml up \
+        --exit-code-from minitwit-eslint-test
 }
 
 # Start up db
@@ -82,6 +87,7 @@ build() {
     docker-compose -f ./app/docker-compose.yml build
     docker-compose -f ./monitoring/docker-compose.yml build
     docker-compose -f ./test/python/docker-compose.yml build
+    docker-compose -f ./test/eslint/docker-compose.yml build
     echo "Build done."
 }
 
@@ -92,6 +98,7 @@ push() {
 
     echo "Pushing images to Dockerhub..."
     docker push $DOCKER_USERNAME/minitwit-app
+    docker push $DOCKER_USERNAME/minitwit-eslint
     docker push $DOCKER_USERNAME/minitwit-test
     docker push $DOCKER_USERNAME/minitwit-prometheus
 }
@@ -161,8 +168,18 @@ setup_run_app() {
 
 # Setup up all dependencies and run python pytest suite
 setup_run_test() {
-    echo "Setting up env and running python test..."
     echo -e "${RED}Did you remember to rebuild docker images?${WHITE}"
+    run_eslint
+
+    if [ $? -eq 0 ]
+    then
+        echo "eslint passed."
+    else
+        echo "eslint failed." >&2
+        exit 1
+    fi
+
+    echo "Setting up env and running python test..."
     setup_run_app
     run_test
 
@@ -181,6 +198,8 @@ case "$1" in
         run_app $2 ;;
     test)
         run_test ;;
+    eslint)
+        run_eslint ;;
     db)
         run_db $2 ;;
     monitor)
@@ -209,6 +228,7 @@ case "$1" in
         echo "<arg>         <opt>       <action>"
         echo "app           -d          run app container"
         echo "test          -d          run python test container"
+        echo "eslint        -d          run eslint test container"
         echo "db            -d          run postgres database container"
         echo "monitor       -d          run monitor aka prometheus/grafana container"
         echo "build                     rebuild all images"
