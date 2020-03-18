@@ -200,6 +200,8 @@ case "$1" in
         run_app $2 ;;
     test)
         run_test ;;
+    eslint)
+        run_eslint ;;
     db)
         run_db $2 ;;
     monitor)
@@ -228,6 +230,7 @@ case "$1" in
         echo "<arg>         <opt>       <action>"
         echo "app           -d          run app container"
         echo "test          -d          run python test container"
+        echo "eslint        -d          run eslint test container"
         echo "db            -d          run postgres database container"
         echo "monitor       -d          run monitor aka prometheus/grafana container"
         echo "build                     rebuild all images"
