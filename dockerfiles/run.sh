@@ -53,7 +53,6 @@ run_app() {
 }
 
 # Run python pytest suite w/o dependencies
-# arg1: Optional flags to docker-compose
 run_test() {
     echo "Running test..."
     docker-compose -f ./test/python/docker-compose.yml up \
@@ -61,7 +60,6 @@ run_test() {
 }
 
 # Run eslint
-# arg1: Optional flags to docker-compose
 run_eslint() {
     echo "Running eslint..."
     docker-compose -f ./test/eslint/docker-compose.yml up \
