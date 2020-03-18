@@ -33,7 +33,7 @@ module.exports.numOfRequests = numOfRequests = new Counter({
  */
 module.exports.responses = responses = new Summary({  
     name: 'minitwit_responses',
-    help: 'Response time in millis',
+    help: 'Number of responses',
     labelNames: ['status']
 });
 
@@ -57,13 +57,13 @@ module.exports.requestCounters = function (req, res, next) {
     next();
 }
 
-/**
+/**Response time in millis
  * This function increments the counters that are executed on the response side of an invocation
  * Currently it updates the responses summary
  */
-module.exports.responseCounters = ResponseTime(function (req, res, time) {  
+module.exports.responseSummary = ResponseTime(function (req, res, time) {  
     if(req.url != '/metrics') {
-        responses.labels(res.statusCode);
+        responses.labels(res.statusCode).observe(time);
     }
 })
 
