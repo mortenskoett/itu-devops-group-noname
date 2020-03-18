@@ -3,9 +3,7 @@ FROM node:10-alpine
 WORKDIR /minitwit
 
 COPY package*.json ./
-COPY .eslintrc ./
-COPY .eslint.json ./
-COPY .gitignore ./
+COPY .eslintrc.js ./
 COPY server ./server
 COPY static ./static
 COPY views ./views

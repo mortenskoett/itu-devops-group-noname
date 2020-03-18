@@ -5,9 +5,9 @@ networks:
     name: minitwit-net
 
 services:
-  minitwit-app:
+  minitwit-eslint-test:
     build:
       context: ../../../
       dockerfile: ./dockerfiles/test/eslint/Dockerfile
-    image: $DOCKER_USERNAME/minitwit-eslint
-    container_name: minitwit-eslint
+    image: $DOCKER_USERNAME/minitwit-eslint-test
+    container_name: minitwit-eslint-test

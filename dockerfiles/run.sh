@@ -56,10 +56,16 @@ run_app() {
 # arg1: Optional flags to docker-compose
 run_test() {
     echo "Running test..."
-    docker-compose -f ./test/eslint/docker-compose.yml up
     docker-compose -f ./test/python/docker-compose.yml up \
-        --abort-on-container-exit \
         --exit-code-from minitwit-python-test
+}
+
+# Run eslint
+# arg1: Optional flags to docker-compose
+run_eslint() {
+    echo "Running eslint..."
+    docker-compose -f ./test/eslint/docker-compose.yml up \
+        --exit-code-from minitwit-eslint-test
 }
 
 # Start up db
@@ -164,8 +170,18 @@ setup_run_app() {
 
 # Setup up all dependencies and run python pytest suite
 setup_run_test() {
-    echo "Setting up env and running python test..."
     echo -e "${RED}Did you remember to rebuild docker images?${WHITE}"
+    run_eslint
+
+    if [ $? -eq 0 ]
+    then
+        echo "eslint passed."
+    else
+        echo "eslint failed." >&2
+        exit 1
+    fi
+
+    echo "Setting up env and running python test..."
     setup_run_app
     run_test
 
