@@ -60,7 +60,8 @@ module.exports.requestCounters = function (req, res, next) {
 	next();
 };
 
-/**Response time in millis
+/**
+ * Response time in millis
  * This function increments the counters that are executed on the response side of an invocation
  * Currently it updates the responses summary
  */
