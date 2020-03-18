@@ -16,18 +16,18 @@ const { Follower } = models;
  * @param {int} amount
  */
 function getAllMessages(amount) {
-  try {
-    return Message.findAll({
-      limit: amount,
-      order: [['createdAt', 'DESC']],
-      include: [{
-        model: User,
-        attributes: ['username'],
-      }],
-    });
-  } catch (err) {
-    throw new Error('Failed to get messages from database: ', err);
-  }
+	try {
+		return Message.findAll({
+			limit: amount,
+			order: [['createdAt', 'DESC']],
+			include: [{
+				model: User,
+				attributes: ['username'],
+			}],
+		});
+	} catch (err) {
+		throw new Error('Failed to get messages from database: ', err);
+	}
 }
 
 /**
@@ -37,11 +37,11 @@ function getAllMessages(amount) {
  * @param {int} date
  */
 function postMessage(userID, text) {
-  try {
-    return Message.create({ userId: userID, text });
-  } catch (err) {
-    throw new Error('Failed to save message in database: ', err);
-  }
+	try {
+		return Message.create({ userId: userID, text });
+	} catch (err) {
+		throw new Error('Failed to save message in database: ', err);
+	}
 }
 
 /**
@@ -50,21 +50,21 @@ function postMessage(userID, text) {
  * @param {int} amount
  */
 async function getFollowedMessages(userId, amount) {
-  try {
-    const ids = await Follower.findAll({ where: { followerId: userId }, attributes: ['followedId'] });
-    const followingIDs = ids.map((obj) => obj.followedId);
-    return Message.findAll({
-      where: Sequelize.or(
-        { userId: followingIDs },
-        { userId },
-      ),
-      include: [{ model: User }],
-      order: [['createdAt', 'DESC']],
-      limit: amount,
-    });
-  } catch (err) {
-    throw new Error('Failed to get messages from database: ', err);
-  }
+	try {
+		const ids = await Follower.findAll({ where: { followerId: userId }, attributes: ['followedId'] });
+		const followingIDs = ids.map((obj) => obj.followedId);
+		return Message.findAll({
+			where: Sequelize.or(
+				{ userId: followingIDs },
+				{ userId },
+			),
+			include: [{ model: User }],
+			order: [['createdAt', 'DESC']],
+			limit: amount,
+		});
+	} catch (err) {
+		throw new Error('Failed to get messages from database: ', err);
+	}
 }
 
 /**
@@ -73,25 +73,25 @@ async function getFollowedMessages(userId, amount) {
  * @param {int} amount
  */
 function getUserMessages(userID, amount) {
-  try {
-    return Message.findAll({
-      limit: amount,
-      order: [['createdAt', 'DESC']],
-      where: {
-        userId: userID,
-      },
-      include: [{
-        model: User,
-      }],
-    });
-  } catch (err) {
-    throw new Error('Failed to get messages from database: ', err);
-  }
+	try {
+		return Message.findAll({
+			limit: amount,
+			order: [['createdAt', 'DESC']],
+			where: {
+				userId: userID,
+			},
+			include: [{
+				model: User,
+			}],
+		});
+	} catch (err) {
+		throw new Error('Failed to get messages from database: ', err);
+	}
 }
 
 module.exports = {
-  getAllMessages,
-  postMessage,
-  getFollowedMessages,
-  getUserMessages,
+	getAllMessages,
+	postMessage,
+	getFollowedMessages,
+	getUserMessages,
 };

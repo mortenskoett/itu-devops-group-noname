@@ -14,9 +14,9 @@ const ResponseTime = require('response-time');
  * e.g. a GET and a POST call will be counted as 2 different calls
  */
 const numOfRequests = new Counter({
-  name: 'minitwit_numOfRequests',
-  help: 'Number of requests made',
-  labelNames: ['method'],
+	name: 'minitwit_numOfRequests',
+	help: 'Number of requests made',
+	labelNames: ['method'],
 });
 
 /**
@@ -33,9 +33,9 @@ const numOfRequests = new Counter({
  * A Prometheus summary to record the HTTP method, path, response code and response time
  */
 const responses = new Summary({
-  name: 'minitwit_responses',
-  help: 'Response time in millis',
-  labelNames: ['status'],
+	name: 'minitwit_responses',
+	help: 'Response time in millis',
+	labelNames: ['status'],
 });
 
 /**
@@ -43,9 +43,9 @@ const responses = new Summary({
  * and should be called from within in the main js file
  */
 module.exports.startCollection = function () {
-  // Logger.log(Logger.LOG_INFO, `Starting the collection of metrics,
-  // the metrics are available on /metrics`);
-  Prom.collectDefaultMetrics();
+	// Logger.log(Logger.LOG_INFO, `Starting the collection of metrics,
+	// the metrics are available on /metrics`);
+	Prom.collectDefaultMetrics();
 };
 
 /**
@@ -53,11 +53,11 @@ module.exports.startCollection = function () {
  * Currently it increments the counters for numOfPaths and pathsTaken
  */
 module.exports.requestCounters = function (req, res, next) {
-  if (req.path !== '/metrics') {
-    numOfRequests.inc({ method: req.method });
-    // pathsTaken.inc({ path: req.path });
-  }
-  next();
+	if (req.path !== '/metrics') {
+		numOfRequests.inc({ method: req.method });
+		// pathsTaken.inc({ path: req.path });
+	}
+	next();
 };
 
 /**
@@ -65,9 +65,9 @@ module.exports.requestCounters = function (req, res, next) {
  * Currently it updates the responses summary
  */
 module.exports.responseCounters = ResponseTime((req, res) => {
-  if (req.url !== '/metrics') {
-    responses.labels(res.statusCode);
-  }
+	if (req.url !== '/metrics') {
+		responses.labels(res.statusCode);
+	}
 });
 
 /**
@@ -75,8 +75,8 @@ module.exports.responseCounters = ResponseTime((req, res) => {
  */
 module.exports.injectMetricsRoute = async function (req, res) {
 //    App.get('/metrics', (req, res) => {
-  res.set('Content-Type', Register.contentType);
-  res.end(Register.metrics());
+	res.set('Content-Type', Register.contentType);
+	res.end(Register.metrics());
 //    });
 };
 

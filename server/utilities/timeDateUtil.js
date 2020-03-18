@@ -4,11 +4,11 @@
  */
 
 function getFormattedDate() {
-  const d = new Date();
-  return `${d.toLocaleTimeString()}, ${d.toLocaleDateString()}`;
+	const d = new Date();
+	return `${d.toLocaleTimeString()}, ${d.toLocaleDateString()}`;
 }
 
 
 module.exports = {
-  getFormattedDate,
+	getFormattedDate,
 };

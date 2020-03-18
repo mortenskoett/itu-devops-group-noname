@@ -23,9 +23,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('static'));
 app.set('view engine', 'ejs');
 app.use(session({
-  secret: 'secret',
-  resave: true,
-  saveUninitialized: true,
+	secret: 'secret',
+	resave: true,
+	saveUninitialized: true,
 }));
 app.use(back());
 

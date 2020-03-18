@@ -17,17 +17,17 @@ router.get('/latest', sim.getLatest);
 router.get('/metrics', prom.injectMetricsRoute);
 
 function getUnauthorizedResponse(req) {
-  return req.auth
-    ? (`Credentials '${req.auth.user}:${req.auth.password}' rejected`)
-    : 'No credentials provided';
+	return req.auth
+		? (`Credentials '${req.auth.user}:${req.auth.password}' rejected`)
+		: 'No credentials provided';
 }
 
 /*  Setting HTTP Basic Authentication
     Header : Authorization
     Value : Basic base64('simulator:super_safe!'); */
 router.use(basicAuth({
-  users: { simulator: 'super_safe!' }, // TODO: Credentials should probably be found in config
-  unauthorizedResponse: getUnauthorizedResponse,
+	users: { simulator: 'super_safe!' }, // TODO: Credentials should probably be found in config
+	unauthorizedResponse: getUnauthorizedResponse,
 }));
 
 // Routes requiring authentication

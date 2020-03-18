@@ -14,13 +14,13 @@ const { Follower } = models;
  * @param {string} password
  */
 function getIdUsingPassword(username, password) {
-  try {
-    return User.findOne({
-      where: { username, password },
-    });
-  } catch (err) {
-    throw new Error('Failed to get id from database: ', err);
-  }
+	try {
+		return User.findOne({
+			where: { username, password },
+		});
+	} catch (err) {
+		throw new Error('Failed to get id from database: ', err);
+	}
 }
 
 /**
@@ -28,13 +28,13 @@ function getIdUsingPassword(username, password) {
  * @param {string} username
  */
 function getUserID(username) {
-  try {
-    return User.findOne({
-      where: { username },
-    });
-  } catch (err) {
-    throw new Error('Failed to get user from database: ', err);
-  }
+	try {
+		return User.findOne({
+			where: { username },
+		});
+	} catch (err) {
+		throw new Error('Failed to get user from database: ', err);
+	}
 }
 
 /**
@@ -44,11 +44,11 @@ function getUserID(username) {
  * @param {string} email
  */
 function addUser(username, password, email) {
-  try {
-    return User.create({ username, email, password });
-  } catch (err) {
-    throw new Error('Failed to insert user into database: ', err);
-  }
+	try {
+		return User.create({ username, email, password });
+	} catch (err) {
+		throw new Error('Failed to insert user into database: ', err);
+	}
 }
 
 /**
@@ -57,13 +57,13 @@ function addUser(username, password, email) {
  * @param {int} followedID
  */
 function following(followerID, followedID) {
-  try {
-    return Follower.findOne({
-      where: { followerId: followerID, followedId: followedID },
-    });
-  } catch (err) {
-    throw new Error('Failed to check for follow relation in database: ', err);
-  }
+	try {
+		return Follower.findOne({
+			where: { followerId: followerID, followedId: followedID },
+		});
+	} catch (err) {
+		throw new Error('Failed to check for follow relation in database: ', err);
+	}
 }
 
 /**
@@ -72,11 +72,11 @@ function following(followerID, followedID) {
  * @param {int} followedID
  */
 function follow(followerID, followedID) {
-  try {
-    return Follower.create({ followerId: followerID, followedId: followedID });
-  } catch (err) {
-    throw new Error('Failed to create follow relation in database: ', err);
-  }
+	try {
+		return Follower.create({ followerId: followerID, followedId: followedID });
+	} catch (err) {
+		throw new Error('Failed to create follow relation in database: ', err);
+	}
 }
 
 /**
@@ -85,23 +85,23 @@ function follow(followerID, followedID) {
  * @param {int} limit
  */
 function getFollows(followerID, limit) {
-  try {
-    return Follower.findAll({
-      limit,
-      where: { followerId: followerID },
-      include: [{
-        model: User,
-        as: 'fllwed',
-        attributes: ['username'],
-      }],
-    });
-    // return helper.getAll(`SELECT user.username FROM user
-    // INNER JOIN follower ON follower.whom_id=user.user_id
-    // WHERE follower.who_id=?
-    // LIMIT ?`, [followerID, limit]);
-  } catch (err) {
-    throw new Error('Failed to get follows from database: ', err);
-  }
+	try {
+		return Follower.findAll({
+			limit,
+			where: { followerId: followerID },
+			include: [{
+				model: User,
+				as: 'fllwed',
+				attributes: ['username'],
+			}],
+		});
+		// return helper.getAll(`SELECT user.username FROM user
+		// INNER JOIN follower ON follower.whom_id=user.user_id
+		// WHERE follower.who_id=?
+		// LIMIT ?`, [followerID, limit]);
+	} catch (err) {
+		throw new Error('Failed to get follows from database: ', err);
+	}
 }
 
 /**
@@ -111,24 +111,24 @@ function getFollows(followerID, limit) {
  */
 
 function unfollow(followerID, followedID) {
-  try {
-    return Follower.destroy({
-      where: {
-        followerId: followerID,
-        followedId: followedID,
-      },
-    });
-  } catch (err) {
-    throw new Error('Failed remove follow relation from database: ', err);
-  }
+	try {
+		return Follower.destroy({
+			where: {
+				followerId: followerID,
+				followedId: followedID,
+			},
+		});
+	} catch (err) {
+		throw new Error('Failed remove follow relation from database: ', err);
+	}
 }
 
 module.exports = {
-  getIdUsingPassword,
-  getUserID,
-  addUser,
-  follow,
-  unfollow,
-  getFollows,
-  following,
+	getIdUsingPassword,
+	getUserID,
+	addUser,
+	follow,
+	unfollow,
+	getFollows,
+	following,
 };
