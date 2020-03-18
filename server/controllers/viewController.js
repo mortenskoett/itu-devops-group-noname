@@ -10,14 +10,10 @@ const messageRepository = require('../repositories/messageRepository');
 const userRepository = require('../repositories/userRepository');
 
 async function mainView(req, res) {
-  console.log('mainview called');
-
   // User already logged in
   if (req.session.loggedin) {
-    console.log('/home');
     res.redirect('/home');
   } else { // Unkown user
-    console.log('/public');
     res.redirect('/public');
   }
 }
@@ -32,8 +28,6 @@ function renderTimeline(req, res, msgs) {
 }
 
 async function renderPublicTimeLine(req, res) {
-  console.log('renderPublicTimeline called');
-
   const amount = (req.param.amount) ? req.param.amount : 50;
 
   const allMessages = await messageRepository.getAllMessages(amount);
@@ -61,8 +55,6 @@ async function renderPublicTimeLine(req, res) {
 }
 
 async function renderPrivateTimeline(req, res) {
-  console.log('renderPrivateTimeline called');
-
   if (!req.session.loggedin) {
     res.status(403).send({ url: `${req.originalUrl} : Unauthorized user not logged in.` });
   }
@@ -85,8 +77,6 @@ async function renderPrivateTimeline(req, res) {
 }
 
 async function postMessage(req, res) {
-  console.log('postMessage called');
-
   if (!req.session.loggedin) {
     res.status(401)
       .send({ url: `${req.originalUrl} : Unauthorized: user not logged in.` })
@@ -100,14 +90,11 @@ async function postMessage(req, res) {
     await messageRepository.postMessage(userId, message);
     res.redirect('/home');
   } catch (err) {
-    console.log(err);
     res.status(401).send({ url: `${req.originalUrl} : ${err}` });
   }
 }
 
 async function renderUserTimeline(req, res) {
-  console.log('renderUserTimeline called');
-
   if (!(req.session.loggedin || req.session.userid)) {
     res.redirect('/login');
     return;
@@ -128,24 +115,20 @@ async function renderUserTimeline(req, res) {
 }
 
 async function renderLoginPage(req, res) {
-  console.log('renderLoginPage called');
   res.render('pages/login');
 }
 
 async function renderSignupPage(req, res) {
-  console.log('renderSignupPage called');
   res.render('pages/signup');
 }
 
 function updateSessionUserData(request, username, userId) {
-  console.log('User session, userid:', userId);
   request.session.loggedin = true;
   request.session.username = username;
   request.session.userid = userId;
 }
 
 async function attemptLoginUser(request, username, password) {
-  console.log('attemtLoginUser called');
   if (username && password) {
     const userIdRow = await userRepository.getIdUsingPassword(username, password);
 
@@ -160,7 +143,6 @@ async function attemptLoginUser(request, username, password) {
 
 
 async function loginButton(req, res) {
-  console.log('loginButton called');
   const { username, password } = req.body;
 
   if (!(username && password)) {
@@ -183,7 +165,6 @@ async function loginButton(req, res) {
 }
 
 function logoutButton(req, res) {
-  console.log(`logoutButton called: ${req.session.username}`);
   req.session.destroy();
   res.redirect('/public');
 }
@@ -198,11 +179,6 @@ async function signupButton(req, res) {
     res.end();
     return;
   }
-
-  console.log('- Creating new user -');
-  console.log(`user: ${username}`);
-  console.log(`email: ${username}`);
-  console.log(`pass: ${password}`);
 
   const existingUser = await userRepository.getUserID(username);
 
@@ -234,8 +210,6 @@ async function signupButton(req, res) {
 
 // TODO Needs to be implemented in UI. Put it in backlog
 async function followButton(req, res) {
-  console.log('followButton called');
-
   if (!req.session.loggedin) {
     res.status(401).send({ url: `${req.originalUrl} : unautorized - user not followed.` });
   }
@@ -246,15 +220,13 @@ async function followButton(req, res) {
   if (followedID == null) {
     res.status(404).send({ url: `${req.originalUrl} : was not found.` }); // Render page?
   }
-  console.log(`id: ${followerID}now follows id: ${followedID.id}`);
+
   await userRepository.follow(followerID, followedID.id);
 
   res.back();
 }
 
 async function unfollowButton(req, res) {
-  console.log('unfollowButton called');
-
   if (!req.session.loggedin) {
     res.status(401).send({ url: `${req.originalUrl} : unautorized - user not unfollowed.` });
   }
@@ -265,7 +237,7 @@ async function unfollowButton(req, res) {
   if (followedID == null) {
     res.status(404).send({ url: `${req.originalUrl} : was not found.` }); // Render page?
   }
-  console.log(`id: ${followerID}no longer follows id: ${followedID.id}`);
+
   await userRepository.unfollow(followerID, followedID.id);
 
   res.back();

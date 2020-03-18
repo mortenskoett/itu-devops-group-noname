@@ -4,7 +4,6 @@ const config = require('../../configs');
 let sequelize = null;
 
 if (config.database.protocol === 'sqlite') {
-  console.log('SQL');
   sequelize = new Sequelize({
     dialect: 'sqlite',
     logging: false,

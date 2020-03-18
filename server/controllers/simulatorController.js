@@ -45,13 +45,11 @@ async function register(req, res) {
     return;
   }
 
-  console.log('/register: New user created, named: ', username);
   res.status(204).send();
 }
 
 // @app.route("/msgs", methods=["GET"])
 async function getMessages(req, res) {
-  console.log('simulatorController: getMessages');
   updateLatest(req);
 
   const noMessages = req.query.no ? req.query.no : 100;
@@ -74,7 +72,6 @@ async function getMessages(req, res) {
 
 // @app.route("/msgs/<username>", methods=["GET", "POST"])
 async function getUserMessages(req, res) {
-  console.log('getUserMessages: ');
   updateLatest(req);
 
   const noMessages = req.query.no ? req.query.no : 100;
@@ -102,8 +99,6 @@ async function getUserMessages(req, res) {
 }
 
 async function postMessage(req, res) {
-  console.log('posting message');
-
   updateLatest(req);
   const { username } = req.params;
   const date = timeUtil.getFormattedDate();
@@ -113,15 +108,13 @@ async function postMessage(req, res) {
     res.status(404).send({ error_msg: `Error finding user "${username}"` });
     return;
   }
-  const msg = await user.createMessage({ text: req.body.content, date });
-  if (!msg) console.log('ERROR CREATING MESSAGE');
+  await user.createMessage({ text: req.body.content, date });
 
   res.status(204).send();
 }
 
 // @app.route("/fllws/<username>", methods=["GET", "POST"])
 async function getFollows(req, res) {
-  console.log('getFollows: ');
   updateLatest(req);
 
   const { username } = req.params;
@@ -143,12 +136,10 @@ async function getFollows(req, res) {
 
 // TODO: Does not seems to work -- maybe data issue in db
 async function setFollow(req, res) {
-  console.log('Called setFollow');
   updateLatest(req);
 
   const { follow, unfollow } = req.body;
   if (!(follow || unfollow)) {
-    console.error("Follow was called without neither 'follow' or 'unfollow' parameter");
     res.sendStatus(400);
   }
 
