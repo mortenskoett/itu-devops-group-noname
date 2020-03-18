@@ -41,6 +41,7 @@
     "prom-client": "^12.0.0",
     "response-time": "^2.3.2",
     "sequelize": "^5.21.4",
-    "sqlite3": "^4.1.1"
+    "sqlite3": "^4.1.1",
+    "swagger-jsdoc": "^3.5.0"
   }
 }
