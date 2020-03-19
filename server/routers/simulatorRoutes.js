@@ -5,14 +5,25 @@
  */
 const express = require('express');
 const basicAuth = require('express-basic-auth');
+const sim = require('../controllers/simulatorController');
+const prom = require('../monitoring/prometheus-util');
 
 const router = express.Router();
 
-const sim = require('../controllers/simulatorController');
-
-const prom = require('../monitoring/prometheus-util');
-
-// Should not require authorization
+/* Routes not requiring authorization */
+/**
+ * @swagger
+ * /latest:
+ *   get:
+ *     description: Get latest accepted id
+ *     responses:
+ *       '200':
+ *         description: Returns latest accepted id by the server
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/definitions/Latest'
+ */
 router.get('/latest', sim.getLatest);
 router.get('/metrics', prom.injectMetricsRoute);
 
@@ -30,7 +41,7 @@ router.use(basicAuth({
 	unauthorizedResponse: getUnauthorizedResponse,
 }));
 
-// Routes requiring authentication
+/* Routes requiring authentication */
 router.post('/register', sim.register);
 router.get('/msgs', sim.getMessages);
 router.get('/msgs/:username', sim.getUserMessages);
@@ -39,3 +50,14 @@ router.get('/fllws/:username', sim.getFollows);
 router.post('/fllws/:username', sim.setFollow);
 
 module.exports = router;
+
+// Swagger definitions
+/**
+ * @swagger
+ * definitions:
+ *     Latest:
+ *       properties:
+ *         latest:
+ *           type: integer
+ *           example: 256123
+ */
