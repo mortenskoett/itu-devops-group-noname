@@ -17,6 +17,10 @@ const dev = {
 		path: './server/persistence/sqlite/minitwit.db',
 		protocol: 'sqlite',
 	},
+	swagger: {
+		name: 'swagger',
+		port: 9000,
+	},
 	application_logging: {
 		file: process.env.LOG_PATH,
 		level: process.env.LOG_LEVEL || 'info',
@@ -35,6 +39,10 @@ const production = {
 		port: process.env.APP_PORT || 5000,
 		environment: process.env.APPLICATION_ENV,
 		logpath: process.env.LOG_PATH,
+	},
+	swagger: {
+		name: 'swagger',
+		port: 9000,
 	},
 	database: {
 		url: 'postgres://embu:magic@minitwit-db:5432/minitwit-db',
