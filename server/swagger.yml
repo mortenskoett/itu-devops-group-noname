@@ -1,0 +1,389 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Group Noname Minitwit Simualtor API
+  description: Devops course minitwit simualtor API using OpenAPI spec
+  version: "1.0.0"
+  contact: group j
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+
+paths:
+  /latest:
+    get: 
+      summary: Get latest id processed
+      responses: 
+        '200': 
+          description: Returns latest accepted id by server
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LatestResponse'
+
+  /register:
+    post:
+      summary: Post new user to register
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+            example: 'Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh'
+        - in: query
+          name: latest
+          description: latest id sent by simulator api
+          required: false
+          schema:
+            type: integer
+      requestBody:
+        $ref: '#/components/requestBodies/RegisterUserBody'
+      responses: 
+        '204': 
+          description: User registered
+        '400': 
+          description: Error on insert
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RegisterErrorResponse'
+        '500':
+          description: Adding to database failed internally
+
+  /msgs:
+    get:
+      summary: Get number messages from server
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+            example: 'Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh'
+        - in: query
+          name: no
+          description: Number of messages to return
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: latest
+          description: latest id sent by simulator api
+          required: false
+          schema:
+            type: integer
+      responses: 
+        '200': 
+          description: Message created
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ListOfMessageDTO'
+
+  '/msgs/{username}':
+    get:
+      summary: Post message for user
+      description: Returns messages by username
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+            example: 'Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh'
+        - name: username
+          in: path
+          description: username of user to return
+          required: true
+          schema:
+            type: string
+            example: 'joe'
+        - in: query
+          name: no
+          description: pass an optional search string for looking up inventory
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: latest
+          description: latest id sent by simulator api
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOfMessageDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/LatestResponse'
+        '401': 
+          description: Unauthorized
+        '404':
+          description: User not found
+
+    post:
+      summary: Find messages by username
+      description: Returns messages by username
+      requestBody:
+        $ref: '#/components/requestBodies/MessageBody'
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+            example: 'Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh'
+        - name: username
+          in: path
+          description: username of user to return
+          required: true
+          schema:
+            type: string
+            example: 'joe'
+        - in: query
+          name: latest
+          description: latest id sent by simulator api
+          required: false
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: successful operation
+        '401': 
+          description: Unauthorized
+        '500':
+          description: Invalid username supplied
+
+  '/fllws/{username}':
+    get:
+      summary: Find messages by username
+      description: Returns messages by username
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+            example: 'Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh'
+        - name: username
+          in: path
+          description: username of user to return
+          required: true
+          schema:
+            type: string
+            example: 'joe'
+        - in: query
+          name: no
+          description: pass an optional search string for looking up inventory
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: latest
+          description: latest id sent by simulator api
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserFollowersDTO'
+        '401': 
+          description: Unauthorized
+        '404':
+          description: User not found
+
+    post:
+      summary: Find messages by username
+      description: Returns messages by username
+      requestBody:
+        $ref: '#/components/requestBodies/FollowBody'
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+            example: 'Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh'
+        - name: username
+          in: path
+          description: username of user to return
+          required: true
+          schema:
+            type: string
+            example: 'joe'
+        - in: query
+          name: latest
+          description: latest id sent by simulator api
+          required: false
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: successful operation
+        '401': 
+          description: Unauthorized
+        '404':
+          description: User not found
+
+
+security:
+
+  - basicAuth: []     # <-- arbitrary name for the security scheme
+
+components:
+
+  securitySchemes:
+    basicAuth:     
+      type: http
+      scheme: basic
+
+  schemas:
+    LatestResponse:
+      type: object
+      required:
+        - latest
+      properties:
+        latest:
+          type: integer
+          example: 23592
+          
+    RegisterErrorResponse:
+      type: object
+      required:
+        - status
+        - error_msg
+      properties:
+        status:
+          type: integer
+          example: 400
+        error_msg:
+          type: string
+          example: 'error'
+
+    MessageDTO:
+      type: object
+      required:
+        - content
+        - pub_date
+        - user
+      properties:
+        content:
+          type: string
+          example: 'This app is sooo nice!'
+        pub_date:
+          type: string
+          format: date-time
+        user:
+          type: string
+          example: 'joe'
+
+    ListOfMessageDTO:
+      type: object
+      required:
+        - filtered_msgs
+      properties:
+        filtered_msgs:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageDTO'
+    
+    MessageCreateDTO:
+      type: object
+      required:
+        - content
+      properties:
+        content:
+          type: string
+          example: Hello world!
+    
+    FollowDTO:
+      type: object
+      properties:
+        follow:
+          type: string
+          example: 'joe'
+
+    UnfollowDTO:
+      type: object
+      properties:
+        unfollow:
+          type: string
+          example: 'joe'
+
+    UserFollowDTO:
+      type: object
+      required:
+        - username
+      properties:
+        username: 
+          type: string
+          example: joe
+
+    UserFollowersDTO:
+      type: object
+      required:
+        - follows
+      properties:
+        follows:
+          type: array
+          items: 
+            $ref: '#/components/schemas/UserFollowDTO'
+  
+    UserCreateDTO:
+      type: object
+      required:
+        - username
+        - email
+        - pwd
+      properties:
+        username:
+          type: string
+          example: Joe Johnson
+        email:
+          type: string
+          example: joe@john.com
+        pwd:
+          type: string
+          example: securepwd
+
+  requestBodies:
+
+    FollowBody:
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/FollowDTO'
+              - $ref: '#/components/schemas/UnfollowDTO'
+          example: {"follow": "joe"}
+
+    MessageBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MessageCreateDTO'
+      description: Message object that will be added to the database
+      required: true
+      
+    RegisterUserBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserCreateDTO'
+      description: User object that will be added to the database
+      required: true

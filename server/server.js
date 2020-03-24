@@ -7,8 +7,10 @@ require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const back = require('express-back');
-const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+
+const swaggerDocument = YAML.load('./server/swagger.yml');
 const config = require('./configs');
 
 const viewRoutes = require('./routers/viewRoutes');
@@ -29,6 +31,7 @@ app.use(session({
 	saveUninitialized: true,
 }));
 app.use(back());
+
 app.use('/', viewRoutes);
 app.listen(appPort, () => console.log(`App listening on port ${appPort}...`));
 
@@ -38,23 +41,28 @@ const simulator = express();
 simulator.use(express.json());
 
 /* SWAGGER SETUP */
-const swaggerOptions = {
-	swaggerDefinition: {
-		info: {
-			title: 'Minitwit Simulator API',
-			description: 'Description of the dev-ops course simulator API',
-			contact: 'group j',
+const swaggerUiOptions = {
+	swaggerOptions: {
+		authAction: {
+			Basic: {
+				name: 'simulator',
+				schema: {
+					type: 'application/json',
+					in: 'header',
+					name: 'Authorization',
+				},
+				value: 'Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh',
+			},
 		},
-		servers: ['http://localhost:5001'],
 	},
-	apis: ['./server/routers/simulatorRoutes.js'],
 };
 
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-simulator.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+simulator.use('/api-docs', swaggerUi.serve);
+simulator.get('/api-docs', swaggerUi.setup(swaggerDocument, swaggerUiOptions));
+
 simulator.get('/swagger.json', (req, res) => {
 	res.setHeader('Content-Type', 'application/json');
-	res.send(swaggerDocs);
+	res.send(swaggerDocument);
 });
 
 /* MONITORING MIDDLEWARE */

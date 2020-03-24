@@ -10,23 +10,10 @@ const prom = require('../monitoring/prometheus-util');
 
 const router = express.Router();
 
-/* Routes not requiring authorization */
-/**
- * @swagger
- * /latest:
- *   get:
- *     description: Get latest accepted id
- *     responses:
- *       '200':
- *         description: Returns latest accepted id by the server
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/definitions/Latest'
- */
 router.get('/latest', sim.getLatest);
 router.get('/metrics', prom.injectMetricsRoute);
 
+// Error return 401 message
 function getUnauthorizedResponse(req) {
 	return req.auth
 		? (`Credentials '${req.auth.user}:${req.auth.password}' rejected`)
@@ -42,6 +29,7 @@ router.use(basicAuth({
 }));
 
 /* Routes requiring authentication */
+
 router.post('/register', sim.register);
 router.get('/msgs', sim.getMessages);
 router.get('/msgs/:username', sim.getUserMessages);
@@ -51,13 +39,53 @@ router.post('/fllws/:username', sim.setFollow);
 
 module.exports = router;
 
+/* Routes not requiring authorization */
+/**
+ * @swagger
+ * /latest:
+ *   get:
+ *     summary: Get latest accepted id
+ *     responses:
+ *       '200':
+ *         description: Returns latest accepted id by the server
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/definitions/LatestResponse'
+ */
+/**
+ * @swagger
+ * /register:
+ *   post:
+ *     summary: Post new user to register
+ *     parameters:
+ *       - in: query
+ *         name: latest
+ *         description: latest id sent by simulator api
+ *         required: false
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       $ref: '#/components/RegisterUserBody'
+ *     responses:
+ *       '204':
+ *         description: User registered
+ *       '400':
+ *         description: Error on insert with description
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/RegisterErrorResponse'
+ */
 // Swagger definitions
 /**
  * @swagger
  * definitions:
- *     Latest:
- *       properties:
- *         latest:
- *           type: integer
- *           example: 256123
+ *   LatestResponse:
+ *     properties:
+ *       latest:
+ *         type: integer
+ *         example: 256123
  */
