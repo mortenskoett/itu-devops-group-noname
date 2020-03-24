@@ -8,7 +8,6 @@ data
 db-data
 backup.sql
 db_backup*
-minitwit.db
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

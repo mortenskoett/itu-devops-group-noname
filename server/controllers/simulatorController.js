@@ -95,7 +95,7 @@ async function getUserMessages(req, res) {
 		user: m.user.username,
 	}));
 
-	res.status(200).send(jsonMessages);
+	res.status(200).send({ filtered_msgs: jsonMessages });
 }
 
 async function postMessage(req, res) {
@@ -130,11 +130,9 @@ async function getFollows(req, res) {
 
 	const jsonFollows = follows.map((e) => e.dataValues.username);
 
-	// contains the right result, but test says it is the wrong types
 	res.status(200).send({ follows: jsonFollows });
 }
 
-// TODO: Does not seems to work -- maybe data issue in db
 async function setFollow(req, res) {
 	updateLatest(req);
 

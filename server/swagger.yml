@@ -57,7 +57,7 @@ paths:
 
   /msgs:
     get:
-      summary: Get number messages from server
+      summary: Get all most recent messages from server
       parameters:
         - name: Authorization
           in: header
@@ -67,7 +67,7 @@ paths:
             example: 'Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh'
         - in: query
           name: no
-          description: Number of messages to return
+          description: Number of messages to return, default is 100
           required: false
           schema:
             type: integer
@@ -89,7 +89,7 @@ paths:
 
   '/msgs/{username}':
     get:
-      summary: Post message for user
+      summary: Get messages for user
       description: Returns messages by username
       parameters:
         - name: Authorization
@@ -100,14 +100,14 @@ paths:
             example: 'Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh'
         - name: username
           in: path
-          description: username of user to return
+          description: username of user whose messages are returned
           required: true
           schema:
             type: string
             example: 'joe'
         - in: query
           name: no
-          description: pass an optional search string for looking up inventory
+          description: pass an optional number to limit returned messages
           required: false
           schema:
             type: integer
@@ -124,17 +124,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ListOfMessageDTO'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/LatestResponse'
         '401': 
           description: Unauthorized
         '404':
           description: User not found
 
     post:
-      summary: Find messages by username
-      description: Returns messages by username
+      summary: Post message by username
+      description: Posts a message for a valid user
       requestBody:
         $ref: '#/components/requestBodies/MessageBody'
       parameters:
@@ -146,7 +143,7 @@ paths:
             example: 'Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh'
         - name: username
           in: path
-          description: username of user to return
+          description: username of user that posts message
           required: true
           schema:
             type: string
@@ -167,8 +164,8 @@ paths:
 
   '/fllws/{username}':
     get:
-      summary: Find messages by username
-      description: Returns messages by username
+      summary: Get users followed by username
+      description: Returns usernames of users followed by username
       parameters:
         - name: Authorization
           in: header
@@ -178,14 +175,14 @@ paths:
             example: 'Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh'
         - name: username
           in: path
-          description: username of user to return
+          description: username of following user
           required: true
           schema:
             type: string
             example: 'joe'
         - in: query
           name: no
-          description: pass an optional search string for looking up inventory
+          description: pass an optional number to limit returned users
           required: false
           schema:
             type: integer
@@ -208,8 +205,8 @@ paths:
           description: User not found
 
     post:
-      summary: Find messages by username
-      description: Returns messages by username
+      summary: Follow/unfollow another user
+      description: Depending on payload will let username follow/unfollow other user
       requestBody:
         $ref: '#/components/requestBodies/FollowBody'
       parameters:
@@ -221,7 +218,7 @@ paths:
             example: 'Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh'
         - name: username
           in: path
-          description: username of user to return
+          description: username of user to be modified
           required: true
           schema:
             type: string
@@ -235,11 +232,14 @@ paths:
       responses:
         '204':
           description: successful operation
-        '401': 
-          description: Unauthorized
-        '404':
-          description: User not found
-
+        '400': 
+          description: Error on insert
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RegisterErrorResponse'
 
 security:
 
@@ -261,7 +261,7 @@ components:
         latest:
           type: integer
           example: 23592
-          
+
     RegisterErrorResponse:
       type: object
       required:
@@ -274,7 +274,7 @@ components:
         error_msg:
           type: string
           example: 'error'
-
+          
     MessageDTO:
       type: object
       required:
@@ -353,7 +353,7 @@ components:
       properties:
         username:
           type: string
-          example: Joe Johnson
+          example: joe
         email:
           type: string
           example: joe@john.com
