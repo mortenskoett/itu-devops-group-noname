@@ -67,7 +67,7 @@ async function getMessages(req, res) {
 		user: m.user.username,
 	}));
 
-	res.status(200).send(jsonMessages);
+	res.status(200).send({ filtered_msgs: jsonMessages });
 }
 
 // @app.route("/msgs/<username>", methods=["GET", "POST"])
