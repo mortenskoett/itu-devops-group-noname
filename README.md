@@ -12,6 +12,8 @@ Report page: [insert link to overleaf]
 
 Private git repository: https://github.com/mortenskoett/itu-group-noname-private
 
+Google Drive: https://drive.google.com/drive/folders/1x5t2ECkLjpLyFRgGsoD_xyAtNWOB8ZKq
+
 ### Minitwit functional Requirements
 - [x] Be able to log in
 - [x] See all tweets
