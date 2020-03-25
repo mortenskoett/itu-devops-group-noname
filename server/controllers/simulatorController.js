@@ -113,13 +113,13 @@ async function postMessage(req, res) {
 
 	const user = await db.User.findOne({ where: { username } });
 	if (!user) {
-		logger.info('/msgs/<username> POST 404');
+		logger.info('/msgs/username POST 404');
 		res.status(404).send({ error_msg: `Error finding user "${username}"` });
 		return;
 	}
 	await user.createMessage({ text: req.body.content, date });
 
-	logger.info('/msgs/<username> POST 204');
+	logger.info('/msgs/username POST 204');
 	res.status(204).send();
 }
 
@@ -140,7 +140,7 @@ async function getFollows(req, res) {
 
 	const jsonFollows = follows.map((e) => e.dataValues.username);
 
-	logger.error('/fllws/<username> GET 200');
+	logger.error('/fllws/username GET 200');
 	res.status(200).send({ follows: jsonFollows });
 }
 
@@ -157,7 +157,7 @@ async function setFollow(req, res) {
 
 	const user = await db.User.findOne({ where: { username } });
 	if (!user) {
-		logger.error('/fllws/<username> POST 400');
+		logger.error('/fllws/username POST 400');
 		res.status(400).send({ error_msg: `Error finding user "${username}"` });
 		return;
 	}
@@ -165,7 +165,7 @@ async function setFollow(req, res) {
 	if (follow) {
 		const otherUser = await db.User.findOne({ where: { username: follow } });
 		if (!otherUser) {
-			logger.error('/fllws/<username> POST 400');
+			logger.error('/fllws/username POST 400');
 			res.status(400).send({ error_msg: `Error finding user "${username}"` });
 			return;
 		}
@@ -173,14 +173,14 @@ async function setFollow(req, res) {
 	} else if (unfollow) {
 		const otherUser = await db.User.findOne({ where: { username: unfollow } });
 		if (!otherUser) {
-			logger.error('/fllws/<username> POST 400');
+			logger.error('/fllws/username POST 400');
 			res.status(400).send({ error_msg: `Error finding user "${username}"` });
 			return;
 		}
 
 		await user.removeFollowers(otherUser);
 	}
-	logger.error('/fllws/<username> POST 204');
+	logger.error('/fllws/username POST 204');
 	res.sendStatus(204);
 }
 
