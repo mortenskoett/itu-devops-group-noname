@@ -4,6 +4,7 @@
  */
 
 const models = require('../persistence/models/models.js');
+const logger = require('../logging/logging');
 
 const { User } = models;
 const { Follower } = models;
@@ -19,6 +20,7 @@ function getIdUsingPassword(username, password) {
 			where: { username, password },
 		});
 	} catch (err) {
+		logger.debug('Failed to get id from database.');
 		throw new Error('Failed to get id from database: ', err);
 	}
 }
@@ -33,6 +35,7 @@ function getUserID(username) {
 			where: { username },
 		});
 	} catch (err) {
+		logger.debug('Failed to get user from database.');
 		throw new Error('Failed to get user from database: ', err);
 	}
 }
@@ -47,6 +50,7 @@ function addUser(username, password, email) {
 	try {
 		return User.create({ username, email, password });
 	} catch (err) {
+		logger.debug('Failed to insert user into database.');
 		throw new Error('Failed to insert user into database: ', err);
 	}
 }
@@ -62,6 +66,7 @@ function following(followerID, followedID) {
 			where: { followerId: followerID, followedId: followedID },
 		});
 	} catch (err) {
+		logger.debug('Failed to check for follow relation in database.');
 		throw new Error('Failed to check for follow relation in database: ', err);
 	}
 }
@@ -75,6 +80,7 @@ function follow(followerID, followedID) {
 	try {
 		return Follower.create({ followerId: followerID, followedId: followedID });
 	} catch (err) {
+		logger.debug('Failed to create follow relation in database.');
 		throw new Error('Failed to create follow relation in database: ', err);
 	}
 }
@@ -100,6 +106,7 @@ function getFollows(followerID, limit) {
 		// WHERE follower.who_id=?
 		// LIMIT ?`, [followerID, limit]);
 	} catch (err) {
+		logger.debug('Failed to get follows from database.');
 		throw new Error('Failed to get follows from database: ', err);
 	}
 }
@@ -119,6 +126,7 @@ function unfollow(followerID, followedID) {
 			},
 		});
 	} catch (err) {
+		logger.debug('Failed to remove follow relation from database.');
 		throw new Error('Failed remove follow relation from database: ', err);
 	}
 }
