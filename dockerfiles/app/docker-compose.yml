@@ -15,3 +15,8 @@ services:
     ports:
       - '5000:5000'
       - '5001:5001'
+    volumes:
+      - logs:/logs/
+
+volumes:
+  logs:

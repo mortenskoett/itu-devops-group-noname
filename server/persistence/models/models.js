@@ -23,8 +23,8 @@ sequelize.sync();
 sequelize.authenticate().then(() => {
 	logger.info('Connection to sequelize has been established succesfully.');
 }).catch((err) => {
-	logger.alert('Unable to connect to the database.');
-	logger.alert(err);
+	logger.info('Unable to connect to the database.');
+	logger.info(err);
 });
 
 const User = sequelize.define('user', {
