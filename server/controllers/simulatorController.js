@@ -25,7 +25,7 @@ async function validate(username, pwd, email) {
 // Get latest value (stored for each api request)
 // @app.route("/latest", methods=["GET"])
 async function getLatest(req, res) {
-	logger.info('/latest');
+	logger.info('/latest 200');
 	res.status(200).send({ latest: LATEST });
 }
 

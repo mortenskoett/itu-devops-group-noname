@@ -7,14 +7,16 @@ const {
 } = format;
 
 const logstashFormat = combine(
-	timestamp(),
-	logstash(),
+    timestamp(),
+	format.simple(),
 );
 
 const logger = createLogger({
-	format: logstashFormat,
+    format: logstashFormat,
+    //format: format.simple(),
 	transports: [
-		new transports.Console(),
+		new transports.Console({
+		}),
 		new transports.File({
 			filename: '/logs/minitwit.log',
 		}),
