@@ -32,7 +32,7 @@ paths:
           required: true
           schema:
             type: string
-            example: 'Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh'
+            example: 'Basic c2ltdasdfsadfasdfsadfa'
         - in: query
           name: latest
           description: latest id sent by simulator api
@@ -64,7 +64,7 @@ paths:
           required: true
           schema:
             type: string
-            example: 'Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh'
+            example: 'Basic c2ltdasdfsadfasdfsadfa'
         - in: query
           name: no
           description: Number of messages to return, default is 100
@@ -97,7 +97,7 @@ paths:
           required: true
           schema:
             type: string
-            example: 'Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh'
+            example: 'Basic c2ltdasdfsadfasdfsadfa'
         - name: username
           in: path
           description: username of user whose messages are returned
@@ -140,7 +140,7 @@ paths:
           required: true
           schema:
             type: string
-            example: 'Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh'
+            example: 'Basic c2ltdasdfsadfasdfsadfa'
         - name: username
           in: path
           description: username of user that posts message
@@ -172,7 +172,7 @@ paths:
           required: true
           schema:
             type: string
-            example: 'Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh'
+            example: 'Basic c2ltdasdfsadfasdfsadfa'
         - name: username
           in: path
           description: username of following user
@@ -215,7 +215,7 @@ paths:
           required: true
           schema:
             type: string
-            example: 'Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh'
+            example: 'Basic c2ltdasdfsadfasdfsadfa'
         - name: username
           in: path
           description: username of user to be modified
