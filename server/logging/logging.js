@@ -3,17 +3,15 @@ const { createLogger, format, transports } = require('winston');
 const {
 	combine,
 	timestamp,
-	logstash,
 } = format;
 
 const logstashFormat = combine(
-    timestamp(),
+	timestamp(),
 	format.simple(),
 );
 
 const logger = createLogger({
-    format: logstashFormat,
-    //format: format.simple(),
+	format: logstashFormat,
 	transports: [
 		new transports.Console({
 		}),
