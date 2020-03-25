@@ -5,17 +5,15 @@
  */
 const express = require('express');
 const basicAuth = require('express-basic-auth');
+const sim = require('../controllers/simulatorController');
+const prom = require('../monitoring/prometheus-util');
 
 const router = express.Router();
 
-const sim = require('../controllers/simulatorController');
-
-const prom = require('../monitoring/prometheus-util');
-
-// Should not require authorization
 router.get('/latest', sim.getLatest);
 router.get('/metrics', prom.injectMetricsRoute);
 
+// Error return 401 message
 function getUnauthorizedResponse(req) {
 	return req.auth
 		? (`Credentials '${req.auth.user}:${req.auth.password}' rejected`)
@@ -30,7 +28,8 @@ router.use(basicAuth({
 	unauthorizedResponse: getUnauthorizedResponse,
 }));
 
-// Routes requiring authentication
+/* Routes requiring authentication */
+
 router.post('/register', sim.register);
 router.get('/msgs', sim.getMessages);
 router.get('/msgs/:username', sim.getUserMessages);
