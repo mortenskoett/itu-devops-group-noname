@@ -21,6 +21,7 @@ function getIdUsingPassword(username, password) {
 		});
 	} catch (err) {
 		logger.debug('Failed to get id from database.');
+		logger.debug(err.message);
 		throw new Error('Failed to get id from database: ', err);
 	}
 }
@@ -36,6 +37,7 @@ function getUserID(username) {
 		});
 	} catch (err) {
 		logger.debug('Failed to get user from database.');
+		logger.debug(err.message);
 		throw new Error('Failed to get user from database: ', err);
 	}
 }
@@ -51,6 +53,7 @@ function addUser(username, password, email) {
 		return User.create({ username, email, password });
 	} catch (err) {
 		logger.debug('Failed to insert user into database.');
+		logger.debug(err.message);
 		throw new Error('Failed to insert user into database: ', err);
 	}
 }
@@ -67,6 +70,7 @@ function following(followerID, followedID) {
 		});
 	} catch (err) {
 		logger.debug('Failed to check for follow relation in database.');
+		logger.debug(err.message);
 		throw new Error('Failed to check for follow relation in database: ', err);
 	}
 }
@@ -81,6 +85,7 @@ function follow(followerID, followedID) {
 		return Follower.create({ followerId: followerID, followedId: followedID });
 	} catch (err) {
 		logger.debug('Failed to create follow relation in database.');
+		logger.debug(err.message);
 		throw new Error('Failed to create follow relation in database: ', err);
 	}
 }
@@ -107,6 +112,7 @@ function getFollows(followerID, limit) {
 		// LIMIT ?`, [followerID, limit]);
 	} catch (err) {
 		logger.debug('Failed to get follows from database.');
+		logger.debug(err.message);
 		throw new Error('Failed to get follows from database: ', err);
 	}
 }
@@ -127,6 +133,7 @@ function unfollow(followerID, followedID) {
 		});
 	} catch (err) {
 		logger.debug('Failed to remove follow relation from database.');
+		logger.debug(err.message);
 		throw new Error('Failed remove follow relation from database: ', err);
 	}
 }

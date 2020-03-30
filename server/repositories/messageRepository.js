@@ -28,6 +28,7 @@ function getAllMessages(amount) {
 		});
 	} catch (err) {
 		logger.debug('Failed to get messages from database.');
+		logger.debug(err.message);
 		throw new Error('Failed to get messages from database: ', err);
 	}
 }
@@ -42,7 +43,8 @@ function postMessage(userID, text) {
 	try {
 		return Message.create({ userId: userID, text });
 	} catch (err) {
-		logger.debug('Failed to create messages in database.');
+		logger.debug('Failed to create messages in database:');
+		logger.debug(err.message);
 		throw new Error('Failed to create message in database: ', err);
 	}
 }
@@ -67,6 +69,7 @@ async function getFollowedMessages(userId, amount) {
 		});
 	} catch (err) {
 		logger.debug('Failed to get followed messages from database.');
+		logger.debug(err.message);
 		throw new Error('Failed to get followed messages from database: ', err);
 	}
 }
@@ -90,6 +93,7 @@ function getUserMessages(userID, amount) {
 		});
 	} catch (err) {
 		logger.debug('Failed to get users messages from database.');
+		logger.debug(err.message);
 		throw new Error('Failed to get users messages from database: ', err);
 	}
 }
