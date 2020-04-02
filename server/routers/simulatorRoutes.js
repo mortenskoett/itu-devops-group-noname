@@ -7,16 +7,15 @@ const express = require('express');
 const basicAuth = require('express-basic-auth');
 const logger = require('../logging/logging');
 
-const router = express.Router();
-
 const sim = require('../controllers/simulatorController');
-
 const prom = require('../monitoring/prometheus-util');
 
-// Should not require authorization
+const router = express.Router();
+
 router.get('/latest', sim.getLatest);
 router.get('/metrics', prom.injectMetricsRoute);
 
+// Error return 401 message
 function getUnauthorizedResponse(req) {
 	logger.info('/unauthorized 401');
 	if (req.auth) {
@@ -38,7 +37,8 @@ router.use(basicAuth({
 	unauthorizedResponse: getUnauthorizedResponse,
 }));
 
-// Routes requiring authentication
+/* Routes requiring authentication */
+
 router.post('/register', sim.register);
 router.get('/msgs', sim.getMessages);
 router.get('/msgs/:username', sim.getUserMessages);

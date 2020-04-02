@@ -144,7 +144,6 @@ async function getFollows(req, res) {
 	res.status(200).send({ follows: jsonFollows });
 }
 
-// TODO: Does not seems to work -- maybe data issue in db
 async function setFollow(req, res) {
 	updateLatest(req);
 
