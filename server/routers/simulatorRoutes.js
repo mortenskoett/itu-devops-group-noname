@@ -18,6 +18,7 @@ router.get('/latest', sim.getLatest);
 router.get('/metrics', prom.injectMetricsRoute);
 
 function getUnauthorizedResponse(req) {
+	logger.info('/unauthorized 401');
 	if (req.auth) {
 		logger.info(`Credentials '${req.auth.user}:${req.auth.password}' rejected`);
 	} else {
