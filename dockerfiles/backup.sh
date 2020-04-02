@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-# Functionality to backup and restore postgres database
+# Functionality to backup and restore postgres database in minitwit project. 
+# Currently it is necessary to have an already established SSH connection to the backup sever if
+# using the transfer functionality. The daemon backs up in a cycle starting from 1..$NO_OF_BACKUPS 
+# meaning that there will at most be stored $NO_OF_BACKUPS redundant backups on the server.
 
 set -eo pipefail
 
@@ -7,10 +10,24 @@ set -eo pipefail
 RED='\033[0;31m'
 WHITE='\033[0m'
 
-# Locations/variables
+# Db configuration
 HOST_LOCATION="/db-backup"
 BACKUP_NAME="db_backup.tar"
-NO_OF_BACKUPS="3"
+NO_OF_BACKUPS="3"   # Maximum number of redundant backups kept on the backup server
+
+# Backup server confiuration
+IP="home.oleandersen.net"
+PORT="3322"
+USER="devops"
+BASE_DIR="minitwit-backup"
+
+# TODO: Use  correct key - if using this key then it should be copied to backup server
+# SSH_KEY="/vagrant/ssh_keys/id_rsa_frank"
+
+# TODO: Remove before produciton. 
+SSH_KEY="/home/mortenskoett/MEGAsync/ITU/MSc1/2_semester/repositories/devops/itu-group-noname-private/private/ssh_keys/ssh-key"
+
+
 
 # Will create create local backup inside container
 create_local_backup(){
@@ -69,34 +86,39 @@ restore() {
     echo "Restore done."
 }
 
-# Make a cycle of 3 redundant backups based on current date assuming a backup is made every 24h
-generate_folder_id() {
-    local DAY_OF_MONTH=$(date +%d)
-    echo $(( $DAY_OF_MONTH % $NO_OF_BACKUPS ))
+# Fetches ID of the most recently made backup from the backup server
+# If no backup has previously been made then default ID of 0 is returned
+fetch_newest_backup_id() {
+    local NEWEST=$(ssh -p "$PORT" -i "$SSH_KEY" "$USER"@"$IP" "if [ -f $BASE_DIR/newest ]; then cat $BASE_DIR/newest; fi")
+    [ ! -z "$NEWEST" ] && echo "$NEWEST" || echo "0"
 }
+
+generate_folder_id() {
+    local NEWEST_BACKUP=$(fetch_newest_backup_id)
+    echo $(( ($NEWEST_BACKUP % $NO_OF_BACKUPS) + 1 ))    # From 1 to $NO_OF_BACKUPS
+}
+
+# Start background daemon to backup at intervals
+# arg1: Optional path to where the backups should be stored
+# arg2: Time interval
+# start_backup_daemon() {
+# }
 
 # Will transfer the locally stored data to an external server
 # arg1: Optional prefix path to the database dump to be transferred
 transfer_to_external() {
     echo "Transferring database dump to backup server..."
-	local IP="home.oleandersen.net"
-	local PORT="3322"
-	local USER="devops"
     local ID=$(generate_folder_id)
+    local EXTERNAL_PATH="$BASE_DIR/$ID"
+    local LOCAL_PATH="$1$HOST_LOCATION/"
 
-    local ROOT="minitwit-backup"
-	local PATH_ON_EXTERNAL="$ROOT/$ID"
-	local PATH_ON_LOCAL="$1$HOST_LOCATION/"
-
-    # ssh -i /vagrant/ssh_keys/id_rsa_frank -p 3322 devops@home.oleandersen.net
-
-    TEST_KEY="/home/mortenskoett/MEGAsync/ITU/MSc1/2_semester/repositories/devops/itu-group-noname-private/private/ssh_keys/ssh-key"
+    # Make sure directories exist
+    ssh -p "$PORT" -i "$SSH_KEY" "$USER"@"$IP" "mkdir -p $EXTERNAL_PATH && echo $ID > $BASE_DIR/newest"
 
     # Transfer data from local to remote
-	# rsync -az -P -e --delete "ssh -i /vagrant/ssh_keys/id_rsa_frank -p $PORT" "$PATH_ON_LOCAL" "$USER"@"$IP":"$PATH_ON_EXTERNAL/"
+	rsync -a -zz -P -e "ssh -i $SSH_KEY -p $PORT" "$LOCAL_PATH" "$USER"@"$IP":"$EXTERNAL_PATH"
 
-    ssh -p "$PORT" -i "$TEST_KEY" "$USER"@"$IP" "mkdir -p $PATH_ON_EXTERNAL && echo $ID > $ROOT/newest"
-	rsync -a -zz -P -e "ssh -i $TEST_KEY -p $PORT" "$PATH_ON_LOCAL" "$USER"@"$IP":"$PATH_ON_EXTERNAL"
+    echo "Transfer completed. Newest backup: $ID/$NO_OF_BACKUPS."
 }
 
 case $1 in
@@ -106,15 +128,17 @@ case $1 in
         restore $2 ;;
     transfer)
         transfer_to_external $2;;
+    start_daemon)
+        start_backup_daemon $2 $3;;
     *)
         echo -e ${RED}"WARNING: If in doubt when calling these commands: read the script file. Otherwise could be fatal."${WHITE}
         echo -e "Usage:\n"
-        echo "arg1              arg2            action"
-        echo "backup            <opt path>      create .tar dump of database and place it default '$HOST_LOCATION/$BACKUP_NAME' or optional at '<path>/db-backup'."
-        echo "transfer          <opt path>      transfer db dump to backup server from default location '$HOST_LOCATION/$BACKUP_NAME' or optional from '<path>/$HOST_LOCATION/$BACKUP_NAME/'."
-        echo "restore           <path>          restore database from .tar dump found at <path>."
-        exit 1
-        ;;
+        echo "arg1              arg2            arg3             action"
+        echo "backup            <opt path>                       create .tar dump of database and place it default '$HOST_LOCATION/$BACKUP_NAME' or optional at '<path>$HOST_LOCATION'."
+        echo "transfer          <opt path>                       transfer db dump to backup server from default location '$HOST_LOCATION/$BACKUP_NAME' or optional from '<path>$HOST_LOCATION/$BACKUP_NAME'."
+        echo "restore           <path>                           restore database from .tar dump found at <path>."
+        echo "start_daemon      <opt path>      <interval>       starts daemon that will auto-backup every 3 rours."
+        exit 1 ;;
 esac
 
 exit 0
