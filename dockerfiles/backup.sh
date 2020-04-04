@@ -122,8 +122,8 @@ transfer_to_external() {
 }
 
 # Start background daemon to backup at intervals
-# arg1: Optional path to where the backups should be stored
-# arg2: Time interval in MINUTES
+# arg1: Time interval in MINUTES
+# arg2: Optional path to where the backups should be stored
 start_backup_daemon() {
     echo "Starting backup daemon..."
 
@@ -140,20 +140,20 @@ start_backup_daemon() {
 
 
     [ -z "$1" ] \
-    && echo "Using default 3 hour interval..." && SLEEP_MILLISECONDS=$(( 3 * 60 * 1000 )) \
-    || echo "Using $1 minutes as interval..." && SLEEP_MILLISECONDS=$(( $1 * 1000 * 60)) \
+    && echo "Using default 180 min interval..." && SLEEP_MINUTES="$(( 180 * 60 ))" \
+    || echo "Using $1 minutes as interval..." && SLEEP_MINUTES="$(( $1 * 60 ))" \
 
     # Run in subshell detached from user
     (
         while (true);
-            do
-                backup
-                transfer_to_external
-                sleep "$SLEEP_MILLISECONDS"
+        do
+            backup "$2"
+            transfer_to_external "$2"
+            sleep "$SLEEP_MINUTES"
         done
     ) &>"$LOG_LOCATION" &               # Print to log file
 
-    echo "$!" > "$PID_LOCATION"         # Process id of current awaiting backup job
+    echo "$!" > "$PID_LOCATION"         # Process id of current backup job
     disown
 
     echo -e ${GREEN}"Backup daemon started sucessfully."${WHITE}
@@ -187,10 +187,13 @@ case $1 in
         echo -e ${RED}"WARNING: If in doubt when calling these commands: read the script file. Otherwise could be fatal."${WHITE}
         echo -e "Usage:\n"
         echo "arg1              arg2            arg3             action"
-        echo "backup            <opt path>                       create .tar dump of database and place it default '$HOST_LOCATION/$BACKUP_NAME' or optional at '<path>$HOST_LOCATION'."
-        echo "transfer          <opt path>                       transfer db dump to backup server from default location '$HOST_LOCATION/$BACKUP_NAME' or optional from '<path>$HOST_LOCATION/$BACKUP_NAME'."
+        echo "backup            <opt path>                       create .tar dump of database and place it default '$HOST_LOCATION/$BACKUP_NAME' or optional at '<path>$HOST_LOCATION'.*"
+        echo "transfer          <opt path>                       transfer db dump to backup server from default location '$HOST_LOCATION/$BACKUP_NAME' or optional from '<path>$HOST_LOCATION/$BACKUP_NAME'.*"
         echo "restore           <path>                           restore database from .tar dump found at <path>."
-        echo "start_daemon      <interval>      <opt path>       starts daemon to run in background and auto-backup every <internal> minutes. Default is 3 hours"
+        echo "start_daemon      <interval>      <opt path>       starts daemon to run in background and backup at <internal> minutes. Default is 3 hours. Remember to stop again if run locally.*"
+        echo "stop_daemon                                        tries to stop daemon using last known PID and removes $PID_LOCATION file."
+
+        echo -e "\n*Use <opt path> when testing locally, e.g. simply a dot to indicate the directory from which you are calling the script: '.'"
         exit 1 ;;
 esac
 
