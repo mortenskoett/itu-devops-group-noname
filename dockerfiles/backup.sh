@@ -9,11 +9,14 @@ set -eo pipefail
 # Colors
 RED='\033[0;31m'
 WHITE='\033[0m'
+GREEN='\033[0;32m'
 
 # Db configuration
 HOST_LOCATION="/db-backup"
 BACKUP_NAME="db_backup.tar"
-NO_OF_BACKUPS="3"   # Maximum number of redundant backups kept on the backup server
+NO_OF_BACKUPS="3"                   # Maximum number of redundant backups kept on the backup server
+LOG_LOCATION="backup_daemon.log"
+PID_LOCATION="backup_daemon.pid"
 
 # Backup server confiuration
 IP="home.oleandersen.net"
@@ -26,6 +29,9 @@ BASE_DIR="minitwit-backup"
 
 # TODO: Remove before produciton. 
 SSH_KEY="/home/mortenskoett/MEGAsync/ITU/MSc1/2_semester/repositories/devops/itu-group-noname-private/private/ssh_keys/ssh-key"
+
+# Variables
+
 
 
 
@@ -98,12 +104,6 @@ generate_folder_id() {
     echo $(( ($NEWEST_BACKUP % $NO_OF_BACKUPS) + 1 ))    # From 1 to $NO_OF_BACKUPS
 }
 
-# Start background daemon to backup at intervals
-# arg1: Optional path to where the backups should be stored
-# arg2: Time interval
-# start_backup_daemon() {
-# }
-
 # Will transfer the locally stored data to an external server
 # arg1: Optional prefix path to the database dump to be transferred
 transfer_to_external() {
@@ -121,15 +121,68 @@ transfer_to_external() {
     echo "Transfer completed. Newest backup: $ID/$NO_OF_BACKUPS."
 }
 
+# Start background daemon to backup at intervals
+# arg1: Optional path to where the backups should be stored
+# arg2: Time interval in MINUTES
+start_backup_daemon() {
+    echo "Starting backup daemon..."
+
+    # Check if known PID is already running
+    if [ -f "$PID_LOCATION" ]; 
+    then
+        PID=$(cat $PID_LOCATION)
+        IS_RUNNING=$(ps -p $PID)
+
+        [ ! -z "$IS_RUNNING" ] \
+        && echo "Backup daemon is already running... Exiting." \
+        && exit 1
+    fi
+
+
+    [ -z "$1" ] \
+    && echo "Using default 3 hour interval..." && SLEEP_MILLISECONDS=$(( 3 * 60 * 1000 )) \
+    || echo "Using $1 minutes as interval..." && SLEEP_MILLISECONDS=$(( $1 * 1000 * 60)) \
+
+    # Run in subshell detached from user
+    (
+        while (true);
+            do
+                backup
+                transfer_to_external
+                sleep "$SLEEP_MILLISECONDS"
+        done
+    ) &>"$LOG_LOCATION" &               # Print to log file
+
+    echo "$!" > "$PID_LOCATION"         # Process id of current awaiting backup job
+    disown
+
+    echo -e ${GREEN}"Backup daemon started sucessfully."${WHITE}
+    echo "Do not delete file $PID_LOCATION while daemon is running."
+    echo "See log outout in file $LOG_LOCATION"
+}
+
+stop_backup_daemon() {
+    echo "Stopping backup daemon..."
+
+    [ -f "$PID_LOCATION" ] \
+        && echo "PID file found..." \
+        && kill $(cat $PID_LOCATION) \
+        && echo "Removing '$PID_LOCATION'..." && rm "$PID_LOCATION" \
+        && echo -e ${RED}"Daemon sucessfully stopped."${WHITE} \
+        || echo "File '$PID_LOCATION' not found in current directory."
+}
+
 case $1 in
     backup)
         backup $2 ;;
     restore)
         restore $2 ;;
     transfer)
-        transfer_to_external $2;;
+        transfer_to_external $2 ;;
     start_daemon)
-        start_backup_daemon $2 $3;;
+        start_backup_daemon $2 $3 ;;
+    stop_daemon)
+        stop_backup_daemon ;;
     *)
         echo -e ${RED}"WARNING: If in doubt when calling these commands: read the script file. Otherwise could be fatal."${WHITE}
         echo -e "Usage:\n"
@@ -137,7 +190,7 @@ case $1 in
         echo "backup            <opt path>                       create .tar dump of database and place it default '$HOST_LOCATION/$BACKUP_NAME' or optional at '<path>$HOST_LOCATION'."
         echo "transfer          <opt path>                       transfer db dump to backup server from default location '$HOST_LOCATION/$BACKUP_NAME' or optional from '<path>$HOST_LOCATION/$BACKUP_NAME'."
         echo "restore           <path>                           restore database from .tar dump found at <path>."
-        echo "start_daemon      <opt path>      <interval>       starts daemon that will auto-backup every 3 rours."
+        echo "start_daemon      <interval>      <opt path>       starts daemon to run in background and auto-backup every <internal> minutes. Default is 3 hours"
         exit 1 ;;
 esac
 
