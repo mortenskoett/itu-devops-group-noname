@@ -55,7 +55,8 @@ jobs:
            ./run.sh pull && \
            ./run.sh setup_run_app && \
            ./run.sh monitor -d && \
-           ./run.sh logging -d"
+           ./run.sh logging -d && \
+           ./backup.sh stop && ./backup.sh start"
 
 workflows:
   version: 2
