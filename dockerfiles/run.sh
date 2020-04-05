@@ -106,7 +106,7 @@ push() {
 
     echo "Pushing images to Dockerhub..."
     docker push $DOCKER_USERNAME/minitwit-app
-    docker push $DOCKER_USERNAME/minitwit-eslint
+    docker push $DOCKER_USERNAME/minitwit-eslint-test
     docker push $DOCKER_USERNAME/minitwit-test
     docker push $DOCKER_USERNAME/minitwit-prometheus
 }
