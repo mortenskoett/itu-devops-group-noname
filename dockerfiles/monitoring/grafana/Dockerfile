@@ -1,4 +1,4 @@
-FROM grafana/grafana:4.5.2
+FROM grafana/grafana:6.5.0
 
 WORKDIR /grafana/
 
