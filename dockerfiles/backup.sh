@@ -221,13 +221,13 @@ case $1 in
     *)
         echo -e ${RED}"WARNING: If in doubt when calling these commands: read the script file. Otherwise could be fatal."${WHITE}
         echo -e "Usage:\n"
-        echo "arg1              arg2            arg3                action"
-        echo "backup            <opt path>                          create .tar dump of database and place it default '$HOST_LOCATION/$BACKUP_NAME' or optional at '<path>$HOST_LOCATION'.*"
-        echo "transfer          <opt path>                          transfer db dump to backup server from default location '$HOST_LOCATION/$BACKUP_NAME' or optional from '<path>$HOST_LOCATION/$BACKUP_NAME'.*"
-        echo -e "restore           <path>                              ${RED}[WARNING]${WHITE} restore database from .tar dump found at <path>."
-        echo "start             <opt interval>      <opt path>      starts daemon in background backing up at <internal> minutes. Default is 3 hours. Remember to stop again if run locally.*"
-        echo "stop                                                  tries to stop daemon using last known PID and removes $PID_LOCATION file."
-        # echo "status                                                shows current known status of the backup daemon."
+        echo "arg1              arg2                arg3                action"
+        echo "backup            <opt path>                              create .tar dump of database and place it default '$HOST_LOCATION/$BACKUP_NAME' or optional at '<path>$HOST_LOCATION'.*"
+        echo "transfer          <opt path>                              transfer db dump to backup server from default location '$HOST_LOCATION/$BACKUP_NAME' or optional from '<path>$HOST_LOCATION/$BACKUP_NAME'.*"
+        echo -e "restore           <path>                                  ${RED}[WARNING]${WHITE} restore database from .tar dump found at <path>."
+        echo "start             <opt interval>      <opt path>          starts daemon in background backing up at <internal> minutes. Default is 3 hours. Remember to stop again if run locally.*"
+        echo "stop                                                      tries to stop daemon using last known PID and removes $PID_LOCATION file."
+        # echo "status                                                    shows current known status of the backup daemon."
 
         echo -e "\n*Use <opt path> when testing locally, e.g. simply a dot to indicate the directory from which you are calling the script: '.'"
 
