@@ -5,6 +5,7 @@
 
 const Sequelize = require('sequelize');
 const models = require('../persistence/models/models.js');
+const logger = require('../logging/logging');
 
 const { Message } = models;
 const { User } = models;
@@ -26,6 +27,8 @@ function getAllMessages(amount) {
 			}],
 		});
 	} catch (err) {
+		logger.debug('Failed to get messages from database.');
+		logger.debug(err.message);
 		throw new Error('Failed to get messages from database: ', err);
 	}
 }
@@ -40,7 +43,9 @@ function postMessage(userID, text) {
 	try {
 		return Message.create({ userId: userID, text });
 	} catch (err) {
-		throw new Error('Failed to save message in database: ', err);
+		logger.debug('Failed to create messages in database:');
+		logger.debug(err.message);
+		throw new Error('Failed to create message in database: ', err);
 	}
 }
 
@@ -63,7 +68,9 @@ async function getFollowedMessages(userId, amount) {
 			limit: amount,
 		});
 	} catch (err) {
-		throw new Error('Failed to get messages from database: ', err);
+		logger.debug('Failed to get followed messages from database.');
+		logger.debug(err.message);
+		throw new Error('Failed to get followed messages from database: ', err);
 	}
 }
 
@@ -85,7 +92,9 @@ function getUserMessages(userID, amount) {
 			}],
 		});
 	} catch (err) {
-		throw new Error('Failed to get messages from database: ', err);
+		logger.debug('Failed to get users messages from database.');
+		logger.debug(err.message);
+		throw new Error('Failed to get users messages from database: ', err);
 	}
 }
 

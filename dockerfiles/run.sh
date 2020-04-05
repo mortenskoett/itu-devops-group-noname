@@ -80,6 +80,13 @@ run_monitor() {
     docker-compose -f ./monitoring/docker-compose.yml up $1
 }
 
+# Start up logging services
+# arg1: Optional flags to docker-compose
+run_logging() {
+    echo "Running logging services..."
+    docker-compose -f ./logging/docker-compose.yml up $1
+}
+
 # Build all images
 build() {
     echo "Running build..."
@@ -88,6 +95,7 @@ build() {
     docker-compose -f ./monitoring/docker-compose.yml build
     docker-compose -f ./test/python/docker-compose.yml build
     docker-compose -f ./test/eslint/docker-compose.yml build
+    docker-compose -f ./logging/docker-compose.yml build
     echo "Build done."
 }
 
@@ -132,6 +140,7 @@ down() {
     echo "Disconnecting networks..."
     docker-compose -f ./monitoring/docker-compose.yml down
     docker-compose -f ./db/docker-compose.yml down
+    docker-compose -f ./logging/docker-compose.yml down
     docker-compose -f ./app/docker-compose.yml down
 
     echo "Down done."
@@ -204,6 +213,8 @@ case "$1" in
         run_db $2 ;;
     monitor)
         run_monitor $2 ;;
+    logging)
+        run_logging $2 ;;
     build)
         build ;;
     push)
@@ -231,6 +242,7 @@ case "$1" in
         echo "eslint        -d          run eslint test container"
         echo "db            -d          run postgres database container"
         echo "monitor       -d          run monitor aka prometheus/grafana container"
+        echo "logging       -d          run logging services"
         echo "build                     rebuild all images"
         echo "push                      push newest docker images to Dockerhub"
         echo "pull                      pull latest docker images from Dockerhub"
