@@ -5,6 +5,8 @@
  */
 const express = require('express');
 const basicAuth = require('express-basic-auth');
+const logger = require('../logging/logging');
+
 const sim = require('../controllers/simulatorController');
 const prom = require('../monitoring/prometheus-util');
 
@@ -15,6 +17,13 @@ router.get('/metrics', prom.injectMetricsRoute);
 
 // Error return 401 message
 function getUnauthorizedResponse(req) {
+	logger.info('/unauthorized 401');
+	if (req.auth) {
+		logger.info(`Credentials '${req.auth.user}:${req.auth.password}' rejected`);
+	} else {
+		logger.info('No credentials provided');
+	}
+
 	return req.auth
 		? (`Credentials '${req.auth.user}:${req.auth.password}' rejected`)
 		: 'No credentials provided';

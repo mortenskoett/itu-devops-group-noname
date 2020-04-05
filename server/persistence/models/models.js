@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const config = require('../../configs');
+const logger = require('../../logging/logging');
 
 let sequelize = null;
 
@@ -20,10 +21,10 @@ if (config.database.protocol === 'sqlite') {
 sequelize.sync();
 
 sequelize.authenticate().then(() => {
-	console.log('Connection to sequelize has been established succesfully.');
+	logger.info('Connection to sequelize has been established succesfully.');
 }).catch((err) => {
-	console.error('Unable to connect to the database.');
-	console.error(err);
+	logger.info('Unable to connect to the database.');
+	logger.info(err);
 });
 
 const User = sequelize.define('user', {

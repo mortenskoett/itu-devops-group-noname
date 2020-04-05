@@ -4,6 +4,7 @@
 */
 const timeUtil = require('../utilities/timeDateUtil');
 const db = require('../persistence/models/models');
+const logger = require('../logging/logging');
 
 let LATEST = 0; // Latest recieved 'latest' value
 
@@ -24,6 +25,7 @@ async function validate(username, pwd, email) {
 // Get latest value (stored for each api request)
 // @app.route("/latest", methods=["GET"])
 async function getLatest(req, res) {
+	logger.info('/latest 200');
 	res.status(200).send({ latest: LATEST });
 }
 
@@ -35,16 +37,19 @@ async function register(req, res) {
 
 	const err = await validate(username, pwd, email);
 	if (err) {
+		logger.info('/register 400');
 		res.status(400).send({ error_msg: err });
 		return;
 	}
 
 	const isUserAdded = await db.User.create({ username, password: pwd, email });
 	if (!isUserAdded) {
+		logger.info('/register 500');
 		res.status(500).send({ error_msg: 'Adding user to database failed.' });
 		return;
 	}
 
+	logger.info('/register 204');
 	res.status(204).send();
 }
 
@@ -67,6 +72,7 @@ async function getMessages(req, res) {
 		user: m.user.username,
 	}));
 
+	logger.info('/msgs 200');
 	res.status(200).send(jsonMessages);
 }
 
@@ -78,6 +84,7 @@ async function getUserMessages(req, res) {
 
 	const user = await db.User.findOne({ where: { username: req.params.username } });
 	if (!user) {
+		logger.info('/msgs/<username> GET 404');
 		res.status(404).send({ error_msg: 'User id not found.' });
 		return;
 	}
@@ -95,6 +102,7 @@ async function getUserMessages(req, res) {
 		user: m.user.username,
 	}));
 
+	logger.info('/msgs/<username> GET 200');
 	res.status(200).send(jsonMessages);
 }
 
@@ -105,11 +113,13 @@ async function postMessage(req, res) {
 
 	const user = await db.User.findOne({ where: { username } });
 	if (!user) {
+		logger.info('/msgs/username POST 404');
 		res.status(404).send({ error_msg: `Error finding user "${username}"` });
 		return;
 	}
 	await user.createMessage({ text: req.body.content, date });
 
+	logger.info('/msgs/username POST 204');
 	res.status(204).send();
 }
 
@@ -130,6 +140,7 @@ async function getFollows(req, res) {
 
 	const jsonFollows = follows.map((e) => e.dataValues.username);
 
+	logger.error('/fllws/username GET 200');
 	res.status(200).send({ follows: jsonFollows });
 }
 
@@ -145,6 +156,7 @@ async function setFollow(req, res) {
 
 	const user = await db.User.findOne({ where: { username } });
 	if (!user) {
+		logger.error('/fllws/username POST 400');
 		res.status(400).send({ error_msg: `Error finding user "${username}"` });
 		return;
 	}
@@ -152,6 +164,7 @@ async function setFollow(req, res) {
 	if (follow) {
 		const otherUser = await db.User.findOne({ where: { username: follow } });
 		if (!otherUser) {
+			logger.error('/fllws/username POST 400');
 			res.status(400).send({ error_msg: `Error finding user "${username}"` });
 			return;
 		}
@@ -159,12 +172,14 @@ async function setFollow(req, res) {
 	} else if (unfollow) {
 		const otherUser = await db.User.findOne({ where: { username: unfollow } });
 		if (!otherUser) {
+			logger.error('/fllws/username POST 400');
 			res.status(400).send({ error_msg: `Error finding user "${username}"` });
 			return;
 		}
 
 		await user.removeFollowers(otherUser);
 	}
+	logger.error('/fllws/username POST 204');
 	res.sendStatus(204);
 }
 
