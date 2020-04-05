@@ -21,7 +21,7 @@ services:
     build:
       context: ./
       dockerfile: ./grafana/Dockerfile
-    image: grafana/grafana:4.5.2
+    image: grafana/grafana:6.5.0
     container_name: minitwit-grafana
     volumes:
       - grafana-data:/grafana
