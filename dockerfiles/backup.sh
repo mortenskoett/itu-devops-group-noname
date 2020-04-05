@@ -10,6 +10,7 @@ set -eo pipefail
 RED='\033[0;31m'
 WHITE='\033[0m'
 GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
 
 # Db configuration
 HOST_LOCATION="/db-backup"
@@ -30,10 +31,11 @@ BASE_DIR="minitwit-backup"
 # TODO: Remove before produciton. 
 SSH_KEY="/home/mortenskoett/MEGAsync/ITU/MSc1/2_semester/repositories/devops/itu-group-noname-private/private/ssh_keys/ssh-key"
 
-# Variables
 
-
-
+# Returns a timestamp
+create_timestamp() {
+    echo "$(date +%Y-%d-%m_kl_%H.%M.%S)"
+}
 
 # Will create create local backup inside container
 create_local_backup(){
@@ -47,9 +49,11 @@ copy_to_host() {
     if [ ! -z "$1" ]; 
     then
         LOCATION="$1$HOST_LOCATION"
+    else
+        echo -e ${YELLOW}"No prefix-path was given for host location. Using default at:${WHITE} '$HOST_LOCAITON/$BACKUP_NAME'"
     fi
 
-    TIMESTAMP="$(date +%Y-%d-%m_kl_%H.%M.%S)"
+    TIMESTAMP="$(create_timestamp)"
 
     echo "Copying to host..."
     mkdir -p "$LOCATION"
@@ -121,37 +125,69 @@ transfer_to_external() {
     echo "Transfer completed. Newest backup: $ID/$NO_OF_BACKUPS."
 }
 
+# Checks whether daemon is already running and tries to handle it
+# If it is running the script exists. 
+# If the PID file exists and the process CAN be found, the PID file is updated w. matching PID and exits
+# If the PID file exists but the process CAN'T be found the PID file is deleted and script continues
+check_if_daemon_running() {
+    if [ -f "$PID_LOCATION" ];                              # PID file exists
+    then
+        PID=$(cat $PID_LOCATION)
+        IS_RUNNING=$(ps -p $PID | sed -n '2p') || echo -n ""   # Is process running otherwise return empty string
+
+        if [ ! -z "$IS_RUNNING" ];
+        then 
+            echo "Backup daemon is already running... Exiting."
+            exit 1
+        else
+            echo -e ${RED}"'$PID_LOCATION' exists but process $PID not found running."${WHITE}
+            echo "Trying to find PID from process name..."
+            PID=$(ps aux | egrep "bash ./backup.sh start" | head -1 | awk 'FNR > 0 {print $2}') || echo -n ""
+
+            if [ ! -z $PID ]; 
+            then
+                echo "Process found. Updating $PID_LOCATION file..."
+                echo $PID > $PID_LOCATION
+                echo "Exiting."
+                exit 1
+            else
+                echo "Process still not found, deleting $PID_LOCATION file."
+                rm $PID_LOCATION
+                echo -e ${YELLOW}"You should probably check that there are not 2 different daemons running."${WHITE}
+                echo "Continuing..."
+            fi
+        fi
+    fi
+}
+
 # Start background daemon to backup at intervals
 # arg1: Time interval in MINUTES
 # arg2: Optional path to where the backups should be stored
 start_backup_daemon() {
     echo "Starting backup daemon..."
 
-    # Check if known PID is already running
-    if [ -f "$PID_LOCATION" ]; 
+    check_if_daemon_running
+
+    if [ -z "$1" ];
     then
-        PID=$(cat $PID_LOCATION)
-        IS_RUNNING=$(ps -p $PID)
-
-        [ ! -z "$IS_RUNNING" ] \
-        && echo "Backup daemon is already running... Exiting." \
-        && exit 1
+        echo "Using default 180 min interval..."
+        SLEEP_MINUTES="$(( 180 * 60 ))"
+    else
+        echo "Using $1 minute intervals..."
+        SLEEP_MINUTES="$(( "$1" * 60 ))"
     fi
-
-
-    [ -z "$1" ] \
-    && echo "Using default 180 min interval..." && SLEEP_MINUTES="$(( 180 * 60 ))" \
-    || echo "Using $1 minutes as interval..." && SLEEP_MINUTES="$(( $1 * 60 ))" \
 
     # Run in subshell detached from user
     (
         while (true);
         do
+            echo -e "\n[$(create_timestamp)] Backup started."
             backup "$2"
             transfer_to_external "$2"
-            sleep "$SLEEP_MINUTES"
+            echo "[$(create_timestamp)] Backup ended. Going to sleep..."
+            sleep $SLEEP_MINUTES
         done
-    ) &>"$LOG_LOCATION" &               # Print to log file
+    ) &>>"$LOG_LOCATION" &               # Print to log file
 
     echo "$!" > "$PID_LOCATION"         # Process id of current backup job
     disown
@@ -166,11 +202,15 @@ stop_backup_daemon() {
 
     [ -f "$PID_LOCATION" ] \
         && echo "PID file found..." \
-        && kill $(cat $PID_LOCATION) \
+        && (kill $(cat $PID_LOCATION) || exit 1) \
         && echo "Removing '$PID_LOCATION'..." && rm "$PID_LOCATION" \
         && echo -e ${RED}"Daemon sucessfully stopped."${WHITE} \
         || echo "File '$PID_LOCATION' not found in current directory."
 }
+
+# show_daemon_status() {
+
+# }
 
 case $1 in
     backup)
@@ -179,21 +219,27 @@ case $1 in
         restore $2 ;;
     transfer)
         transfer_to_external $2 ;;
-    start_daemon)
+    start)
         start_backup_daemon $2 $3 ;;
-    stop_daemon)
+    stop)
         stop_backup_daemon ;;
+    # status)
+    #     show_daemon_status ;;
     *)
         echo -e ${RED}"WARNING: If in doubt when calling these commands: read the script file. Otherwise could be fatal."${WHITE}
         echo -e "Usage:\n"
-        echo "arg1              arg2            arg3             action"
-        echo "backup            <opt path>                       create .tar dump of database and place it default '$HOST_LOCATION/$BACKUP_NAME' or optional at '<path>$HOST_LOCATION'.*"
-        echo "transfer          <opt path>                       transfer db dump to backup server from default location '$HOST_LOCATION/$BACKUP_NAME' or optional from '<path>$HOST_LOCATION/$BACKUP_NAME'.*"
-        echo "restore           <path>                           restore database from .tar dump found at <path>."
-        echo "start_daemon      <interval>      <opt path>       starts daemon to run in background and backup at <internal> minutes. Default is 3 hours. Remember to stop again if run locally.*"
-        echo "stop_daemon                                        tries to stop daemon using last known PID and removes $PID_LOCATION file."
+        echo "arg1              arg2            arg3                action"
+        echo "backup            <opt path>                          create .tar dump of database and place it default '$HOST_LOCATION/$BACKUP_NAME' or optional at '<path>$HOST_LOCATION'.*"
+        echo "transfer          <opt path>                          transfer db dump to backup server from default location '$HOST_LOCATION/$BACKUP_NAME' or optional from '<path>$HOST_LOCATION/$BACKUP_NAME'.*"
+        echo -e "restore           <path>                              ${RED}[WARNING]${WHITE} restore database from .tar dump found at <path>."
+        echo "start             <opt interval>      <opt path>      starts daemon in background backing up at <internal> minutes. Default is 3 hours. Remember to stop again if run locally.*"
+        echo "stop                                                  tries to stop daemon using last known PID and removes $PID_LOCATION file."
+        # echo "status                                                shows current known status of the backup daemon."
 
         echo -e "\n*Use <opt path> when testing locally, e.g. simply a dot to indicate the directory from which you are calling the script: '.'"
+
+        echo -e "\nExamples: (Warning right now this will overwrite production backups if any!)"
+        echo "'$ ./backup.sh start . 20' will start backup daemon w. 20 minutes interval using current directory for local backups before sending to backup server"
         exit 1 ;;
 esac
 
