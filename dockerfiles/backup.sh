@@ -24,13 +24,7 @@ IP="home.oleandersen.net"
 PORT="3322"
 USER="devops"
 BASE_DIR="minitwit-backup"
-
-# TODO: Use  correct key - if using this key then it should be copied to backup server
-# SSH_KEY="/vagrant/ssh_keys/id_rsa_frank"
-
-# TODO: Remove before produciton. 
-SSH_KEY="/home/mortenskoett/MEGAsync/ITU/MSc1/2_semester/repositories/devops/itu-group-noname-private/private/ssh_keys/ssh-key"
-
+SSH_KEY="/vagrant/ssh_keys/id_rsa_backup"
 
 # Returns a timestamp
 create_timestamp() {
@@ -194,7 +188,7 @@ start_backup_daemon() {
 
     echo -e ${GREEN}"Backup daemon started sucessfully."${WHITE}
     echo "Do not delete file $PID_LOCATION while daemon is running."
-    echo "See log outout in file $LOG_LOCATION"
+    echo "See log output in file $LOG_LOCATION to verify dameon is running correctly."
 }
 
 stop_backup_daemon() {
@@ -202,14 +196,13 @@ stop_backup_daemon() {
 
     [ -f "$PID_LOCATION" ] \
         && echo "PID file found..." \
-        && (kill $(cat $PID_LOCATION) || exit 1) \
+        && (kill $(cat $PID_LOCATION) || exit 0) \
         && echo "Removing '$PID_LOCATION'..." && rm "$PID_LOCATION" \
         && echo -e ${RED}"Daemon sucessfully stopped."${WHITE} \
-        || echo "File '$PID_LOCATION' not found in current directory."
+        || echo "File '$PID_LOCATION' not found in current directory, nothing to stop. Continuing." && exit 0
 }
 
 # show_daemon_status() {
-
 # }
 
 case $1 in
