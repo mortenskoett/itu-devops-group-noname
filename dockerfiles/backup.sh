@@ -13,11 +13,11 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 
 # Db configuration
-HOST_LOCATION="/db-backup"
-BACKUP_NAME="db_backup.tar"
+BACKUP_LOCATION="/db-backup"        # Default location of where database backups archives are stored
+BACKUP_NAME="db_backup.tar"         # Name of database backup archive
 NO_OF_BACKUPS="3"                   # Maximum number of redundant backups kept on the backup server
-LOG_LOCATION="backup_daemon.log"
-PID_LOCATION="backup_daemon.pid"
+LOG_LOCATION="backup_daemon.log"    # Daemon log
+PID_LOCATION="backup_daemon.pid"    # Used to hold PID of daemon
 
 # Backup server confiuration
 IP="home.oleandersen.net"
@@ -34,27 +34,23 @@ create_timestamp() {
 # Will create create local backup inside container
 create_local_backup(){
     echo "Backing up data inside docker volume..."
-    docker exec minitwit-db bash -c "pg_dump -U embu -F t minitwit-db > $HOST_LOCATION/$BACKUP_NAME"
+    docker exec minitwit-db bash -c "pg_dump -U embu -F t minitwit-db > $BACKUP_LOCATION/$BACKUP_NAME"
 }
 
 # Copy data from docker backup to host
 # arg1: Optional where to save the database dump if not at default location
 copy_to_host() {
-    if [ ! -z "$1" ]; 
-    then
-        LOCATION="$1$HOST_LOCATION"
-    else
-        echo -e ${YELLOW}"No prefix-path was given for host location. Using default at:${WHITE} '$HOST_LOCAITON/$BACKUP_NAME'"
-    fi
-
-    TIMESTAMP="$(create_timestamp)"
-
     echo "Copying to host..."
-    mkdir -p "$LOCATION"
-    docker cp minitwit-db:"$HOST_LOCATION"/"$BACKUP_NAME" "$LOCATION"/"$BACKUP_NAME"
+
+    HOST_LOCATION="$1$BACKUP_LOCATION"
+    TIMESTAMP="$(create_timestamp)"
+    echo "Using host location: '$HOST_LOCATION/$BACKUP_NAME'"
+
+    mkdir -p "$HOST_LOCATION"
+    docker cp minitwit-db:"$BACKUP_LOCATION"/"$BACKUP_NAME" "$HOST_LOCATION"/"$BACKUP_NAME"
 
     echo "Writing timestamp..."
-    echo "$TIMESTAMP" > "$LOCATION/timestamp"
+    echo "$TIMESTAMP" > "$HOST_LOCATION/timestamp"
 }
 
 # WARNING! VERY DESCTRUCTIVE.
@@ -68,6 +64,7 @@ delete_database() {
 # Backup and make database dump (.tar) to given location
 # arg1: optional location to save the backup on the host
 backup() {
+    echo "backup: $1"
     create_local_backup
     copy_to_host $1
     echo "Backup done."
@@ -85,8 +82,8 @@ restore() {
     delete_database
 
     echo "Restoring data..."
-    docker cp $1 minitwit-db:"$HOST_LOCATION"/restore_backup.tar                                          # copying data to container
-    docker exec -i minitwit-db pg_restore -U embu -d minitwit-db "$HOST_LOCATION"/restore_backup.tar      # restoring from copied data
+    docker cp $1 minitwit-db:"$BACKUP_LOCATION"/restore_backup.tar                                          # copying data to container
+    docker exec -i minitwit-db pg_restore -U embu -d minitwit-db "$BACKUP_LOCATION"/restore_backup.tar      # restoring from copied data
     echo "Restore done."
 }
 
@@ -97,6 +94,8 @@ fetch_newest_backup_id() {
     [ ! -z "$NEWEST" ] && echo "$NEWEST" || echo "0"
 }
 
+# Generates next ID based on what the ID of the newest backup is
+# This makes it possible to maintain n redundant backups
 generate_folder_id() {
     local NEWEST_BACKUP=$(fetch_newest_backup_id)
     echo $(( ($NEWEST_BACKUP % $NO_OF_BACKUPS) + 1 ))    # From 1 to $NO_OF_BACKUPS
@@ -108,7 +107,7 @@ transfer_to_external() {
     echo "Transferring database dump to backup server..."
     local ID=$(generate_folder_id)
     local EXTERNAL_PATH="$BASE_DIR/$ID"
-    local LOCAL_PATH="$1$HOST_LOCATION/"
+    local LOCAL_PATH="$1$BACKUP_LOCATION/"
 
     # Make sure directories exist
     ssh -p "$PORT" -i "$SSH_KEY" "$USER"@"$IP" "mkdir -p $EXTERNAL_PATH && echo $ID > $BASE_DIR/newest"
@@ -191,6 +190,8 @@ start_backup_daemon() {
     echo "See log output in file $LOG_LOCATION to verify dameon is running correctly."
 }
 
+# Stops the backup daemon by looking into the PID_LOCATION and then try to kill that PID
+# Will right now show a warning if the PID is not running. Should be fixed.
 stop_backup_daemon() {
     echo "Stopping backup daemon..."
 
@@ -201,9 +202,6 @@ stop_backup_daemon() {
         && echo -e ${RED}"Daemon sucessfully stopped."${WHITE} \
         || echo "File '$PID_LOCATION' not found in current directory, nothing to stop. Continuing." && exit 0
 }
-
-# show_daemon_status() {
-# }
 
 case $1 in
     backup)
@@ -216,18 +214,15 @@ case $1 in
         start_backup_daemon $2 $3 ;;
     stop)
         stop_backup_daemon ;;
-    # status)
-    #     show_daemon_status ;;
     *)
         echo -e ${RED}"WARNING: If in doubt when calling these commands: read the script file. Otherwise could be fatal."${WHITE}
         echo -e "Usage:\n"
         echo "arg1              arg2                arg3                action"
-        echo "backup            <opt path>                              create .tar dump of database and place it default '$HOST_LOCATION/$BACKUP_NAME' or optional at '<path>$HOST_LOCATION'.*"
-        echo "transfer          <opt path>                              transfer db dump to backup server from default location '$HOST_LOCATION/$BACKUP_NAME' or optional from '<path>$HOST_LOCATION/$BACKUP_NAME'.*"
+        echo "backup            <opt path>                              create .tar dump of database and place it default '$BACKUP_LOCATION/$BACKUP_NAME' or optional at '<path>$BACKUP_LOCATION'.*"
+        echo "transfer          <opt path>                              transfer db dump to backup server from default location '$BACKUP_LOCATION/$BACKUP_NAME' or optional from '<path>$BACKUP_LOCATION/$BACKUP_NAME'.*"
         echo -e "restore           <path>                                  ${RED}[WARNING]${WHITE} restore database from .tar dump found at <path>."
         echo "start             <opt interval>      <opt path>          starts daemon in background backing up at <internal> minutes. Default is 3 hours. Remember to stop again if run locally.*"
         echo "stop                                                      tries to stop daemon using last known PID and removes $PID_LOCATION file."
-        # echo "status                                                    shows current known status of the backup daemon."
 
         echo -e "\n*Use <opt path> when testing locally, e.g. simply a dot to indicate the directory from which you are calling the script: '.'"
 
