@@ -10,7 +10,7 @@ let LATEST = 0; // Latest recieved 'latest' value
 
 function updateLatest(req) {
 	const { latest } = req.query;
-	if (latest !== -1) LATEST = parseInt(latest, 10);
+	if (latest) LATEST = parseInt(latest, 10);
 }
 
 async function validate(username, pwd, email) {
