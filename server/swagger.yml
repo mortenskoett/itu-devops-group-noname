@@ -35,7 +35,7 @@ paths:
             example: 'Basic c2ltdasdfsadfasdfsadfa'
         - in: query
           name: latest
-          description: latest id sent by simulator api
+          description: Optional id used by simulator
           required: false
           schema:
             type: integer
@@ -73,7 +73,7 @@ paths:
             type: integer
         - in: query
           name: latest
-          description: latest id sent by simulator api
+          description: Optional id used by simulator
           required: false
           schema:
             type: integer
@@ -113,7 +113,7 @@ paths:
             type: integer
         - in: query
           name: latest
-          description: latest id sent by simulator api
+          description: Optional id used by simulator
           required: false
           schema:
             type: integer
@@ -150,7 +150,7 @@ paths:
             example: 'joe'
         - in: query
           name: latest
-          description: latest id sent by simulator api
+          description: Optional id used by simulator
           required: false
           schema:
             type: integer
@@ -188,7 +188,7 @@ paths:
             type: integer
         - in: query
           name: latest
-          description: latest id sent by simulator api
+          description: Optional id used by simulator
           required: false
           schema:
             type: integer
@@ -225,7 +225,7 @@ paths:
             example: 'joe'
         - in: query
           name: latest
-          description: latest id sent by simulator api
+          description: Optional id used by simulator
           required: false
           schema:
             type: integer
