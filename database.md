@@ -33,9 +33,7 @@ This will ensure that this new database is started with the newest possible data
 
 ### What we did to set everything up:
 **Adding a new server**  
-We went on Digital Ocean and setup a new droplet, with the same ssh key that is available to our team on Digital Ocean. To access the new server, you therefore need this private ssh key. (Sidenote: It would have been use a Vagrant file to create the droplet, to avoid the following manual ssh'ing and installation on the server.)
-
-To setup the server we needed to install `docker` and `docker-compose`. We did this by fetching the private ssh-key and then ssh'ing into the server and installing everything manually, using a random guide on the internet.
+We went on Digital Ocean and setup a new droplet, with the same ssh key that is available to our team on Digital Ocean. To access the new server, you therefore need this private ssh key. (Sidenote: It would have been use a Vagrant file to create the droplet, to avoid the following manual ssh'ing and installation on the server.) To setup the server we needed to install `docker` and `docker-compose`. We did this by fetching the private ssh-key and then ssh'ing into the server and installing everything manually, using a random guide on the internet.
 
 **Spinning up the container**  
 Then we uploaded the same Docker-compose file of our current db, and added a `.env` file with the required variables, for setting up a postgress image with the same name, user and port expected by our application.
