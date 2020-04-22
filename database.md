@@ -2,18 +2,18 @@
 This database is a basic Postgress Docker container running on its own seperate droplet (server) on Digital Ocean. The server is running on IP `46.101.215.40` and the container is listening on port `5432`.
 
 To acces it run:
-`ssh -i ssh_keys/ssh-key root@46.101.215.40`
+```ssh -i ssh_keys/ssh-key root@46.101.215.40```
 where `ssk_keys/ssh-key` is the path of the private ssh-key (you know where to find it).
 
 To start the database/container, ssh to the server and, run:
-`Docker-compose up -d`
+```Docker-compose up -d```
 
 To wipe the database clean and fresh, ssh to the server and run:
-`./clean`
+```./clean```
 This will stop the container, prune all docker containers and volumes, and start a fresh container.
 
 To restore the database from a .tar file, add the file to the server as `/db_backup/db-backup.tar` and run:
-`./restore`
+```./restore```
 Note: The container has to be running and clean (for easy cleaning, see above)
 
 ### Migration
@@ -23,6 +23,7 @@ For the migration to happen smoothly, all we need is to do is to 2 thigs:
 1. change the database path in the app to reference this server instead, and 
 2. change the `deploy` script to run the .migrate.sh script, before restarting the app.
 This will ensure that this new database is started with the newest possible data, before the app starts referencing this new database. This way, we ensure as little downtime as possible. 
+
 **NOTE**: For this migration to work succesfully, it is very important that we run the `clean.sh` script on this server first before deploying! (ensuring that the container is both clean and running before deploying). We have choicen not to add this step as part of the deploy script, as we want to create as little downtime as possible. The more we can do before the deploy the better.
 
 ### What we did to set it up:
