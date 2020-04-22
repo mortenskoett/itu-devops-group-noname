@@ -1,5 +1,5 @@
 # Database
-This database is a basic Postgress Docker container running on its own seperate droplet (server) on Digital Ocean.   
+The new database is a basic Postgress Docker container running on its own seperate droplet (server) on Digital Ocean.   
 Server is running on IP `46.101.215.40`.  
 Container is listening on port `5432`.
 
