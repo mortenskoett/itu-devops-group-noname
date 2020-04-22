@@ -39,6 +39,4 @@ We went on Digital Ocean and setup a new droplet, with the same ssh key that is 
 We uploaded the same Docker-compose file of our current db, and added a `.env` file with the required variables. The setup ensures that the postgress container has the same name, user and port expected by our application.
 
 **Enabling migration**  
-We added the `restore.sh` script and `clean.sh` script, which enables to startup the database container with data from a .tar file in `/db_backup/db-backup.tar`. 
-
-Lastly we added the `migrate.sh` script to the old server, which will migrate data from the old server to this and run the restore script. Make sure to run `clean.sh` before running the migration. 
+To start the container with exisitng data we created `clean.sh`  and `restore.sh` scripts. The first starts a freash container with clean volumes. The latter loads data into the cleaned container, from a .tar file in `/db_backup/db-backup.tar`. Lastly we added the `migrate.sh` script to the old server, which will migrate data to the new server and run the restore script. Make sure to run `clean.sh` on the new server, before running the migration. 
