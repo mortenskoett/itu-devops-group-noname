@@ -1,7 +1,10 @@
 # Database
-This database is a basic Postgress Docker container running on its own seperate droplet (server) on Digital Ocean. The server is running on IP `46.101.215.40` and the container is listening on port `5432`.
+This database is a basic Postgress Docker container running on its own seperate droplet (server) on Digital Ocean.   
+Server is running on IP `46.101.215.40`.
+Container is listening on port `5432`.
 
-To acces it run:  
+### Commands
+To acces the server run:  
 `ssh -i ssh_keys/ssh-key root@46.101.215.40`  
 where `ssk_keys/ssh-key` is the path of the private ssh-key (you know where to find it).
 
