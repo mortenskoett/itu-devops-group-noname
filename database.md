@@ -17,7 +17,7 @@ This will stop the container, prune all docker containers and volumes, and start
 
 To restore the database from a .tar file, add the file to the server as `/db_backup/db-backup.tar` and run:  
 `./restore`  
-Note: The container has to be running and clean (for easy cleaning, see above)
+*Note*: The container has to be running and clean! (for easy cleaning, see above)
 
 ### Migration
 The following explains how to migrate the database from our current server to this new server: 
