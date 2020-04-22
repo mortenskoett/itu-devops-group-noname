@@ -32,10 +32,15 @@ This will ensure that this new database is started with the newest possible data
 **NOTE**: For this migration to work succesfully, it is very important that we run the `clean.sh` script on this server first before deploying! (ensuring that the container is both clean and running before deploying). We have choicen not to add this step as part of the deploy script, as we want to create as little downtime as possible. The more we can do before the deploy the better.
 
 ### What we did to set everything up:
+**Adding a new server**
 We went on Digital Ocean and setup a new droplet, with the same ssh key that is available to our team on Digital Ocean. In order to access it, you therefore need the private ssh key. (It would have been better to do this setup with a Vagrant file, to avoid the following manual ssh'ing and installation on the server.)
 
 To setup the server we needed to install `docker` and `docker-compose`. We did this by fetching the private ssh-key and then ssh'ing into the server and installing everything manually, using a random guide on the internet.
 
+**Spinning up the container**
 Then we uploaded the same Docker-compose file of our current db, and added a `.env` file with the required variables, for setting up a postgress image with the same name, user and port expected by our application.
 
-We then added the `restore.sh` script and `clean.sh` script, which enables to startup the database container with data from a .tar file in `/db_backup/db-backup.tar`. 
+**Enabling migration**
+We added the `restore.sh` script and `clean.sh` script, which enables to startup the database container with data from a .tar file in `/db_backup/db-backup.tar`. 
+
+Lastly we added the `migrate.sh` script to the old server, which will migrate data from the old server to this and run the restore script. Make sure to run `clean.sh` before running the migration. 
