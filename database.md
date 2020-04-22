@@ -22,7 +22,7 @@ To restore the database from a .tar file, add the file to the server as `/db_bac
 ### Migration
 The following explains how to migrate the database from our current server to this new server:
 
-We have added a `migrate.sh` script to our currently running server, which creates a backup file of the database, copies it to the expected place on this server, and lastly ssh'es into this server to run the `restore.sh` script. 
+We have added a `migrate.sh` script to our currently running server, which creates a backup file of the database, copies it to the expected place on the new server, and runs the `restore.sh` script. 
 
 For a smooth migration, now all we need to do is the following two 2 things: 
 1. change the database path in the app to reference this server instead, and 
