@@ -167,9 +167,7 @@ status() {
 
 # Setup and run application and database
 setup_run_app() {
-    echo "Setting up database and nodejs application."
-    run_db "-d"
-    wait_for 8 "Waiting for database..."
+    echo "Setting up nodejs application."
     run_app "-d"
     wait_for 6 "Waiting for application..."
     echo "Application and database is started sucessfully."
