@@ -35,6 +35,7 @@ async function renderPublicTimeLine(req, res) {
 	if (!allMessages) {
 		res.status(500).send({ url: `${req.originalUrl}Error getting messages.` });
 		res.end();
+		return;
 	}
 
 	if (req.session.loggedin) {
@@ -57,6 +58,8 @@ async function renderPublicTimeLine(req, res) {
 async function renderPrivateTimeline(req, res) {
 	if (!req.session.loggedin) {
 		res.status(403).send({ url: `${req.originalUrl} : Unauthorized user not logged in.` });
+		res.end();
+		return;
 	}
 
 	const userId = req.session.userid;
@@ -66,6 +69,7 @@ async function renderPrivateTimeline(req, res) {
 	if (!followedMessages) {
 		res.status(500).send({ url: `${req.originalUrl}Error getting messages.` });
 		res.end();
+		return;
 	}
 
 	for (let i = 0; i < followedMessages.length; i += 1) {
@@ -81,6 +85,7 @@ async function postMessage(req, res) {
 		res.status(401)
 			.send({ url: `${req.originalUrl} : Unauthorized: user not logged in.` })
 			.end();
+		return;
 	}
 
 	const { message } = req.body;
@@ -103,7 +108,13 @@ async function renderUserTimeline(req, res) {
 	const { username } = req.params;
 
 	const user = await userRepository.getUserID(username);
+	if (!user) {
+		res.status(404).send({ error_msg: 'User id not found.' });
+		return;
+	}
+
 	const messages = await messageRepository.getUserMessages(user.id, 30);
+
 	const following = await userRepository.following(req.session.userid, user.id);
 	res.render('pages/user', {
 		messages,
@@ -150,6 +161,7 @@ async function loginButton(req, res) {
 			error: 'Please enter username and password',
 		});
 		res.end();
+		return;
 	}
 
 	const isUserLoggedIn = await attemptLoginUser(req, username, password);
@@ -187,6 +199,7 @@ async function signupButton(req, res) {
 			error: 'Username is invalid.',
 		});
 		res.end();
+		return;
 	}
 
 	const isUserAdded = await userRepository.addUser(username, password, email);
@@ -195,6 +208,7 @@ async function signupButton(req, res) {
 			error: 'Adding user to database failed.',
 		});
 		res.end();
+		return;
 	}
 
 	const isUserLoggedIn = await attemptLoginUser(req, username, password);

@@ -10,10 +10,7 @@ let LATEST = 0; // Latest recieved 'latest' value
 
 function updateLatest(req) {
 	const { latest } = req.query;
-	if (latest) {
-		const latestAsNumber = parseInt(latest, 10);
-		if (latestAsNumber) LATEST = latestAsNumber;
-	}
+	if (latest !== -1) LATEST = parseInt(latest, 10);
 }
 
 async function validate(username, pwd, email) {
@@ -87,7 +84,7 @@ async function getUserMessages(req, res) {
 
 	const user = await db.User.findOne({ where: { username: req.params.username } });
 	if (!user) {
-		logger.info('/msgs/<username> GET 404');
+		logger.info('/msgs/username 404');
 		res.status(404).send({ error_msg: 'User id not found.' });
 		return;
 	}
@@ -105,7 +102,7 @@ async function getUserMessages(req, res) {
 		user: m.user.username,
 	}));
 
-	logger.info('/msgs/<username> GET 200');
+	logger.info('/msgs/username 200');
 	res.status(200).send(jsonMessages);
 }
 
@@ -116,13 +113,13 @@ async function postMessage(req, res) {
 
 	const user = await db.User.findOne({ where: { username } });
 	if (!user) {
-		logger.info('/msgs/username POST 404');
+		logger.info('/msgs/username 404');
 		res.status(404).send({ error_msg: `Error finding user "${username}"` });
 		return;
 	}
 	await user.createMessage({ text: req.body.content, date });
 
-	logger.info('/msgs/username POST 204');
+	logger.info('/msgs/username 204');
 	res.status(204).send();
 }
 
@@ -143,7 +140,7 @@ async function getFollows(req, res) {
 
 	const jsonFollows = follows.map((e) => e.dataValues.username);
 
-	logger.error('/fllws/username GET 200');
+	logger.error('/fllws/usernameGET 200');
 	res.status(200).send({ follows: jsonFollows });
 }
 
@@ -159,7 +156,7 @@ async function setFollow(req, res) {
 
 	const user = await db.User.findOne({ where: { username } });
 	if (!user) {
-		logger.error('/fllws/username POST 400');
+		logger.info('/fllws/username 400');
 		res.status(400).send({ error_msg: `Error finding user "${username}"` });
 		return;
 	}
@@ -167,7 +164,7 @@ async function setFollow(req, res) {
 	if (follow) {
 		const otherUser = await db.User.findOne({ where: { username: follow } });
 		if (!otherUser) {
-			logger.error('/fllws/username POST 400');
+			logger.info('/fllws/username 400');
 			res.status(400).send({ error_msg: `Error finding user "${username}"` });
 			return;
 		}
@@ -175,14 +172,14 @@ async function setFollow(req, res) {
 	} else if (unfollow) {
 		const otherUser = await db.User.findOne({ where: { username: unfollow } });
 		if (!otherUser) {
-			logger.error('/fllws/username POST 400');
+			logger.info('/fllws/username 400');
 			res.status(400).send({ error_msg: `Error finding user "${username}"` });
 			return;
 		}
 
 		await user.removeFollowers(otherUser);
 	}
-	logger.error('/fllws/username POST 204');
+	logger.info('/fllws/username 204');
 	res.sendStatus(204);
 }
 
