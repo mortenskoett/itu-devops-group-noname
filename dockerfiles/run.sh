@@ -52,6 +52,13 @@ run_app() {
     docker-compose -f ./app/docker-compose.yml up $1
 }
 
+# Run test_app w/o dependencies
+# arg1: Optional flags to docker-compose
+run_test_app() {
+    echo "Running app..."
+    docker-compose -f ./app_test/docker-compose.yml up $1
+}
+
 # Run python pytest suite w/o dependencies
 run_test() {
     echo "Running test..."
@@ -165,10 +172,20 @@ status() {
     docker network ls
 }
 
-# Setup and run application and database
+# Setup and run application
 setup_run_app() {
     echo "Setting up nodejs application."
     run_app "-d"
+    wait_for 6 "Waiting for application..."
+    echo "Application and database is started sucessfully."
+}
+
+# Setup and run application and local database
+setup_run_test_app() {
+    echo "Setting up database and nodejs application."
+    run_db "-d"
+    wait_for 8 "Waiting for database..."
+    run_test_app "-d"
     wait_for 6 "Waiting for application..."
     echo "Application and database is started sucessfully."
 }
@@ -187,7 +204,7 @@ setup_run_test() {
     fi
 
     echo "Setting up env and running python test..."
-    setup_run_app
+    setup_run_test_app
     run_test
 
     if [ $? -eq 0 ]
