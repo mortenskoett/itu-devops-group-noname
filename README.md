@@ -1,4 +1,4 @@
-# Welcome to group nonmae Minitwit App
+# Welcome to group noname Minitwit App
 
 See Git wiki for details, how to contribute or documentation.
 

@@ -1,0 +1,89 @@
+
+Software Quality in General
+
+1	Identify and list qualities of your MiniTwit system from the four perspectives (except of the transcendental) from the Kitchenham paper.
+
+	User view: (fitness for purpose)
+	•	Dependability: It is reliable with 99% uptime
+	•	Functions: I can write posts, follow other users
+	•	Performance: The page is loaded instantly. 
+	•	Usability: Under x% error respond codes on API (suggest API is difficult to use)
+	Manufacturing view: (constructed “right the first time,”)
+	•	No defects after deployment
+	•	Maintainability: defects are fixed within 12 hours
+	•	Code must pass tests to be deployed
+	•	Time from backlog to production
+	Product view: (inherent characteristics / quality of code)
+	•	Maintainability: files are not longer than 200 lines of code
+	•	Maintainability: code must pass syntax-test
+	•	Inheritance is no deeper than two levels, All dependencies are injected
+	•	Test-coverage?
+	Value based: (sees quality as dependent on the amount a customer is willing to pay for it)
+	•	???
+
+
+2	Did you focus on any perspective or any qualities, perhaps even without being aware of it? If yes, list these.
+		User view, in terms of reliability, response time
+		Manufacturing in terms of number of defects after deployment and number of reported errors
+		Product view in terms of maintainability and quality of code
+
+3	Rank the identified qualities per perspective by decreasing importance to you and provide an argument for why you choose certain as the most important.
+	Question: Is ‘value based’ taking the perspective of the customer or ourselves? I.e. does it define quality in terms of how we create value for the customer, and whether is it worth the required ressources? Or in terms of, how we earn the most money ourselves?
+
+	•	Normally: Value based -> user view -> product view -> manufacturing view
+	◦	In my work, we are taught to always think about how we provide value to the customer, and whether the things we are working on is worth the money to them (so cost benefit), so that we are not wasting their money on things that do not give them value. I believe this view is the most important: we should strive to create value with out software, otherwise why are we creating it? Just to earn money? 
+	◦	I think this view is often connected to the User view, because value for our customers are closely related to the satisfactory of the end users, as this is connected to the revenue.
+	◦	I tend to focus too much on product view, because i want to create scalable, maintainable code.
+	◦	We don’t focus so much on our process?
+
+	•	Normal2: user view -> product view -> value based -> manufacturing view
+	◦	In my work, we are taught to always think about how we provide value to the customer, and whether the things we are working on is worth the money to them, so that we are not wasting their money on things that do not give them value. I think this view is connected to the User view, because value for our customers are closely related to the satisfactory of the end users, as this is connected to the revenue. I also believe this view is the most important: we should strive to create value with out software, otherwise why are we creating it? Just to earn money? 
+	◦	I tend to focus too much on product view, because i want to create scalable, maintainable code.
+	◦	We asses whether it is feasible for us to do in terms of money/value. 
+	◦	We don’t focus so much on our process?
+
+	•	DevOps: Manufacturing view -> user view -> product view -> value based
+	◦	Do the tool we introduce help us decrease defects rework costs? 
+	◦	Reliability and maintenance with the users in minds
+	◦	Code scalability? Does it improve code quality and maintainability? 
+	◦	We don’t care what the customers wanna pay
+
+	•	DevOps2: value based -> manufacturing view -> user view -> product view
+	◦	Is it worth the costs/effort to introduce this new tool? 
+	◦	Avoid defects in production
+	◦	Reliability and maintenance with the users in minds
+	◦	Code quality? Scalability? 
+
+4	Think about and discuss with your group fellows, how you can measure the qualities that you ranked the most important. That is, try to define a set of metrics that would allow to measure these (multiple metrics per quality can be possible).
+
+How maintainable are your systems?
+1	How can you identify and measure maintainability of your MiniTwit systems??
+	The following could be ways to measure maintainability:
+	⁃	Static metrics: Use tools to analyse software. Static metrics help assess the complexity, understandability, and maintainability of a software system or system components, but the relationship is indirect with quality attributes. 
+	⁃	Monitor faults and correction time: Information about the time and effort needed to diagnose the cause of different priorities and correct any underlying faults can give us useful information about system maintainability.
+	- The probability that we recover within a time interval
+	- How easily we can update components of the system to the newest version
+	- How easily we can change components of the system
+	Some of these metrics are not very easy to measure in practice.
+
+2	Is your MiniTwit system maintainable? If yes, describe and argue for why it is? If not, describe and argue for why it is not?
+		Hmm probably not - lack of documentation, messy code, lack of dependency injection, lack of tests.
+		On the other hand we have the characteristics below.
+
+3	Collect a set of characteristics that make your system maintainable. Try to include more than just the source code.
+		Backups of database - we can recover from failures
+		Docker containers - easy to swap components or deploy the server elsewhere
+		NPM - easy to install new libraries for the code
+		Docker swarm - the system is (or will be) scalable to function under different circumstances
+		Monitoring/logging - (should) let us know when failures occur (or if we need to work on some problems)
+
+Do you have Technical Debt in your systems?
+Likely you already heard of the concept "Technical Debt". Without further reading describe:
+•	a) what is Technical Debt for you?
+		The (estimated) cost of changing/improving our current system later on - e.g. because of resolving a problem with the current system or because of scalability.
+		Usually caused by using out of date software or making a 'hacked' and temporary solution to a problem.
+•	b) describe how you could identify and measure it.
+		It is difficult. A suggestion of how to measure the technical debt is to estimate how many work hours are needed to remove the debt.
+
+Now analyze software quality and technical debt of your MiniTwit with SonarQube (SonarCloud is a readily available hosted version of SonarQube). After the analysis is complete, try to understand with the documentation and if necessary with Letouzey "The SQALE method for evaluating technical debt" what is presented as technical debt. Does that correspond to your understanding of technical debt?
+
