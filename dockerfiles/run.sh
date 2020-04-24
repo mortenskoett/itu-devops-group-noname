@@ -181,7 +181,7 @@ setup_run_app() {
 }
 
 # Setup and run application and local database
-setup_run_test_app() {
+setup_local_app() {
     echo "Setting up database and nodejs application."
     run_db "-d"
     wait_for 8 "Waiting for database..."
@@ -204,7 +204,7 @@ setup_run_test() {
     fi
 
     echo "Setting up env and running python test..."
-    setup_run_test_app
+    setup_local_app
     run_test
 
     if [ $? -eq 0 ]
@@ -246,6 +246,8 @@ case "$1" in
         setup_run_test ;;
     setup_run_app)
         setup_run_app ;;
+    setup_local_app)
+        setup_local_app ;;
     *)
         echo "Usage:"
         echo "cd ./dockerfiles"
@@ -264,8 +266,9 @@ case "$1" in
         echo "clean                     remove everything to get a clean slate"
         echo "down                      take everything down"
         echo "status                    show status of docker setup"
-        echo "setup_run_app             setup a complete running application incl database"
+        echo "setup_run_app             setup a complete running application using productiondatabase"
         echo "setup_run_test            setup a complete testing setup and run python tests"
+        echo "setup_local_app           setup a complete running application using local db"
         exit 1
         ;;
 esac
