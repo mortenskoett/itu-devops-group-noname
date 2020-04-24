@@ -52,6 +52,13 @@ run_app() {
     docker-compose -f ./app/docker-compose.yml up $1
 }
 
+# Run test_app w/o dependencies
+# arg1: Optional flags to docker-compose
+run_test_app() {
+    echo "Running app..."
+    docker-compose -f ./app/docker-compose.test.yml up $1
+}
+
 # Run python pytest suite w/o dependencies
 run_test() {
     echo "Running test..."
@@ -165,12 +172,20 @@ status() {
     docker network ls
 }
 
-# Setup and run application and database
+# Setup and run application
 setup_run_app() {
+    echo "Setting up nodejs application."
+    run_app "-d"
+    wait_for 6 "Waiting for application..."
+    echo "Application and database is started sucessfully."
+}
+
+# Setup and run application and local database
+setup_local_app() {
     echo "Setting up database and nodejs application."
     run_db "-d"
     wait_for 8 "Waiting for database..."
-    run_app "-d"
+    run_test_app "-d"
     wait_for 6 "Waiting for application..."
     echo "Application and database is started sucessfully."
 }
@@ -189,7 +204,7 @@ setup_run_test() {
     fi
 
     echo "Setting up env and running python test..."
-    setup_run_app
+    setup_local_app
     run_test
 
     if [ $? -eq 0 ]
@@ -231,6 +246,8 @@ case "$1" in
         setup_run_test ;;
     setup_run_app)
         setup_run_app ;;
+    setup_local_app)
+        setup_local_app ;;
     *)
         echo "Usage:"
         echo "cd ./dockerfiles"
@@ -249,8 +266,9 @@ case "$1" in
         echo "clean                     remove everything to get a clean slate"
         echo "down                      take everything down"
         echo "status                    show status of docker setup"
-        echo "setup_run_app             setup a complete running application incl database"
+        echo "setup_run_app             setup a complete running application using productiondatabase"
         echo "setup_run_test            setup a complete testing setup and run python tests"
+        echo "setup_local_app           setup a complete running application using local db"
         exit 1
         ;;
 esac
