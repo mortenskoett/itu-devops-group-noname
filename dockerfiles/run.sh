@@ -56,7 +56,7 @@ run_app() {
 # arg1: Optional flags to docker-compose
 run_test_app() {
     echo "Running app..."
-    docker-compose -f ./app_test/docker-compose.yml up $1
+    docker-compose -f ./app/docker-compose.test.yml up $1
 }
 
 # Run python pytest suite w/o dependencies
