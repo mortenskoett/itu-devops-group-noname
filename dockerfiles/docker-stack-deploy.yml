@@ -1,0 +1,90 @@
+version: '3'
+
+services:
+
+  minitwit-app:
+    build:
+      context: ../
+      dockerfile: ./dockerfiles/app/Dockerfile
+    image: mskkitu/minitwit-app
+    restart: always
+    environment:
+      NODE_ENV: "production"
+    volumes:
+      - logs:/logs/
+    ports:
+      - '5000:5000'
+      - '5001:5001'
+    deploy:
+      mode: global
+
+  prometheus:
+    build:
+      context: ./monitoring/
+      dockerfile: ./prometheus/Dockerfile
+    image: mskkitu/minitwit-prometheus
+    volumes:
+      - prometheus-data:/etc/prometheus
+    ports:
+      - "9090:9090"
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+
+  grafana:
+    image: grafana/grafana
+    volumes:
+      - grafana-data:/grafana
+    ports:
+      - "3000:3000"  
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+
+  elasticsearch:
+    build:
+      context: ./logging/
+      dockerfile: ./elasticsearch/Dockerfile
+    image: mskkitu/minitwit-elasticsearch
+    volumes:
+      - elasticsearch:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+
+  logstash:
+    build:
+      context: ./logging/
+      dockerfile: ./logstash/Dockerfile
+    image: mskkitu/minitwit-logstash
+    volumes:
+      - logs:/logs
+    ports:
+      - "5100:5100/tcp"
+      - "5100:5100/udp"
+      - "9600:9600"
+    depends_on:
+      - elasticsearch
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+
+volumes:
+  prometheus-data:
+  grafana-data:
+  logs:
+  elasticsearch:
+  logs:
+    external:
+      name: app_logs
