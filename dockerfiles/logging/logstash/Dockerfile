@@ -1,7 +1,9 @@
-ARG ELK_VERSION
+FROM docker.elastic.co/logstash/logstash:7.6.0
 
-# https://www.docker.elastic.co/
-FROM docker.elastic.co/logstash/logstash:${ELK_VERSION}
+ENV LS_JAVA_OPTS="-Xmx256m -Xms256m"
+
+COPY ./logstash/config/logstash.yml /usr/share/logstash/config/logstash.yml
+COPY ./logstash/pipeline/ /usr/share/logstash/pipeline
 
 # Add your logstash plugins setup here
 # Example: RUN logstash-plugin install logstash-filter-json
