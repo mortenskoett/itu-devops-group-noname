@@ -31,7 +31,7 @@ build_images() {
 
 deploy_to_swarm() {
     echo "Deploying '$APPNAME' on '$MANAGER' using '$DEPLOY_FILE'..."
-    echo -e ${RED}"Did you remember to rebuild the models?"${WHITE}
+    echo -e ${YELLOW}"Did you remember to rebuild the models?"${WHITE}
 
     echo "Sending stack to manager node..."
     docker-machine scp "$DEPLOY_FILE" "$MANAGER":~/

@@ -23,7 +23,7 @@ jobs:
 
   deploy:
     docker:
-        - image: cimg/base:2020.01
+        - image: cimg/go:1.13
     steps:
       - checkout
       - setup_remote_docker
@@ -31,10 +31,15 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "d4:22:e0:82:69:3b:81:31:42:e1:68:75:2e:75:4b:d5"
+            - "0e:b8:62:c6:37:60:2b:c4:02:55:28:b3:58:b1:d8:24"
 
       - run: 
           name: Build and push docker images to Dockerhub
           command: |
+            base=https://github.com/docker/machine/releases/download/v0.16.0 &&
+            curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine &&
+            sudo mv /tmp/docker-machine /usr/local/bin/docker-machine &&
+            chmod +x /usr/local/bin/docker-machine
             cd dockerfiles/
             ./swarm.sh build
             ./swarm.sh login
@@ -45,6 +50,7 @@ jobs:
          command: |
            echo "Transferring docker files to production server"
            cd dockerfiles
+           ./add_swarm_nodes.sh
            ./swarm.sh deploy
 
           #  scp -o StrictHostKeyChecking=no -r ./dockerfiles/ ${MT_USER}@${MT_SERVER}:/vagrant/
@@ -66,10 +72,10 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - build
+      # - build
       - deploy:
-          requires:
-            - build
+          # requires:
+          #   - build
           filters:
             branches:
               # only: release
