@@ -9,30 +9,54 @@ Simon Bodekær Black (sibl@itu.dk)
 
 ## Content
 # System's Perspective
-[100_systems_perspective](https://github.com/mortenskoett/itu-devops-group-noname/blob/report/report/100_systems_perspective.md)
+[100 System's Perspective](https://github.com/mortenskoett/itu-devops-group-noname/blob/report/report/100_systems_perspective.md)
 
-[101_design_and_architecture](https://github.com/mortenskoett/itu-devops-group-noname/blob/report/report/101_design_and_architecture.md)
+[101 Design and Architecture](https://github.com/mortenskoett/itu-devops-group-noname/blob/report/report/101_design_and_architecture.md)
 
-[102_dependencies](https://github.com/mortenskoett/itu-devops-group-noname/blob/report/report/102_dependencies.md)
+[102 Dependencies](https://github.com/mortenskoett/itu-devops-group-noname/blob/report/report/102_dependencies.md)
 
-[103_interactions_of_subsystems](https://github.com/mortenskoett/itu-devops-group-noname/blob/report/report/103_interactions_of_subsystems.md)
+[103 Interactions of Subsystems](https://github.com/mortenskoett/itu-devops-group-noname/blob/report/report/103_interactions_of_subsystems.md)
 
 ## Process' Perspective
 
-[200_process_perspective](https://github.com/mortenskoett/itu-devops-group-noname/blob/report/report/200_process_perspective.md)
+[200 Process Perspective](https://github.com/mortenskoett/itu-devops-group-noname/blob/report/report/200_process_perspective.md)
 
-[201_ci_dc_chain_tools](https://github.com/mortenskoett/itu-devops-group-noname/blob/report/report/201_ci_dc_chain_tools.md)
+[201 Stages and Tools](https://github.com/mortenskoett/itu-devops-group-noname/blob/report/report/201_ci_dc_chain_tools.md)
 
-[203_dev_process_and_tools](https://github.com/mortenskoett/itu-devops-group-noname/blob/report/report/203_dev_process_and_tools.md)
+[203 Development Process and Tools](https://github.com/mortenskoett/itu-devops-group-noname/blob/report/report/203_dev_process_and_tools.md)
 
-[204_monitoring_and_logging](https://github.com/mortenskoett/itu-devops-group-noname/blob/report/report/204_monitoring_and_logging.md)
+[204 Monitoring and Logging](https://github.com/mortenskoett/itu-devops-group-noname/blob/report/report/204_monitoring_and_logging.md)
 
-[205_sec_assessment](https://github.com/mortenskoett/itu-devops-group-noname/blob/report/report/205_sec_assessment.md)
+[205 Secuerity Assessment](https://github.com/mortenskoett/itu-devops-group-noname/blob/report/report/205_sec_assessment.md)
 
-[206_scaling_and_load_balancing](https://github.com/mortenskoett/itu-devops-group-noname/blob/report/report/206_scaling_and_load_balancing.md)
+[206 Scaling and Load Balancing](https://github.com/mortenskoett/itu-devops-group-noname/blob/report/report/206_scaling_and_load_balancing.md)
 
 ## 300 Lessons Learned Perspective
 
-[300_lessons_learned_perspective](https://github.com/mortenskoett/itu-devops-group-noname/blob/report/report/300_lessons_learned_perspective.md)
+[300 Lessons Learned Perspective](https://github.com/mortenskoett/itu-devops-group-noname/blob/report/report/300_lessons_learned_perspective.md)
 
-[301_current_system_state](https://github.com/mortenskoett/itu-devops-group-noname/blob/report/report/301_current_system_state.md)
+[301 Current System State](https://github.com/mortenskoett/itu-devops-group-noname/blob/report/report/301_current_system_state.md)
+
+
+You can render UML diagrams using [Mermaid](https://mermaidjs.github.io/). For example, this will produce a sequence diagram:
+
+```mermaid
+sequenceDiagram
+Alice ->> Bob: Hello Bob, how are you?
+Bob-->>John: How about you John?
+Bob--x Alice: I am good thanks!
+Bob-x John: I am good thanks!
+Note right of John: Bob thinks a long<br/>long time, so long<br/>that the text does<br/>not fit on a row.
+
+Bob-->Alice: Checking with John...
+Alice->John: Yes... John, how are you?
+```
+
+And this will produce a flow chart:
+
+```mermaid
+graph LR
+A[Square Rect] -- Link text --> B((Circle))
+A --> C(Round Rect)
+B --> D{Rhombus}
+C --> D
