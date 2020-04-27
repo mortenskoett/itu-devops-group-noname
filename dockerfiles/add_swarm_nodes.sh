@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Not to be used locally.
+# 
 # Script used by circleci to afiliate itself with the already
 # provisioned nodes on Digital Ocean.
 #
