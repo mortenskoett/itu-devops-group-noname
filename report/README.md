@@ -5,7 +5,7 @@ MD files created as suggested in session note (https://github.com/itu-devops/202
 Tools we can use:
 [stackedit.io](https://stackedit.io/) as editor
 
-[mermaid for diagrams](https://mermaid-js.github.io/mermaid/#/n00b-gettingStarted?id=a-basic-mermaid-user-guide-for-beginners)
+[mermaid](https://mermaid-js.github.io/mermaid/#/n00b-gettingStarted?id=a-basic-mermaid-user-guide-for-beginners) for diagrams
 [Live editor](https://mermaid-js.github.io/mermaid-live-editor/) Download as images, and push to /report/images use readable filenames.
 
 ## What to include in the report?
