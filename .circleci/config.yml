@@ -13,7 +13,7 @@ jobs:
           name: Build docker images
           command: |
             cd dockerfiles/
-            ./run.sh build
+            ./swarm.sh build
 
       - run:
           name: Run simulator API pytest
@@ -36,27 +36,30 @@ jobs:
           name: Build and push docker images to Dockerhub
           command: |
             cd dockerfiles/
-            ./run.sh build
-            ./run.sh push
+            ./swarm.sh build
+            ./swarm.sh push
 
       - run:
-         name: Deploy to Digital Ocean Server via Docker
+         name: Deploy to Digital Ocean Server via Docker Swarm
          command: |
            echo "Transferring docker files to production server"
-           scp -o StrictHostKeyChecking=no -r ./dockerfiles/ ${MT_USER}@${MT_SERVER}:/vagrant/
+           cd dockerfiles
+           ./swarm.sh deploy
 
-           echo "Connecting to production server..."
-           ssh -o "StrictHostKeyChecking=no" ${MT_USER}@${MT_SERVER} \
-           "source /root/.bash_profile && \
-           cd /vagrant && \
+          #  scp -o StrictHostKeyChecking=no -r ./dockerfiles/ ${MT_USER}@${MT_SERVER}:/vagrant/
 
-           echo 'Pulling and starting docker containers on server' && \
-           cd dockerfiles/ && \
-           ./run.sh pull && \
-           ./run.sh setup_run_app && \
-           ./run.sh monitor -d && \
-           ./run.sh logging -d && \
-           ./backup.sh stop && ./backup.sh start"
+          #  echo "Connecting to production server..."
+          #  ssh -o "StrictHostKeyChecking=no" ${MT_USER}@${MT_SERVER} \
+          #  "source /root/.bash_profile && \
+          #  cd /vagrant && \
+
+          #  echo 'Pulling and starting docker containers on server' && \
+          #  cd dockerfiles/ && \
+          #  ./run.sh pull && \
+          #  ./run.sh setup_run_app && \
+          #  ./run.sh monitor -d && \
+          #  ./run.sh logging -d && \
+          #  ./backup.sh stop && ./backup.sh start"
 
 workflows:
   version: 2
@@ -68,4 +71,5 @@ workflows:
             - build
           filters:
             branches:
-              only: release
+              # only: release
+              only: morten/docker-swarm
