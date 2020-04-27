@@ -14,30 +14,30 @@ Simon Bodekær Black (sibl@itu.dk)
 [100 Preface and Introduction](chapters/100_preface_and_introduction.md)
 
 # 2. System's Perspective
-[200 System's Perspective](../chapters/200_systems_perspective.md)
+[200 System's Perspective](chapters/200_systems_perspective.md)
 
-[201 Design and Architecture](../chapters/201_design_and_architecture.md)
+[201 Design and Architecture](chapters/201_design_and_architecture.md)
 
-[202 Dependencies](../chapters/202_dependencies.md)
+[202 Dependencies](chapters/202_dependencies.md)
 
-[203 Interactions of Subsystems](../chapters/203_interactions_of_subsystems.md)
+[203 Interactions of Subsystems](chapters/203_interactions_of_subsystems.md)
 
 ## 3. Process' Perspective
 
-[300 Process Perspective](../chapters/300_process_perspective.md)
+[300 Process Perspective](chapters/300_process_perspective.md)
 
-[301 Stages and Tools](../chapters/301_ci_dc_chain_tools.md)
+[301 Stages and Tools](chapters/301_ci_dc_chain_tools.md)
 
-[303 Development Process and Tools](../chapters/303_dev_process_and_tools.md)
+[303 Development Process and Tools](chapters/303_dev_process_and_tools.md)
 
-[304 Monitoring and Logging](../chapters/304_monitoring_and_logging.md)
+[304 Monitoring and Logging](chapters/304_monitoring_and_logging.md)
 
-[305 Secuerity Assessment](../chapters/305_sec_assessment.md)
+[305 Secuerity Assessment](chapters/305_sec_assessment.md)
 
-[306 Scaling and Load Balancing](../chapters/306_scaling_and_load_balancing.md)
+[306 Scaling and Load Balancing](chapters/306_scaling_and_load_balancing.md)
 
 ## 4. Lessons Learned Perspective
 
-[300 Lessons Learned Perspective](../chapters/400_lessons_learned_perspective.md)
+[300 Lessons Learned Perspective](chapters/400_lessons_learned_perspective.md)
 
-[301 Current System State](../chapters/401_current_system_state.md)
+[301 Current System State](chapters/401_current_system_state.md)
