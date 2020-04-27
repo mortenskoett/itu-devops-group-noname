@@ -1,6 +1,8 @@
 # Exam report DevOps, spring 2020
 ## Group noname
 
+![group logo](https://github.com/mortenskoett/itu-devops-group-noname/blob/report/report/images/group_logo_large.png)
+
 Emil Budtz-Jørgensen (embu@itu.dk), 
 Frank Andersen (fand@itu.dk), 
 Liv Hartoft Borre (livb@itu.dk), 
@@ -36,27 +38,3 @@ Simon Bodekær Black (sibl@itu.dk)
 [300 Lessons Learned Perspective](https://github.com/mortenskoett/itu-devops-group-noname/blob/report/report/300_lessons_learned_perspective.md)
 
 [301 Current System State](https://github.com/mortenskoett/itu-devops-group-noname/blob/report/report/301_current_system_state.md)
-
-
-You can render UML diagrams using [Mermaid](https://mermaidjs.github.io/). For example, this will produce a sequence diagram:
-
-```mermaid
-sequenceDiagram
-Alice ->> Bob: Hello Bob, how are you?
-Bob-->>John: How about you John?
-Bob--x Alice: I am good thanks!
-Bob-x John: I am good thanks!
-Note right of John: Bob thinks a long<br/>long time, so long<br/>that the text does<br/>not fit on a row.
-
-Bob-->Alice: Checking with John...
-Alice->John: Yes... John, how are you?
-```
-
-And this will produce a flow chart:
-
-```mermaid
-graph LR
-A[Square Rect] -- Link text --> B((Circle))
-A --> C(Round Rect)
-B --> D{Rhombus}
-C --> D
