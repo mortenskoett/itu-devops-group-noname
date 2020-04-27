@@ -11,7 +11,7 @@ Simon Bodekær Black (sibl@itu.dk)
 
 ## Content
 # 1. Preface and Introduction
-[100 Preface and Introduction](../chapters/100_preface_and_introduction.md)
+[100 Preface and Introduction](chapters/100_preface_and_introduction.md)
 
 # 2. System's Perspective
 [200 System's Perspective](../chapters/200_systems_perspective.md)
