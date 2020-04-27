@@ -37,6 +37,7 @@ jobs:
           command: |
             cd dockerfiles/
             ./swarm.sh build
+            ./swarm.sh login
             ./swarm.sh push
 
       - run:
