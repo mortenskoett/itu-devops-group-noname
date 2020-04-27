@@ -52,6 +52,13 @@ run_app() {
     docker-compose -f ./app/docker-compose.yml up $1
 }
 
+# Run test_app w/o dependencies
+# arg1: Optional flags to docker-compose
+run_test_app() {
+    echo "Running app..."
+    docker-compose -f ./app/docker-compose.test.yml up $1
+}
+
 # Run python pytest suite w/o dependencies
 run_test() {
     echo "Running test..."
@@ -80,6 +87,13 @@ run_monitor() {
     docker-compose -f ./monitoring/docker-compose.yml up $1
 }
 
+# Start up logging services
+# arg1: Optional flags to docker-compose
+run_logging() {
+    echo "Running logging services..."
+    docker-compose -f ./logging/docker-compose.yml up $1
+}
+
 # Build all images
 build() {
     echo "Running build..."
@@ -88,6 +102,7 @@ build() {
     docker-compose -f ./monitoring/docker-compose.yml build
     docker-compose -f ./test/python/docker-compose.yml build
     docker-compose -f ./test/eslint/docker-compose.yml build
+    docker-compose -f ./logging/docker-compose.yml build
     echo "Build done."
 }
 
@@ -98,7 +113,7 @@ push() {
 
     echo "Pushing images to Dockerhub..."
     docker push $DOCKER_USERNAME/minitwit-app
-    docker push $DOCKER_USERNAME/minitwit-eslint
+    docker push $DOCKER_USERNAME/minitwit-eslint-test
     docker push $DOCKER_USERNAME/minitwit-test
     docker push $DOCKER_USERNAME/minitwit-prometheus
 }
@@ -132,6 +147,7 @@ down() {
     echo "Disconnecting networks..."
     docker-compose -f ./monitoring/docker-compose.yml down
     docker-compose -f ./db/docker-compose.yml down
+    docker-compose -f ./logging/docker-compose.yml down
     docker-compose -f ./app/docker-compose.yml down
 
     echo "Down done."
@@ -156,12 +172,20 @@ status() {
     docker network ls
 }
 
-# Setup and run application and database
+# Setup and run application
 setup_run_app() {
+    echo "Setting up nodejs application."
+    run_app "-d"
+    wait_for 6 "Waiting for application..."
+    echo "Application and database is started sucessfully."
+}
+
+# Setup and run application and local database
+setup_local_app() {
     echo "Setting up database and nodejs application."
     run_db "-d"
     wait_for 8 "Waiting for database..."
-    run_app "-d"
+    run_test_app "-d"
     wait_for 6 "Waiting for application..."
     echo "Application and database is started sucessfully."
 }
@@ -180,7 +204,7 @@ setup_run_test() {
     fi
 
     echo "Setting up env and running python test..."
-    setup_run_app
+    setup_local_app
     run_test
 
     if [ $? -eq 0 ]
@@ -204,6 +228,8 @@ case "$1" in
         run_db $2 ;;
     monitor)
         run_monitor $2 ;;
+    logging)
+        run_logging $2 ;;
     build)
         build ;;
     push)
@@ -220,6 +246,8 @@ case "$1" in
         setup_run_test ;;
     setup_run_app)
         setup_run_app ;;
+    setup_local_app)
+        setup_local_app ;;
     *)
         echo "Usage:"
         echo "cd ./dockerfiles"
@@ -231,14 +259,16 @@ case "$1" in
         echo "eslint        -d          run eslint test container"
         echo "db            -d          run postgres database container"
         echo "monitor       -d          run monitor aka prometheus/grafana container"
+        echo "logging       -d          run logging services"
         echo "build                     rebuild all images"
         echo "push                      push newest docker images to Dockerhub"
         echo "pull                      pull latest docker images from Dockerhub"
         echo "clean                     remove everything to get a clean slate"
         echo "down                      take everything down"
         echo "status                    show status of docker setup"
-        echo "setup_run_app             setup a complete running application incl database"
+        echo "setup_run_app             setup a complete running application using productiondatabase"
         echo "setup_run_test            setup a complete testing setup and run python tests"
+        echo "setup_local_app           setup a complete running application using local db"
         exit 1
         ;;
 esac

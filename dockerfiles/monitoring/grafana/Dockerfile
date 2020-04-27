@@ -1,5 +1,6 @@
-FROM grafana/grafana:4.5.2
+# UNUSED
+# FROM grafana/grafana:6.5.0
 
-WORKDIR /grafana/
+# WORKDIR /grafana/
 
-COPY ./grafana/files/* ./
+# COPY ./grafana/files/* ./
