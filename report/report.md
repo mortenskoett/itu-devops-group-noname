@@ -10,13 +10,8 @@ Morten Skøtt Knudsen (mskk@itu.dk),
 Simon Bodekær Black (sibl@itu.dk) 
 
 ## Content
-<<<<<<< HEAD
 # 1. Preface and Introduction
 [100 Preface and Introduction](../chapters/100_preface_and_introduction.md)
-=======
-# System's Perspective
-[100 System's Perspective](../chapters/100_systems_perspective.md)
->>>>>>> c74ee2c37cda9b9636bf1f829a310bab24ea48a7
 
 # 2. System's Perspective
 [200 System's Perspective](../chapters/200_systems_perspective.md)
