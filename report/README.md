@@ -2,6 +2,10 @@ Report status:
 
 MD files created as suggested in session note (https://github.com/itu-devops/2020-spring/blob/master/REPORT.md)
 
+Tools we can use:
+[stackedit.io](https://stackedit.io/) as editor
+[mermaid for diagrams](https://mermaid-js.github.io/mermaid/#/n00b-gettingStarted?id=a-basic-mermaid-user-guide-for-beginners)
+
 ## What to include in the report?
 
 ### System's Perspective
