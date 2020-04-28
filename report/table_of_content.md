@@ -9,7 +9,7 @@ Liv Hartoft Borre (livb@itu.dk),
 Morten Skøtt Knudsen (mskk@itu.dk), 
 Simon Bodekær Black (sibl@itu.dk) 
 
-## Content
+## Table of Content
 # 1. Preface and Introduction
 [00 Preface and Introduction](chapters/100_preface_and_introduction.md)
 
