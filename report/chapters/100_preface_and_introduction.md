@@ -8,7 +8,7 @@ The old system showed signs of decay, slow access, unable to handle the increasi
 ## Introduction
 And this is were the DevOps course begins, first forming a group of five students, and then as the couse progress being tasked with conversion, development, operation and maintence of a activly system simulated by ghost users, making use of our system.
 
-So even if our system have only lived for a few month, the experience of having to accommodate the demands of stakeholders and needs of users been very real.
+So even if our system have only lived for a few month, the experience of having to accommodate the demands of stakeholders and needs of users been very real, with the focus of building a dependable system.
 
 This report will be a view into our work both project and group, the thoughts, the trouble and the 20/20 hindsight of knowing what we should have done instead. And maybe also few thinks related to how a global pandemic interveens with everyday life.
 
