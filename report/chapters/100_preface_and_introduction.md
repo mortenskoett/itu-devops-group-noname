@@ -1,6 +1,8 @@
 # 1 Preface and Introduction
 
 ## Preface
+As part of the course DevOps, Software Evolution and Software Maintenance, BSc + MSc, (from now on, DevOps)
+
 
 ## Introduction
 
