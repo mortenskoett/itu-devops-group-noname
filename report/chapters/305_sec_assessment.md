@@ -10,8 +10,17 @@ So the following route was followed
 - Detection
 - Recover
 
-All work and thoughts is describe in the security assessment report, the paragraf below is a compressed conslusion and result og the work.
+All work and thoughts is describe in the security assessment report, the paragraf below is a compressed conslusion and result of the work.
 
+### Risk assessment
+Our system consist of different parts whice is prone to different risks in regards to their existens.
+As describe in earlier chapters, our systems relies on virtual machines "pysilicated" located at our provider Digital Ocean's cloud infrastructure, and even if the concpet of clud is used, it's still at some point at risk for natrual causes hitting the datacenter, like flood's, lightning or human interfering. But even if this would be catastrofic for us, it would be a extremly rare as Digital Ocean is expected to have tried to midigate and forsee this kind of events.
+
+What we could do, but do not include is a strategy for moving to an other provider in this case. What we have done is prepare our deployment strategy in a way that let's us redeploy our entire systems within ½ hour.
+
+### Penetration testing
+### Detection
+### Recover
 
 
 ---
