@@ -2,14 +2,14 @@
 
 We make use of two Git repositories - a public repository for our code and a private repository for credentials. The branching strategy described below is for our public repository. 
 
-Branching strategy:
+### Branching strategy:
 We follow a branching policy where each feature or separete part of the code base is developed in its own feature branch before finally pull requested into the master branch.
 
-The master branch should be as stable as possible but it also works as an intermediary branch so that developers can get the newest changes as fast as possible. The master branch requires that another developer approves the pull request before it can be merged. This is a code review step.
+The *master* branch should be as stable as possible but it also works as an intermediary branch so that developers can get the newest changes as fast as possible. The master branch requires that another developer approves the pull request before it can be merged; this is a code review step.
 
-The release branch is used only for the most stable versions of the code base and should only rarely see pull requests. Two approved reviews are required to merge. When a pull request is merged, delete the feature branch.
+The *release* branch is used only for the stable versions of the code base and should only rarely see pull requests. Two approved reviews are required to merge. When a pull request is merged, the feature branch should be deleted.
 
-release		-------->	 (only used at milestones or when a stable master needs to be captured)
+release[tab]		-------->	 (only used at milestones or when a stable master needs to be captured)
 			/
 master	 	----------->	 (newest stable changes)
 		/     /
