@@ -3,7 +3,7 @@
 For our CI/CD chain, we are using Vagrant and CircleCI.  
 We use **Vagrant** to start a droplet on DigitalOcean (DO). By installing Vagrant, we can write a Vagrant file specifying what server and installations we want (declaring that we are using DO, where to find our credentials, and what server and images we want it to create), and then make Vagrant set up the desired server on our DO account. Instead of relying on Vagrant, we could just create and configure a droplet manually (using the DO website or the terminal), but it is better to have the exact setup and configuration written down as code, so that we can easily redo it again later: this is what Vagrant help to do.
 
-We use CI to automate testing of our code and deployment to DO. We have set up a service on CircleCI, which listens on our different branches on GitHub, and does different things; pushing to any branch will make CI run our tests, and pushing to release will make CI run our tests and then automatically deploy. 
+We use **CircleCI**, which provides CI/CD as a service, to automate testing of our code and deployment to DO. We have set up a service on CircleCI, which listens on our different branches on GitHub, and does different things; pushing to any branch will make CI run our tests, and pushing to release will make CI run our tests and then automatically deploy. 
 **Write something about why choosing CircleCI over Travis**
 
 When we push new commits to any git branch, CircleCI will fetch our code from GitHub and run our tests. If the tests fail we will be notified with an e-mail. Further, on Github each branch is marked with a checkmark or a cross indicating whether the code has passed the tests.
