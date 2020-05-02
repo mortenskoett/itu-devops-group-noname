@@ -9,11 +9,11 @@ The *master* branch should be as stable as possible but it also works as an inte
 
 The *release* branch is used only for the stable versions of the code base and should only rarely see pull requests. Two approved reviews are required to merge. When a pull request is merged, the feature branch should be deleted.
 
-release\	\	-------->	 (only used at milestones or when a stable master needs to be captured)
+release		-------->	 (only used at milestones or when a stable master needs to be captured) \
 			/
-master	 	----------->	 (newest stable changes)
+master	 	----------->	 (newest stable changes)\
 		/     /
-feature		-------------->	 (your work branch)
+feature		-------------->	 (your work branch)\
 
 Pull Request Process
 Pull requests should be made for any change to public branches; master, release and any feature based branch on which more people are working.
