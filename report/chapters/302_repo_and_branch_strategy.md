@@ -2,7 +2,7 @@
 
 We make use of two Git repositories - a public repository for our code and a private repository for credentials. The branching strategy described below is for our public repository. 
 
-### Branching strategy:
+### Branching strategy
 We follow a branching policy where each feature or separete part of the code base is developed in its own feature branch before finally pull requested into the master branch.
 
 The *master* branch should be as stable as possible but it also works as an intermediary branch so that developers can get the newest changes as fast as possible. The master branch requires that another developer approves the pull request before it can be merged; this is a code review step.
@@ -15,7 +15,7 @@ master	 	----------->	 (newest stable changes)
 		/     /  
 feature		-------------->	 (your work branch)  
 
-Pull Request Process
+### Pull Request Process
 Pull requests should be made for any change to public branches; master, release and any feature based branch on which more people are working.
 
 Update the README.md and with details of changes to the interface, this includes new environment variables, exposed ports, useful file locations and container parameters.
