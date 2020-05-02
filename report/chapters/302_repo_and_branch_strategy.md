@@ -9,7 +9,7 @@ The *master* branch should be as stable as possible but it also works as an inte
 
 The *release* branch is used only for the stable versions of the code base and should only rarely see pull requests. Two approved reviews are required to merge. When a pull request is merged, the feature branch should be deleted.
 
-release[tab]		-------->	 (only used at milestones or when a stable master needs to be captured)
+release\	\	-------->	 (only used at milestones or when a stable master needs to be captured)
 			/
 master	 	----------->	 (newest stable changes)
 		/     /
