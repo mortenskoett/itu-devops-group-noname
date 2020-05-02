@@ -1,18 +1,15 @@
 # 3. Process' Perspective
 
-We have widely different weekly schedules so we have not been able to meet in person very often. We have mostly been working distributed - and during the Corona lockdown we have only been working distributed.
+We decided to organize ourselves in a flat structure meaning that we all had the same role. When having to make decisions in our team, we would discuss it collectively. If minor decisions were to be made, we would let the decision be made by the person(s) working on the relevant part(s) of the system. For instance when deciding on which service to use we would assign one or two persons to research the services available on the market. This would then present the results of the research for the rest of the group for a decision to be made collectively. In the case of minor services, the decision could be made by a single person.
 
-Throughout the entire project we have been communicating using Slack. This has allowed us to communicate messages across the team using the public channels but we were also able to send direct messages when needed... Further, Slack has allowed us to communicate both synchronously and asynchronously. Often when working on a task together we would use Zoom, which allowed us to do pair programming.
+We did not make use of Scrum but we used aspects of it. We worked in sprints, and therefore we did a bit of sprint planning. We used a Kanban/Scrum board to organize the work. We made use of stand-up meetings to get an overview of how we were doing in the team. It is described below(?) how we have used these aspects of Scrum.
 
-After each lecture, when the task of the next week has been presented we have a short meeting discussing how to cope with the task. Before the Corona lockdown we met in person after the lecture and during the Corona lockdown we have met in a Zoom meeting. This meeting is a mixture between a scrum stand-up meeting and a sprint planning meeting. We normally discuss any uncertainties of how to solve the task and then we split the task into subtasks, which we can add to our online Kanban board. For the Kanban board we use 'Projects' on Github. Our Kanban board is divided into five categories:
-- Backlog: Tasks that we want to complete at some point
-- Do next: Tasks that need to be completed in the current sprint/week
-- In progress: Tasks that are currently beeing worked on. These tasks are assigned to one or more of us.
-- Done: The tasks we have completed.
+**Resten af afsnittet står også i 3.03. Hvor passer det bedst?**
+We have widely different weekly schedules so we have not been able to meet in person very often. We have mostly been working distributed - and during the Corona lockdown we have only been working distributed. Following the structure of the course, we would work in one week *sprints* - we were free to work on the project as it suited us indivually during the week as long as we collectively completed the task on time. 
 
-For the first two weeks we did not use a Kanban board. Using the Kanban board made it much easier to divide the project work. Further, it made it easier to do project work when you only had an hour or two available, as it was easy to choose one of the tasks, complete it and then ... the work. This division of tasks meant that we did not interfere with eachother's work very much. 
+After each lecture, when the task of the next week had been presented, we would have a short meeting discussing how to cope with the task. Before the Corona lockdown we met in person after the lecture and during the Corona lockdown we have met in a Zoom meeting. This meeting is a mixture between a Scrum stand-up meeting and a sprint planning meeting. We normally discuss where we are currently at, any uncertainties of how to solve next week's task and then we split the task into subtasks, which we could add to an online Kanban board. Using an online Kanban board allowed us to get an overview and delegate tasks while working distributed.
 
-Before the lockdown we would also sometimes work on the project together after the lecture. Some tasks were difficult to do alone so we preffered to do them together as a team.
+For the first two weeks we did not use a Kanban board. Using the Kanban board made it much easier to divide the project work. Further, it made it easier to do project work when you only had an hour or two available, as it was easy to choose one of the tasks, complete it and then share the work with the rest of the team. This division of tasks also meant that we did not interfere with eachother's work very much. Some of the tasks in the course have been quite difficult to split into subtasks that did not need to be solved in a sequence - therefore it was often easier to just be done by a single person - or a few persons working together.
 
 ---
-[ [prev page](../chapters/202_dependencies.md) | [table of content](../table_of_content.md) | [next page](../chapters/301_ci_dc_chain_tools.md) ]
+[ [prev page](../chapters/203_interactions_of_subsystems.md) | [table of content](../table_of_content.md) | [next page](../chapters/301_ci_dc_chain_tools.md) ]
