@@ -1,5 +1,15 @@
 ## 3.02 Repository and Branch Strategy
 
+NOTES FROM SESSION 2:
+Describe Distributed Workflow
+* Which repository setup will we use?
+* Which branching model will we use?
+* Which distributed development workflow will we use?
+* How do we expect contributions to look like?
+* Who is responsible for integrating/reviewing contributions?
+Write this in a 'Contribution.md' file
+___________
+
 We make use of two Git repositories - a public repository for our code and a private repository for credentials. The branching strategy described below is for our public repository. 
 
 ### Branching strategy
