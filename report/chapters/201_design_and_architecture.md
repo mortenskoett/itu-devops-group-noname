@@ -1,6 +1,6 @@
 ## 2.01 Design and Architecture
 
-The following is an overview of alle the different applications, and where they are running.
+The following is an overview of the devices in our system, and the different applications or artifacts they are responsible for.
 
 ![Overview of deployed components](../images/ch2-component-deployment-overview.png)
 ---
