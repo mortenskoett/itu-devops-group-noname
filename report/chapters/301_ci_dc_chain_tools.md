@@ -1,6 +1,6 @@
 ## 3.01 Stages and Tools used for CI/CD chain
 
-NOTES FROM SESSION 4
+NOTES FROM SESSION 4  
 In this session we implement a continuous integration (CI) chain using the following technologies and tools:
 - the distributed version control system (VCS) Git (https://git-scm.com) and GitHub (https://github.com) as host,
 - the build server service Travis CI (https://travis-ci.com/),
@@ -10,7 +10,7 @@ In this session we implement a continuous integration (CI) chain using the follo
 - Vagrant (https://www.vagrantup.com) to setup and manage virtual remote machines
 - and the cloud server provider Digital Ocean (https://www.digitalocean.com).
 
-**Tasks**:
+Tasks:  
 - **OBS MSc students:** Remember to log and provide good arguments for the choice of CI/CD system, i.e., why do you choose your solution instead of any other?
 - You choose freely if you want to go for continuous delivery or continuous deployment.
 - Let your build pipeline contain not only building your application but also execution of your test suite and other appropriate build stages.
