@@ -28,6 +28,8 @@ Simon Bodekær Black (sibl@itu.dk)
 
 [01 Stages and Tools](chapters/301_ci_dc_chain_tools.md)
 
+[02 Repository and Branching Strategy](chapters/302_repo_and_branch_strategy.md)
+
 [03 Development Process and Tools](chapters/303_dev_process_and_tools.md)
 
 [04 Monitoring and Logging](chapters/304_monitoring_and_logging.md)
@@ -46,3 +48,4 @@ Simon Bodekær Black (sibl@itu.dk)
 
 ## 5. Appendices
 
+[00 Appendices](chapters/500_appendices.md)
