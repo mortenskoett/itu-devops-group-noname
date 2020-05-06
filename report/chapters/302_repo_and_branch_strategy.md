@@ -16,7 +16,7 @@ We made use of the mono repository model - a public repository for all our code.
 We did also have a private repository that only stored credentials that cannot be stored in the public repository. 
 
 ### Distirbuted workflow
-As described in section 3.00 we all had the same role. We therefore decided to make use of a centralized workflow. We would all be working directly on our shared repository. We did, however, make use of code reviews as described in the following section.
+As described in section 3.00 we all had the same role. We therefore decided to make use of a centralized workflow where we were all working on our shared repository. We did, however, make use of code reviews so that we could not push changes directly to all branches. This is described in the following section.
 
 ### Branching strategy
 We follow a branching policy where each feature or separete part of the code base is developed in its own feature branch (topic branch) before finally being pull requested into the master branch. 
