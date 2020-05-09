@@ -13,7 +13,7 @@ ___________
 ### Repository model
 We made use of the mono repository model - a public repository for all our code. We decided on this repository model since we though that a single repository would be fine for this project. We did not see a need to have distributed repositories. Having a single repository worked fine for the project as we divided our subsystems into separate folders and followed the branching strategy below.
 
-We did also have a private repository that only stored credentials that cannot be stored in the public repository. 
+We did also have a private repository for storing and sharing credentials that can not be stored in the public repository. 
 
 ### Distirbuted workflow
 As described in section 3.00 we all had the same role. We therefore decided to make use of a centralized workflow where we were all working on our shared repository. We did, however, make use of code reviews so that we could not push changes directly to all branches. This is described in the following section.
@@ -35,7 +35,7 @@ We decided to use this branching strategy as we thought it worked well with the 
 
 At times we found the obligatory code reviews cumbersome. For instance when two people had worked on a feature which we wanted to deploy, we had to wait for a third person's review. Sometimes we decided to accept the pull request without a second reviewer - using the ... of the owner of the repository. 
 
-On the other hand the code reviews helped in making sure most of the developing team had a fairly good understanding of most parts of the codebase. Doing the reviews we were also able to discover some errors in the code that our tests had not found.
+On the other hand the code reviews helped in making sure most of the developing team had a fairly good understanding of most parts of the codebase. Doing the reviews we were also able to discover some errors in the code that our tests had not found. So the fairly strict policy of having two other people reviewing the code was here in conflict with other desirable goals of merging the code as fast as possible. More people might find more bugs or have valuable insights or ideas, and it mitigates knowledge silos, enhances the bus/truck factor, and encourages participation. On the other side, the more people that needs to review the code, the slower it gets merged and ends in production. With so few people working on the project, this policy would definitely and prohibit the work from being merged the same day as it was pushed, and would therevy severely decrease the lead time. (We found that for this project, with so few people able to review every day, two people was too much, as we ended up breaking our own policy so avoid longdragging merges? - but finding a good balance is a challenge?)
 
 ### Contributions
 Pull requests should be made for any change to public branches; master, release and any feature based branch on which more people are working.
