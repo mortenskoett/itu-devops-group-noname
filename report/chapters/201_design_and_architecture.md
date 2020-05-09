@@ -22,6 +22,9 @@ The following is an overview of the docker network and communication paths in ou
 
 ![Overview of docker containers and the networks](../images/ch2-docker_network.png)
 
+The following is an overview of the packages in our application.
+
+![Overview of packages](../images/ch2_packet_overview.png)
 
 ---
 [ [prev page](../chapters/200_systems_perspective.md) | [table of content](../table_of_content.md) | [next page](../chapters/202_dependencies.md) ]
