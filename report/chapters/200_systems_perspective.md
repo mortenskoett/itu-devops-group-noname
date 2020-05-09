@@ -1,5 +1,28 @@
 # 2. System's Perspective
 
+### System Design Workflow
+To mimic the real world of devops, the design flow have been an evolvling system, starting with teardown of the original ITU-MiniTwit, to be able to figure out what the system included and what we as "the new team" should replicate and what system weaknesses we should be keen on levitate in the new design.
+
+Here a brief outline of the evolvement of our system:
+- Introduction and investigation of legacy systems
+- Team & project work strategy (version control, collaborative development)
+- Deciding on modern languages/frameworks to replace the old
+- Develop a first beta of an 1:near 1, replica of old system
+- Moving from legacy *one physical server* the *flexible cloud infrastructure*
+- Releash first beta on public cloud
+- Visualization and container strategy
+- Implement a continuous delivery and continuous deployment strategy for new system
+- Integrate capabilities for users simulator through API calls
+- Implement system monitoring and logging
+- Perform security review
+- Rethink system for scalability and accessibility
+- Revise our system for maintainability and technical Debt
+
+### Legacy system
+The legacy system was made with an outdated version of Flask (python framework), a local file based SQLite database and a few bash scripts, and were designed to live on a single physical server with no thoughts of software concurrency and no strategy for operation and maintenance. So this was the first step to think into the choice of af new system.
+
+The basic of the application and software was not as demanding, a web frontend, with a few pages and input forms allowing for visitors and users to view, login, follow and post messages in plaintext format. So  this just meant that we was working primarily on a web based solution, and therefore should be thinking in a browser based system.
+
 **Skal det stå her eller 201? er Node.js et framework? runtime?**
 ### Choice of Programming lLanguage and Framework
 We decided to use Node.js as our ... for this project. In order to decide on the best suitable ... we split some of the most popular options on the market between us and researched their pros and cons indidually. We then presented our results and collectively decided on the best option based on the research. 
