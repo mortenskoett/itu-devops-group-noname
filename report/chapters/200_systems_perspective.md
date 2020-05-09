@@ -23,29 +23,32 @@ The legacy system was made with an outdated version of Flask (python framework),
 
 The basic of the application and software was not as demanding, a web frontend, with a few pages and input forms allowing for visitors and users to view, login, follow and post messages in plaintext format. So  this just meant that we was working primarily on a web based solution, and therefore should be thinking in a browser based system.
 
-### Choice of Programming lLanguage and Framework / runtime environment
-We decided to use Node.js as our "public web based" system for this project. In order to decide on the best suitable development *framework* or *runtime environment* as some a defined we split some of the most popular options on the market between us and researched their pros and cons individually. We then presented our results and collectively decided on the best option based on the research.
+### Choice of Programming Language and Framework / runtime environment
+We decided to use Node.js as our language of choice for the rewrite of the Minitwit application. In order to make a qualified decision on the matter, we split some of the most popular languages and frameworks for this type of implementation between us, and researched their pros and cons individually. We then presented our results and collectively decided on the best option based on the research: 
 
-One of the frameworks we researched was Ruby on Rails. Ruby on Rails seemed very interesting to us as it was already popular and became increasingly popular. With Ruby on Rails it seems very easy to set up a fairly complex application with very few lines of codes or commands. However, a Ruby on Rails project consists of a large number of files and the framework created many files "behind the scene". "Ruby on Rails is not a minimalist framework, it's a metropolis. One filled with all major institutions needed to run a large, sprawling application like Basecamp or Github or Spotify." We did not feel that we needed a metropolis of a framework for our simple application - we preferred to have a simple and lightweight framework as the application was so small. We found that the time used to understand this framework would be used better spend elsewhere.
+- Ruby on Rails seemed very interesting to us as it was already popular and became increasingly popular. With Ruby on Rails it seems very easy to set up a fairly complex application with very few lines of codes or commands. However, a Ruby on Rails project consists of a large number of files and the framework created many files "behind the scene". "Ruby on Rails is not a minimalist framework, it's a metropolis. One filled with all major institutions needed to run a large, sprawling application like Basecamp or Github or Spotify." We did not feel that we needed a metropolis of a framework for our simple application - we preferred to have a simple and lightweight framework as the application was so small. We found that the time used to understand this framework would be used better spend elsewhere.
+- .NET/C# was also looked into. The .NET platform boast a wealth of nuget packages for everything and the dotnet package manager can handle some very sophisticated API templating straight out the box. Due to it's verbosity it was scrapped.
+- Java with the Spring framework was investigated but was scrapped due to lack of java-know-how and time.
+- Node.js with its npm package manager we found to be the simplest, most efficient and most lightweight language. At the time of research this was some of the most appealing qualities for the implementation language for this project. We also found Node.js to be very well documented, which was a positive thing considering that the language was new to most of us. Further, some of the members of our team had some experience with Node.js, which meant that we did not have to spend as much time on adapting to syntax and environment considering the relatively short time in which had to translate the system.
 
-Go with Gorilla ...
+<!-- - Go with Gorilla ...  -->
 
-Andet vi brugte meget tid på at undersøge? ...
-
-Some of the other frameworks we researched were:
+Some of the other, less noteworthy frameworks we researched were:
 - Crystal with Kemal
 - Elixir with phoenix
 - Nim with Jester
 - Ruby with Sinatra
+
 We found that most of these frameworks were not updated very often or were not often used in production.
 
-We ended up deciding to use Node.js. We found that this approach was simplest, efficient and lightweight, which we found to be some of the main criteria for this project. We also found Node.js to be very well documented, which was a positive when using a new *runtime environment* for most of us. Further, some of the members of our team had some experience with Node.js, which meant that we did not have to spend as much time on adapting to this new ... in the relatively short time we had to translate the system.
+### Choice of Database (RDBMS)
+Just after translating the Minitwit application to Node.js we made use of a local Sqlite database. This was a fine choice to get a good start with not too many moving parts. We later found that the best options for a database system was either MySQL or Postgres. Sqlite is simply not a production database as it is too simple. It does not scale well and data is easily corrupted. 
+It is described later on how we migrated data between databases and between servers.
 
-### Choice of Database System
-Just after translating the system to Node.js we made use of a local Sqlite database. This was not ... . We found that the best options for a database system was either MySQL or Postgres. WHY? When deciding between these two database systems we did not find that many differences for a simple system like ours. Both database systems met our requirements and seemed to be more less equally efficient. We decided on using Postgres as we found it to be better "out of the box" and supports a few more data types, which though might have been relevant for us. Further, Postgres is better at handling concurrency than MySQL, which we thought might be a factor for this kind of system.
+When deciding between MySQL and Postgres we did not find that many differences for a simple system like ours. Both databases met our requirements and seemed to be more less equally efficient. We decided on using Postgres as we found it to be better "out of the box" and supports a few more data types such as booleans. Further, Postgres is better at handling concurrency than MySQL, which we thought might be a factor for this kind of system. 
 (https://developer.okta.com/blog/2019/07/19/mysql-vs-postgres)
 
-The choice of ... and database system turned out to be well made in the sense that we had one of the best performing systems compared to the other groups. The only group with a higher 'latest' was another group using Node.js and Postgres. We also did not have any regrets with the choices over the course of the project.
+The choice to use Postgres as RDBMS turned out to be well made in the sense that we had one of the best performing systems compared to the other groups. The only group with a higher 'latest' was another group using Node.js and Postgres. We also did not have any regrets with the choices over the course of the project.
 
 ---
 [ [prev page](../chapters/100_preface_and_introduction.md) | [table of content](../table_of_content.md) | [next page](../chapters/201_design_and_architecture.md) ]
