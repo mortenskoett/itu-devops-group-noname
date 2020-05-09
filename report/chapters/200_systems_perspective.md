@@ -23,7 +23,6 @@ The legacy system was made with an outdated version of Flask (python framework),
 
 The basic of the application and software was not as demanding, a web frontend, with a few pages and input forms allowing for visitors and users to view, login, follow and post messages in plaintext format. So  this just meant that we was working primarily on a web based solution, and therefore should be thinking in a browser based system.
 
-**Skal det stå her eller 201? er Node.js et framework? runtime?**
 ### Choice of Programming lLanguage and Framework / runtime environment
 We decided to use Node.js as our "public web based" system for this project. In order to decide on the best suitable development *framework* or *runtime environment* as some a defined we split some of the most popular options on the market between us and researched their pros and cons individually. We then presented our results and collectively decided on the best option based on the research. 
 
