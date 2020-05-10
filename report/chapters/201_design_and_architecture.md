@@ -1,5 +1,5 @@
 ## 2.01 Design and Architecture
-This chapter seeks to describe the overall architecture of the implementation as well as to give an understanding of how the individual subsystems are physically positioned.
+This section seeks to describe the overall architecture of the system as well as to give an understanding of how the individual subsystems are physically positioned.
 
 The following constitutes all of the subsystems in the implemented Minitwit application and are presented here to give a brief overview:
 
@@ -11,7 +11,7 @@ The following constitutes all of the subsystems in the implemented Minitwit appl
 - db_backup.tar symbolizes the physical backup of the application database, persisted on an external server.
 
 ### Deployment overview
-The shown deployment diagram gives an overview of where different modules of the system is deployed, and the different applications or artifacts each node is responsible for.
+The shown deployment diagram gives an overview of where different modules of the system are deployed, and the different applications or artifacts each node is responsible for.
 
 ![Overview of deployed components](../images/ch2-component-deployment-overview.png)
 
@@ -22,7 +22,7 @@ Here a description of the modules in the application is given. The diagram below
 
 ![Overview of packages](../images/ch2_packet_overview.png)
 
-The nature of node.js (javascript) happens to be such that the use of interfaces or similar constructs is not natural to use when attempting to define layers of abstraction. Instead we patitioned the modules into layers to make a distinction between layers of abstraction in the code. 
+The nature of Node.js (javascript) happens to be such that the use of interfaces or similar constructs is not natural to use when attempting to define layers of abstraction. Instead we patitioned the modules into layers to make a distinction between layers of abstraction in the code. 
 
 The `Controller` module passes information about requests and responses to the monitoring module. The dependency is found in the routing module because the collected data is exposed through an API endpoint. This is the data that Prometheus monitors and is described further in
 section [3.04 - Monitoring and Logging](../chapters/304_monitoring_and_logging.md).
@@ -30,7 +30,7 @@ section [3.04 - Monitoring and Logging](../chapters/304_monitoring_and_logging.m
 The `Routing`, `Controller`, `Repository` and `Persistence` modules all make use of the `Logging` module in order to log certain events. This is described in more detail in 
 section [2.03 - Interactions of Subsystems](../chapters/203_interactions_of_subsystems.md).
 
-The layered architecture makes the overall application and interaction between the modules straight ahead to understand, however the layered architecture is not necessarily the most efficient as the requests have to pass through several layers when being processed. 
+The layered architecture makes the overall application and interaction between the modules straight ahead to understand, however the layered architecture is not necessarily the most efficient as the requests have to pass through several layers when being processed.
 
 #### Handling of a http request
 The `server` is the entry point into the application and starts up services listening on specific ports as well as making a query to the database making sure there is a connection. Whenever a request arrives eg. at an endpoint in the `Api` or through the `WebUI`, the request traverses down into the application logic until it reaches the `Controller` layer. This layer handles the business-logic, which in this application amounts to handling HTTP requests and responses.
