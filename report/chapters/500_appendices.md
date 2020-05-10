@@ -19,7 +19,7 @@ Technologies:
 
 ## Appendix B
 ### All dependencies
-![Dependency graph](./../images/ch2_dependencies_all_sideways.png)
+![Dependency graph](../images/ch2_dependencies_all_sideways.png)
 ### Application level (npm) dependencies
 ![Dependency graph](./../images/ch2_dependencies_npm_sideways.png)
 
