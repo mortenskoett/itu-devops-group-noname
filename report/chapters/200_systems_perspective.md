@@ -19,7 +19,7 @@ Here is a brief outline of the evolvement of our system:
 - Revise our system for maintainability and technical debt
 
 ### Legacy system
-The legacy system was made with an outdated version of Flask (python framework), a local file based SQLite database and a few bash scripts. It was designed to live on a single physical server with no thoughts of software concurrency and no strategy for operation and maintenance. This was the first step to think into the choice of af new system.
+The legacy system was made with an outdated version of Flask (python framework), a local file based SQLite database and a few bash scripts. It was designed to live on a single physical server with no thoughts of software concurrency and no strategy for operation and maintenance. This was the main parts to think into the choice of af new system.
 
 The basics of the application and software was not very demanding. The system consisted of a web frontend, with a few pages and input forms allowing for users to view, login, follow other users and post messages in plaintext format. This meant that we were working primarily on a web based solution, and therefore should be thinking in a browser based system.
 
