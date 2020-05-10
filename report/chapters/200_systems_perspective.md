@@ -1,13 +1,13 @@
 # 2. System's Perspective
 
-### System Design Workflow
+### System design workflow
 To mimic the real world of devops the design flow has been an evolvling system. The project started with teardown of the original ITU-MiniTwit to be able to figure out what the system included and what we as "the new team" should replicate and what system weaknesses we should be keen on levitating in the new design.
 
 Here is a brief outline of the evolvement of our system:
 - Investigating the legacy systems
 - Team & project work strategy (version control, collaborative tools)
 - Decide on modern languages/frameworks to replace the old
-- Develop a first beta of an 1:near 1, replica of old system
+- Develop a first beta of an 1:near 1, replica of the old system
 - Move from the legacy one physical server, to the flexible cloud infrastructure
 - Release first beta on public cloud
 - Virtualization and container strategy
@@ -23,7 +23,7 @@ The legacy system was made with an outdated version of Flask (python framework),
 
 The basics of the application and software was not very demanding. The system consisted of a web frontend, with a few pages and input forms allowing for users to view, login, follow other users and post messages in plaintext format. This meant that we were working primarily on a web based solution, and therefore should be thinking in a browser based system.
 
-### Choice of Programming Language and Framework / runtime environment
+### Choice of programming language and framework / runtime environment
 We decided to use JavaScript and Node.js as our language and runtime environment of choice for the rewrite of the Minitwit application. In order to make a qualified decision on the matter, we split some of the most popular languages and frameworks for this type of implementation between us and researched their pros and cons individually. We then presented our results and collectively decided on the best option based on the research: 
 
 - Ruby on Rails seemed very interesting to us as it was already popular and is becomming increasingly popular. With Ruby on Rails it seems very easy to set up a fairly complex application with very few lines of codes or commands. However, a Ruby on Rails project consists of a large number of files and the framework created many files "behind the scene". The following is stated on their official home page: "Ruby on Rails is not a minimalist framework, it's a metropolis. One filled with all major institutions needed to run a large, sprawling application like Basecamp or Github or Spotify." We did not feel that we needed a metropolis of a framework for our simple application - we preferred to have a simple and lightweight framework as the application was so small. We also found that the time used to understand this framework would be better spent elsewhere.
