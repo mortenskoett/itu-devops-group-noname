@@ -1,5 +1,6 @@
 # 5. Appendix
 
+## Appendix A
 Technologies:
 [Digital Ocean](https://www.digitalocean.com/)
 [Ubuntu](https://ubuntu.com/)
@@ -15,6 +16,12 @@ Technologies:
 
 [Slack](https://slack.com/)
 [Zoom](https://zoom.us/)
+
+## Appendix B
+### All dependencies
+![Dependency graph](./../images/ch2_dependencies_all_sideways.png)
+### Application level (npm) dependencies
+![Dependency graph](./../images/ch2_dependencies_npm_sideways.png)
 
 ---
 [ [prev page](../chapters/402_conclusion.md) | [table of content](../table_of_content.md) | next page]
