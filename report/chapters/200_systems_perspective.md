@@ -7,7 +7,7 @@ Here is a brief outline of the evolvement of our system:
 - Investigating the legacy systems
 - Team & project work strategy (version control, collaborative tools)
 - Decide on modern languages/frameworks to replace the old
-- Develop a first beta of an 1:near 1, replica of old system
+- Develop a first beta of an 1:near 1, replica of the old system
 - Move from the legacy one physical server, to the flexible cloud infrastructure
 - Release first beta on public cloud
 - Virtualization and container strategy
