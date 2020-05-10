@@ -1,5 +1,5 @@
 ## 3.01 Stages and Tools used for CI/CD chain
-
+<!-- 
 NOTES FROM SESSION 4
 In this session we implement a continuous integration (CI) chain using the following technologies and tools:
 - the distributed version control system (VCS) Git (https://git-scm.com) and GitHub (https://github.com) as host,
@@ -14,7 +14,8 @@ Tasks:
 - **OBS MSc students:** Remember to log and provide good arguments for the choice of CI/CD system, i.e., why do you choose your solution instead of any other?
 - You choose freely if you want to go for continuous delivery or continuous deployment.
 - Let your build pipeline contain not only building your application but also execution of your test suite and other appropriate build stages.
-___________________
+___________________ -->
+<!-- // TODO: Describe CI/CD (continous int./ cont. delivery) -->
 For our CI/CD chain, we are using Vagrant and CircleCI.
 We use **Vagrant** to start a droplet on DigitalOcean (DO). By installing Vagrant, we can write a Vagrant file specifying what server and installations we want (declaring that we are using DO, where to find our credentials, and what server and images we want it to create), and then make Vagrant set up the desired server on our DO account. Instead of relying on Vagrant, we could just create and configure a droplet manually (using the DO website or the terminal), but it is better to have the exact setup and configuration written down as code, so that we can easily redo it again later: this is what Vagrant help to do.
 
@@ -23,7 +24,7 @@ We use **CircleCI**, which provides CI/CD as a service, to automate testing of o
 
 When we push new commits to any git branch, CircleCI will fetch our code from GitHub and run our tests. If the tests fail we will be notified with an e-mail. Further, on Github each branch is marked with a checkmark or a cross indicating whether the code has passed the tests.
 
-We deploy our code by commiting to the release branch (see chapter 3.02).
+We deploy our code by merging into to the release branch (see chapter 3.02).
 Stages used for our CI chain:
 - Push code to the release branch
 - CircleCI fetches the code from GitHub and runs our test script

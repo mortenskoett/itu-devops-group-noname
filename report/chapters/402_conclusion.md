@@ -1,6 +1,6 @@
 ## 4.02 Conclusion
 
-The journy of filling the role as the devops team for the MiniTwit system have been interesting and a great learning experince. Starting with the outdated legacy system, and at a fast pace, understanding and adopting the essen of the system from the graphical user experience to the backend functions in to a new modern system. A system based on technologies, development tactic and with an operational strategi choosen by us.
+The journey of filling the role as the devops team for the MiniTwit system have been interesting and a great learning experince. Starting with the outdated legacy system, and at a fast pace, understanding and adopting the essen of the system from the graphical user experience to the backend functions in to a new modern system. A system based on technologies, development tactic and with an operational strategi choosen by us.
 
 For the most part, we think as documentet in this report that we made some considered decisions.
 Chosing *NodeJS* for the application, *PostGres* as database, and a containerized enviroment supported by *Docker*, lifted by a virtual infrastructur at the cloud provider *Digital Ocean*.

@@ -1,6 +1,6 @@
 ## 3.03 Development process and Tools
 
-Presentation of tools? (Zoom, Slack, Github projects/issues)
+Presentation of tools (Zoom, Slack, Github projects/issues)
 Måske noget i stil med: 
 "We have been using the following tools in our development process...
 We assume the reader knows these tools. Otherwise information can be found here..."
@@ -26,7 +26,6 @@ Before the lockdown we would also sometimes work on the project together after t
 
 To keep information at hand for every team member, we choose to use the *Wiki* tab to store project information, guides, progress etc. This allowed to easily find information about the parts of the system that had been worked on by other members of our team - such as what port a service is running on or how two services are connected.
 The confidential information such as login credentials is kept on a private repository.
-
 
 ---
 [ [prev page](../chapters/302_repo_and_branch_strategy.md) | [table of content](../table_of_content.md) | [next page](../chapters/304_monitoring_and_logging.md) ]

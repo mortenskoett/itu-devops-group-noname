@@ -1,16 +1,11 @@
 # 3. Process' Perspective
+This chapter describes how we have approached the process of working together in terms of organization of the group and what tools have been used and what implications this might have had.
 
 ## Organization, Communication and Interaction
-We decided to organize ourselves in a flat structure meaning that we all had the same role. When having to make decisions in our team, we would discuss it collectively. If minor decisions were to be made, we would let the decision be made by the person(s) working on the relevant part(s) of the system. For instance when deciding on which service to use we would assign one or two persons to research the services available on the market. This would then present the results of the research for the rest of the group for a decision to be made collectively. In the case of minor services, the decision could be made by a single person.
+We decided to organize ourselves in a flat structure meaning that we all had the same role. When having to make decisions in our team, we would discuss it collectively. If minor decisions were to be made, we would let the decision be made by the person(s) working on the relevant part(s) of the system. 
+For instance when deciding on which service to use we would assign one or two persons to research the services available on the market. This would then present the results of the research for the rest of the group for a decision to be made collectively. In the case of minor services, the decision could be made by a single person.
 
 We did not explicit organize us as a *Scrum* team but we used aspects of it. We worked in sprints, and therefore we did a bit of sprint planning. We used a Kanban/Scrum board to organize the work. We made use of stand-up meetings to get an overview of how we were doing in the team. It is described below(?) how we have used these aspects of Scrum.
-
-**Resten af afsnittet står også i 3.03. Hvor passer det bedst?**
-We have widely different weekly schedules so we have not been able to meet in person very often. We have mostly been working distributed - and during the Corona lockdown we have only been working distributed. Following the structure of the course, we would work in one week *sprints* - we were free to work on the project as it suited us indivually during the week as long as we collectively completed the task on time. 
-
-After each lecture, when the task of the next week had been presented, we would have a short meeting discussing how to cope with the task. Before the Corona lockdown we met in person after the lecture and during the Corona lockdown we have met in a Zoom meeting. This meeting is a mixture between a Scrum stand-up meeting and a sprint planning meeting. We normally discuss where we are currently at, any uncertainties of how to solve next week's task and then we split the task into subtasks, which we could add to an online Kanban board. Using an online Kanban board allowed us to get an overview and delegate tasks while working distributed.
-
-For the first two weeks we did not use a Kanban board. Using the Kanban board made it much easier to divide the project work. Further, it made it easier to do project work when you only had an hour or two available, as it was easy to choose one of the tasks, complete it and then share the work with the rest of the team. This division of tasks also meant that we did not interfere with eachother's work very much. Some of the tasks in the course have been quite difficult to split into subtasks that did not need to be solved in a sequence - therefore it was often easier to just be done by a single person - or a few persons working together.
 
 ---
 [ [prev page](../chapters/203_interactions_of_subsystems.md) | [table of content](../table_of_content.md) | [next page](../chapters/301_ci_dc_chain_tools.md) ]

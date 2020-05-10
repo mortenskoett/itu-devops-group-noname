@@ -1,5 +1,6 @@
 ## 3.02 Repository and Branch Strategy
 
+<!-- 
 NOTES FROM SESSION 2:
 Describe Distributed Workflow
 * Which repository setup will we use? x
@@ -8,7 +9,7 @@ Describe Distributed Workflow
 * How do we expect contributions to look like? x
 * Who is responsible for integrating/reviewing contributions?
 Write this in a 'Contribution.md' file
-___________
+___________ -->
 
 ### Repository model
 We made use of the mono repository model - a public repository for all our code. We decided on this repository model since we though that a single repository would be fine for this project. We did not see a need to have distributed repositories. Having a single repository worked fine for the project as we divided our subsystems into separate folders and followed the branching strategy below.
@@ -25,11 +26,13 @@ The *master* branch should be as stable as possible but it also works as an inte
 
 The *release* branch is used only for the stable versions of the code base. The code on this branch is deployed to our production server. Two approved reviews are required to merge. 
 
-release		-------->	 (deploys the code to the production server)  
+```
+release		-------->	        (deploys the code to the production server)  
                  /  
-master	 	----------->	 (newest stable changes)  
+master	 	----------->	    (newest stable changes)  
              /      /  
-feature		-------------->	 (your work branch)
+feature		-------------->	    (your work branch)
+```
 
 We decided to use this branching strategy as we thought it worked well with the mono repository model - we could separate work on different subsystems to different branches. This worked out well. 
 

@@ -31,8 +31,6 @@ We decided to use JavaScript and Node.js as our language and runtime environment
 - Java with the Spring framework was investigated but was scrapped due to lack of java for web know-how and time.
 - Node.js with its npm package manager we found to be the simplest, most efficient and most lightweight language. At the time of research this was some of the most appealing qualities for the implementation language for this project. We also found Node.js to be very well documented, which was a positive thing considering that the language was new to most of us. Further, some of the members of our team had some experience with Node.js, which meant that we did not have to spend as much time on adapting to syntax and environment considering the relatively short time in which had to translate the system.
 
-<!-- - Go with Gorilla ... tror vi har beskrevet nok hvis det er ...-->
-
 Some of the other, less noteworthy frameworks we researched were:
 - Crystal with Kemal
 - Elixir with phoenix
@@ -40,15 +38,6 @@ Some of the other, less noteworthy frameworks we researched were:
 - Ruby with Sinatra
 
 We found that most of these frameworks were not updated very often or were not often used in production.
-
-### Choice of Database (RDBMS)
-Just after translating the Minitwit application to Node.js we made use of a local Sqlite database. This was a fine choice to get a good start with not too many moving parts. We later found that the best options for a database system was either MySQL or Postgres. Sqlite is simply not a production database as it is too simple. It does not scale well and data is easily corrupted. 
-It is described later on how we migrated data between databases and between servers.
-
-When deciding between MySQL and Postgres we did not find that many differences for a simple system like ours. Both databases met our requirements and seemed to be more less equally efficient. We decided on using Postgres as we found it to be better "out of the box" and supports a few more data types such as booleans. Further, Postgres is better at handling concurrency than MySQL, which we thought might be a factor for this kind of system. 
-(https://developer.okta.com/blog/2019/07/19/mysql-vs-postgres)
-
-The choice to use Node.js and Postgres as RDBMS turned out to be well made in the sense that we had one of the best performing systems compared to the other groups. The only group with a higher 'latest' was another group using Node.js and Postgres. We also did not have any regrets with the choices over the course of the project.
 
 ---
 [ [prev page](../chapters/100_preface_and_introduction.md) | [table of content](../table_of_content.md) | [next page](../chapters/201_design_and_architecture.md) ]
