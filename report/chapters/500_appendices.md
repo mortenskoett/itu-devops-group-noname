@@ -1,7 +1,5 @@
 # 5. Appendix
 
-
-
 Technologies:
 [Digital Ocean](https://www.digitalocean.com/)
 [Ubuntu](https://ubuntu.com/)

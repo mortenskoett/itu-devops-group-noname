@@ -9,6 +9,7 @@ We therefore chose to migrate our existing database one more time, this time fro
 The operation was executed using much of the already written scripts used when we migrated from the SQlite database to the Postgres database earlier in the course. 
 Once again we were very keen on missing as few as possible requests while the actual physical migration of the database took place. 
 
+<!-- // TODO: Insert comment on how Sqlite was migrated to begin with -->
 To do the migration a script was written that would copy the contents of the database and transfer it to the new database node. When the database dump was succesfully transferred to the node, 
 the script would then proceed to copy the data to the docker container running on the node, before finally migrating the data to the already running instance of the database in the docker container.
 Because the database did not contain any data already, the dreaded step of actively deleting everything on the running database instance could be left out. Since the IPs pointing to the database from the

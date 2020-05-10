@@ -1,10 +1,17 @@
 # 4. Lessons Learned Perspective
 
+<!-- // TODO: Describe how we tried to automate things so that -->
+
 ### More than a simple application
-**Skal nok omskrives en del**
+<!-- // TODO: **Skal nok omskrives en del** -->
+<!-- // TODO: Beskriv: Complexity rises when the system is built out. We want a modifiable system which introduces complexity -->
+
 We have learned that developing and maintaining a web application consists of much more than just writing code. The system that we took over consisted of more or less three files and a database. This very simple system fulfilled the API requirements and our system does not have much more 'functionality'. Yet, our system is much larger and more complex now. This is because of the  tools and subsystems that help us in developing and maintaining our system. Without these tools these tasks would have been far more challenging.
 
 ### Deploy more often
+<!-- // TODO: Skriv om continous delivery vs continous deployment 
+https://www.atlassian.com/continuous-delivery/principles/continuous-integration-vs-delivery-vs-deployment -->
+
 Even though we had set up a CI/CD pipeline which allowed us to delpoy our system very easily we did not deploy as often as we would have liked to. This was because that we were often scared to deploy our code as we were uncertain whether it would crash our system. We had very good results on the simulator figures that we did not want to ruin by our server being down. One of the main reasons we were scared to deploy was that we did not have sufficient testing of our system. If we had had better testing we would be more comfortable deploying our system as the risk of crashes would be reduced.
 
 Something that we often missed when we were about to deploy our system was a production like environment that would be close to a one-to-one copy of our production setup. In this way we could test the deployment, 'functionality' and performance of our system in an environment identical to the production environment. We often found that our system was running fine locally but we were in doubt about if it would work the same way in our production environment - for istance would the deployment itself go as planned.

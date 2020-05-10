@@ -1,16 +1,16 @@
 ## 2.02 Dependencies
-
+<!-- 
 ### Notes from session 3:
 In class, we define a software artifact as *An artifact is a tangible machine-readable document created during software development. Examples are requirement specification documents, design documents, source code and executables.* (ISO/IEC 19506:2012 Information technology — Object Management Group Architecture-Driven Modernization (ADM) — Knowledge Discovery Meta-Model (KDM)).
 
 Tasks:
 Keep track of your dependencies. That is, all technologies, services, runtime and build-time dependencies should be logged in a corresponding file and/or visualization.
-_____________________________
+_____________________________ -->
 
 The only requirement for a machine to run a local version of our system is that Docker is installed since all our subsystems run in Docker containers. Using the run.sh script the docker images can be build and started. However, in order to develop, maintain and deploy the system there are quite a large number of dependencies. These dependencies of the system are depicted in the figure below.
 
+<!-- DEPENDENCY GRAPH1 (har vi alt med?) -->
 ![Dependency graph 1](../images/tmp.png)
-DEPENDENCY GRAPH1 (har vi alt med?)
 
 
 This directed acyclic graph depicts the dependencies of our system. At the top of the graph is the config file for CircleCI as this is the file that is used to deploy our system. The graph depicts both files and services that we depend on to deploy our code - that is both the compilation of the code and running the code.
