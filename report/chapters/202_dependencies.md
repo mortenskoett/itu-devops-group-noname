@@ -9,7 +9,9 @@ _____________________________
 
 The only requirement for a machine to run a local version of our system is that Docker is installed since all our subsystems run in Docker containers. Using the run.sh script the docker images can be build and started. However, in order to develop, maintain and deploy the system there are quite a large number of dependencies. These dependencies of the system are depicted in the figure below.
 
+![Dependency graph 1](../images/tmp.png)
 DEPENDENCY GRAPH1 (har vi alt med?)
+
 
 This directed acyclic graph depicts the dependencies of our system. At the top of the graph is the config file for CircleCI as this is the file that is used to deploy our system. The graph depicts both files and services that we depend on to deploy our code - that is both the compilation of the code and running the code.
 
