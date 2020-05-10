@@ -15,11 +15,11 @@ The only requirement for a machine to run a local version of our system is that 
 
 This directed acyclic graph depicts the dependencies of our system. At the top of the graph is the config file for CircleCI as this is the file that is used to deploy our system. The graph depicts both files and services that we depend on to deploy our code - that is both the compilation of the code and running the code.
 
-This directed acyclic graph depicts the dependencies of our system. At the top of the graph is the CircleCI service as this service is used to deploy the system. The graph depicts both files and services that we depend on to deploy the system - that is both the compiletime and runtime dependencies. (?)
+This directed acyclic graph depicts the dependencies of our system. At the top of the graph is the CircleCI service as this service is used to deploy the system. The graph depicts both files and services that we depend on to deploy the system - that is both the compiletime and runtime dependencies.
 
 CircleCI depends on the CircleCI config file and our Github repository from which it fetches the project. The CircleCI config file depends on some services in order to deploy the system. This is described in section 3.01. Further, it depends on the run.sh and backup.sh scripts. The run.sh script is the equivalent of the control.sh of the original system. With this script it is possible to build and run the subsystems via Docker. The backup.sh script is used to regularly create a backup of the production database and store it on an external server (home.oleandersen.net). 
 
-The run.sh script is dependent on a number of docker-compose files to build and run the subsystems. The reason for having multiple docker-compose files is that we originally found that it made it easier to wait between deploying the individual subsystems. For instance, we had to wait for the database to start up completely before starting our application, which would connect to the database. Instead of having multiple different docker-compose files we should have just had a single one. Then we could have started the services of this docker-compose indivdually when we needed to. This is the setup that we have decided on in our scalable solution (see section 3.06). Having a single docker-compose file simplified the docker setup significantly. (skal sidste del stå her?)
+The run.sh script is dependent on a number of docker-compose files to build and run the subsystems. The reason for having multiple docker-compose files is that we originally found that it made it easier to wait between deploying the individual subsystems. For instance, we had to wait for the database to start up completely before starting our application, which would connect to the database. Instead of having multiple different docker-compose files we should have just had a single one. Then we could have started the services of this docker-compose individually when we needed to. This is the setup that we have decided on in our scalable solution (see section 3.06).
 
 Each docker-compose file is dependent on zero or more dockerfiles, which are dependent on services and/or files in order to be build and run.
 
@@ -32,11 +32,10 @@ This figure shows the dependencies of our Node.js application - the javascript c
 The dependency graph above helps get an overview of the libraries the code depends on. This overview is important when looking at the technical debt of the system. We can investigate these libraries and figure out the following:
 - Are these libraries updated regularly or outdated?
 - Are they well documented?  
-- Are they widely used or ... ?
-(prøver at forklare hvad vi kan bruge dependency grafen til - er det ligegyldigt her? jeg ved ikke rigtigt hvad jeg taler om...)
+- Are they widely used
+- Know flaws or vulnerabilies
 
 We used an online tool that was able to create the entire dependency graph of the Node.js application - also depicting the dependencies of the libraries shown in our dependency graph above. As this graph was very large and contained libraries we had never seen before we did not find it very helpful. We therefore chose not to include the dependencies of our dependencies in the graph. However, if some of the libraries our code depends on, depends on an outdated library then so does our code. This could be a library that is vulnerable to malicious attacks. The large graph could be useful in detecting such libraries that our code indirectly depends on.
-(giver det her afsnit mening at have med? ellers slet) 
 
 ---
 [ [prev page](../chapters/201_design_and_architecture.md) | [table of content](../table_of_content.md) | [next page](../chapters/203_interactions_of_subsystems.md) ]
