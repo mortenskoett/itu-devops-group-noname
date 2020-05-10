@@ -13,7 +13,7 @@ Finally it was a matter of timing the execution of the backup script with bringi
 
 #### Migrating Postgres database to separate node
 In order to make the system more scalable it was decided to have the database deployed externally from the application server with the intention of being able to scale the application horizontally while still using the single database instance.
-We therefore chose to migrate our existing database one more time, this time from the node running the application to a separate node on DO. 
+We therefore chose to migrate our existing database one more time, this time from the node running the application to a separate node on Digital Ocean (DO). 
 
 The operation was executed using the same principles as well as parts of the already written scripts used to migrate from the SQlite database. See above for more details.
 

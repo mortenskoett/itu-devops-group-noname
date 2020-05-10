@@ -37,5 +37,35 @@ Finally, as we shortly described in section 3.04, if we had setup our monitoring
 
 This experience made us realize the importance of properly testing and monitoring our system. As the system went down very late on the project we did not write any further tests but we made the monitoring system notify us if the system would go down again and we looked at how to use Docker Swarm for our system.
 
+### Automation as documentation
+Something that we did a lot was to automate tedious typing tasks or cluster function calls into combined functionality such as starting servers or doing backups. This proved to be very effective, to the point that it can almost be described as documentation of the code base. 
+
+Consider eg. the following snippet taken from one of our most used scripts during this project `run.sh`:
+
+```
+./run.sh <arg> <opt>
+
+<arg>         <opt>       <action>
+app           -d          run app container
+test          -d          run python test container
+eslint        -d          run eslint test container
+db            -d          run postgres database container
+monitor       -d          run monitor aka prometheus/grafana container
+logging       -d          run logging services
+build                     rebuild all images
+push                      push newest docker images to Dockerhub
+pull                      pull latest docker images from Dockerhub
+clean                     remove everything to get a clean slate
+down                      take everything down
+status                    show status of docker setup
+setup_run_app             setup a complete running application using productiondatabase
+setup_run_test            setup a complete testing setup and run python tests
+setup_local_app           setup a complete running application using local db
+```
+
+Not considering the bloated condition of the script at this point, it still communicates actions that are very useful, easy to understand and easy to extend by other developers. It also makes it easier to discuss and see solutions to minor problems or inconveniences because there is a starting point for everyone to work with.
+
+Having a control-script such as this at various places throughout the code base, with the intention of automating some group of commands might feel like a hacky solution, but for this group it worked very effetively.
+
 ---
 [ [prev page](../chapters/306_scaling_and_load_balancing.md) | [table of content](../table_of_content.md) | [next page](../chapters/401_current_system_state.md) ]
