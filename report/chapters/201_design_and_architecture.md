@@ -38,7 +38,6 @@ The `server` is the entry point into the application and starts up services list
 In the `Controller` the request is dismantled and only data needed to process the request further continues down into the `Repository` layer, which query the database through the `ORM` objects and make sure the correct data or perhaps appropriate errors are returned. When control once again returns to the `Controller`, depending on the returned data, it makes sure that an appropriate HTTP response is created and returned to the initial sender of request.
 
 #### Choice of database
-<!-- Just after translating the Minitwit application to Node.js we made use of a local Sqlite database.  -->
 Initally we chose to reuse the Sqlite database from the original Python implementation because this was a fine prototypical choice to get a good start with not too many moving parts. 
 
 However Sqlite is not a database to be used in production as it is too simple. It does not scale well and data is easily corrupted. 
