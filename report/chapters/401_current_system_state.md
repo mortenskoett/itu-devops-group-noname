@@ -21,6 +21,15 @@ The chosen languages and tools are all industry standards, meaning that it will 
 ### Technical Debt
 As our system is newly developed it should not introduce much technical debt, but technical debt is forming fast, when using a things like nodejs, where a lot dependencies are automatically acquired. We have also chosen to view the tools used for continuous integration and continuous deployment as technical dept. This is because even if it simplifies and structures the overall process it also makes us depend on external companies to be present for our system to be work on as intended.
 
+We used the tool SonarCloud to analyze the software quality of our master branch. The result is including only code files like javascript and python and not config files like docker and vagrant as they are not a part of the scan.
+
+The result is not that bad, it's all fairly small issue, concerns about some duplication, not using https for all request and a variable that might be null. Things that are easily fixed in an upcoming commit.
+
+![SonarCloud Overview](../images/ch4_sonarcloud_1.png)
+
+
+
+
 ### Overall
 For the most part, we feel our system is acceptable, we have a working deployment strategy, an reasonable structure in our code repository and the files. Monitoring an logging in place and a fairly success in serving our (ghost api) users with only few hiccups.
 
