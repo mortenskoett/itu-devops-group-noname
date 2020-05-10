@@ -18,28 +18,39 @@ Tasks:
 ___________________ -->
 <!-- // TODO: Beskriv hvorfor CircleCI, hvorfor CI/CD as a service vs self-hosted) -->
 
-### Continious integration and delivery
-This section describes the continous integration and continous delivery (CI/CD) chain of our system. We have chosen continious delivery and not continous deployment in the sense that in order to start the deployment of our code we have to push to the release branch. Pushing to the release branch requires a code review from two other members of the team. See [section 3.02](../chapters/302_repo_and_branch_strategy.md).  
+### Continuous integration and delivery
+This section describes the continuous integration and continuous delivery (CI/CD) chain of our system. We have chosen continuous delivery and not continuous deployment in the sense that in order to start the deployment of our code we have to push to the release branch. Pushing to the release branch requires a code review from two other members of the team. See [section 3.02](../chapters/302_repo_and_branch_strategy.md).  
 
 Therefore deployments do not happen automatically every time a new change is made and potentially deployable code is not always deployed.
 
-The reason for choosing continous delivery over continous deployment was that we wanted a thorough review of the code before it was deployed and released to reduce the risk of the system crashing in production.
-
-<!-- Også skrevet i 400, men passer okay her:
-An alternative to this could be to have a more exhaustive test suite so that we would be fairly certain the code was ready to be deployed if it passed the tests. This is described further in [section 4.00](../chapters/400_lessons_learned_perspective.md) -->
+The reason for choosing continuous delivery over continuous deployment was that we wanted a thorough review of the code before it was deployed and released to reduce the risk of the system crashing in production.
 
 ### Services
 For our CI/CD chain, we are using Vagrant and CircleCI.
 We use *Vagrant* to start a droplet on DigitalOcean (DO). By installing Vagrant, we can write a Vagrant file specifying what server and installations we want (declaring that we are using DO, where to find our credentials, and what server and images we want it to create), and then make Vagrant set up the desired server on our DO account. Instead of relying on Vagrant, we could create and configure a droplet manually (using the DO website or the terminal), but it is better to have the exact setup and configuration written down as code, so that we can easily redo it again later - this is what Vagrant helps us to do.
 
-**Write something about why choosing CircleCI over Travis**
+For the choice of continuous delivery we had multiple candidates to choose from. The ones that were up for debate were Github Actions, Jenkins, Travis and CircleCI.
+
+Based on the talk held by external lecture, we got a feeling that Github Action was still the new kid in the class, even if well integrated with Github, we wanted to get acquainted with some of the other tools used in the industry, so Github Action was dismissed.
+
+Next up was Jenkins, even if it's completely free and open-source, it would requires us to setup a (separate) server and install in on. This does sound cool, but would mean another instance for us to keep a float.
+
+Left was Travis and CircleCI, both supporting Git and Docker and as hosted a solution in the cloud. So a close race!
+After some research we came to the conclusion that CircleCI made sense with their "free plan" compare to a paid solution as Travis.
+
+![CI companies](../images/ch3_ci_logos.png)
+
+(https://medium.com/hackernoon/continuous-integration-circleci-vs-travis-ci-vs-jenkins-41a1c2bd95f5)
+
+(https://www.slant.co/versus/625/627/~circleci_vs_travis)
+
 We use *CircleCI*, which provides CI/CD as a service, to automate testing of our code and deployment to DO. We have set up a service on CircleCI, which listens on our different branches on GitHub.
 
 When we push new commits to any git branch, CircleCI will fetch our code from Github and run our tests. If the tests fail we will be notified with an e-mail. Further, on Github each branch is marked with a checkmark or a cross indicating whether the code has passed the tests.
 
 ### Deployment
 We start the deployment of our code by merging into to the release branch. The below activity diagram illustrates the activities for CircleCI in our deployment chain.
-![Our delpoyment chain](../images/ch3-CI_CD.png)
+![Our deployment chain](../images/ch3-CI_CD.png)
 
 Stages used for our CI chain:
 - Push code to the release branch

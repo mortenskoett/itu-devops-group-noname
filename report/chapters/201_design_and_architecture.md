@@ -38,7 +38,7 @@ The `server` is the entry point into the application and starts up services list
 In the `Controller` the request is dismantled and only data needed to process the request further continues down into the `Repository` layer, which query the database through the `ORM` objects and make sure the correct data or perhaps appropriate errors are returned. When control once again returns to the `Controller`, depending on the returned data, it makes sure that an appropriate HTTP response is created and returned to the initial sender of request.
 
 #### Choice of database
-Initally we chose to reuse the Sqlite database from the original Python implementation because this was a fine prototypical choice to get a good start with not too many moving parts. 
+Initially we chose to reuse the Sqlite database from the original Python implementation because this was a fine prototypical choice to get a good start with not too many moving parts. 
 
 However Sqlite is not a database to be used in production as it is too simple. It does not scale well and data is easily corrupted. 
 We decided to implement a production-worthy database and we found that the best options were either MySQL or Postgres.
@@ -50,8 +50,8 @@ More details about how we migrated between databases can be found in
 section [3.06 - Scaling and Balancing](../chapters/306_scaling_and_load_balancing.md).
 
 ### The docker setup
-It makes a lot of sense to setup the application using docker containers, the first and main reason for us being that we could more esaliy setup an identical development environment for each of the involved developers. As an example: just for our 5-person group we had two different flavors of Linux distributions, Windows computers and Apple Macs.
-The second essential reason is that we would like to be able to replicate our production environment as closely as possible in order to not get too many suprises after having deployed on the production server.
+It makes a lot of sense to setup the application using docker containers, the first and main reason for us being that we could more easily setup an identical development environment for each of the involved developers. As an example: just for our 5-person group we had two different flavors of Linux distributions, Windows computers and Apple Macs.
+The second essential reason is that we would like to be able to replicate our production environment as closely as possible in order to not get too many surprises after having deployed on the production server.
 
 The following component and connector diagram gives an overview of the docker network and containers' paths of communication in the system. The outer boxes are the two Digital Ocean nodes, while the inner boxes are the docker containers. The names of the containers are their respective name within the docker network. 
 The diagram shows what ports on the containers are mapped to what ports on the device.
