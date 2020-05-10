@@ -1,7 +1,7 @@
 ## 2.02 Dependencies
 
 ### Notes from session 3:
-In class, we define a software arcitecture as *a tangible machine-readable document created during software development. Examples are requirement specification documents, design documents, source code and executables.* (ISO/IEC 19506:2012 Information technology — Object Management Group Architecture-Driven Modernization (ADM) — Knowledge Discovery Meta-Model (KDM)).
+In class, we define a software artifact as *An artifact is a tangible machine-readable document created during software development. Examples are requirement specification documents, design documents, source code and executables.* (ISO/IEC 19506:2012 Information technology — Object Management Group Architecture-Driven Modernization (ADM) — Knowledge Discovery Meta-Model (KDM)).
 
 Tasks:
 Keep track of your dependencies. That is, all technologies, services, runtime and build-time dependencies should be logged in a corresponding file and/or visualization.

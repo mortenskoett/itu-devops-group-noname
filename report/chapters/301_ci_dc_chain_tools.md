@@ -33,7 +33,10 @@ Stages used for our CI chain:
 
 Our tests consist of an Eslint check and some tests for our API. Eslint is a linter for JavaScript code, which ensures that we keep a code standard. Eslint can be run locally and even integrated into the IDE so that errors can be found before the tests are run on the CircleCI server.
 
-The below diagrams illustrates our deployment chain.
+The below diagrams illustrates the activities for Circle CI in our deployment chain.
 ![Our delpoyment chain](../images/ch3-CI_CD.png)
+
+The below diagram is an overview of the services involved in our deployment chain:
+![Deployment services](../images/ch3-CI_CD-services-overview.png)
 ---
 [ [prev page](../chapters/300_process_perspective.md) | [table of content](../table_of_content.md) | [next page](../chapters/302_repo_and_branch_strategy.md) ]
