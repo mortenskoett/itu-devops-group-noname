@@ -18,10 +18,11 @@ This means that including new members on our devops teams only reqires to add th
 
 The chosen languages and tools are all industri standards, meaning that it will all be farely adobteble by others, only custom script like /run.sh might be a challange, but with comments we have tried to make it fairly understandable.
 
-
 ### Technical Debt
+As our system is newly developed it should not introduce much technical debt, but technical debt is forming fast, when using a things like nodejs, where a lot dependencies are automatically aquired. We have also chosen to view the tools use for contionues integration and contionous deployment as technical dept. This is because even if it simplifies and structures the overall process it also makes us depend on external companies to be present for our system to be work on as intended.
 
 ### Overall
+
 
 ### System (re)deployment
 When deploying the system in production mode the system will connect to an external database. The system can also be deployed in developer mode which will use a local database instead. The change between production and developer mode is done by changing an environment variable - this is variable is changed by the `run.sh` script.
