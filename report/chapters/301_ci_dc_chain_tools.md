@@ -19,14 +19,14 @@ ___________________ -->
 <!-- // TODO: Beskriv hvorfor CircleCI, hvorfor CI/CD as a service vs self-hosted) -->
 
 ### Continious integration and delivery
-This section describes the continous integration and continous delivery (CI/CD) chain of our system. We have chosen continious delivery and not continous deployment in the sense that in order to start the deployment of our code we have to push to the release branch. Pushing to the release branch requires a code review from two other members of the team. See section 3.02.  
+This section describes the continous integration and continous delivery (CI/CD) chain of our system. We have chosen continious delivery and not continous deployment in the sense that in order to start the deployment of our code we have to push to the release branch. Pushing to the release branch requires a code review from two other members of the team. See [section 3.02](../chapters/302_repo_and_branch_strategy.md).  
 
 Therefore deployments do not happen automatically every time a new change is made and potentially deployable code is not always deployed.
 
 The reason for choosing continous delivery over continous deployment was that we wanted a thorough review of the code before it was deployed and released to reduce the risk of the system crashing in production.
 
 <!-- Også skrevet i 400, men passer okay her:
-An alternative to this could be to have a more exhaustive test suite so that we would be fairly certain the code was ready to be deployed if it passed the tests. This is described further in section 4.00 -->
+An alternative to this could be to have a more exhaustive test suite so that we would be fairly certain the code was ready to be deployed if it passed the tests. This is described further in [section 4.00](../chapters/400_lessons_learned_perspective.md) -->
 
 ### Services
 For our CI/CD chain, we are using Vagrant and CircleCI.
