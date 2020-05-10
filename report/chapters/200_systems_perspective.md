@@ -5,10 +5,10 @@ To mimic the real world of devops the design flow has been an evolvling system. 
 
 Here is a brief outline of the evolvement of our system:
 - Investigating the legacy systems
-- Team & project work strategy (version control, collaborative development)
+- Team & project work strategy (version control, collaborative tools)
 - Decide on modern languages/frameworks to replace the old
 - Develop a first beta of an 1:near 1, replica of old system
-- Move from the legacy *one physical server*, to the *flexible cloud infrastructure*
+- Move from the legacy one physical server, to the flexible cloud infrastructure
 - Release first beta on public cloud
 - Virtualization and container strategy
 - Implement a continuous delivery and continuous deployment strategy for new system
@@ -16,7 +16,7 @@ Here is a brief outline of the evolvement of our system:
 - Implement system monitoring and logging
 - Perform security review
 - Rethink system for scalability and accessibility
-- Revise our system for maintainability and technical Debt
+- Revise our system for maintainability and technical debt
 
 ### Legacy system
 The legacy system was made with an outdated version of Flask (python framework), a local file based SQLite database and a few bash scripts. It was designed to live on a single physical server with no thoughts of software concurrency and no strategy for operation and maintenance. This was the first step to think into the choice of af new system.
