@@ -12,23 +12,14 @@ Since a backup is not a valid backup without the tested ability of restoring the
 Finally it was a matter of timing the execution of the backup script with bringing down the old application, copying data, bringing up the new application and migrate data to the new database. Due to the docker setup it was possible to test these steps locally and feel assured of their functionality before trying it out on the server.
 
 #### Migrating Postgres database to separate node
-In order to make the system more scalable it was decided to have the database deployed externally from the application server with the intention of being able to scale just the application horizontally while still using the single database instance.
-We therefore chose to migrate our existing database one more time, this time from the node running the application to separate node on DO. 
+In order to make the system more scalable it was decided to have the database deployed externally from the application server with the intention of being able to scale the application horizontally while still using the single database instance.
+We therefore chose to migrate our existing database one more time, this time from the node running the application to a separate node on DO. 
 
-The operation was executed using much of the already written scripts that were used when we migrated from the SQlite database to the Postgres database earlier in the course. 
-Once again we were very keen on missing as few as possible requests while the actual physical migration of the database took place. 
+The operation was executed using the same principles as well as parts of the already written scripts used to migrate from the SQlite database. See above for more details.
 
-<!-- To do the migration a script was written that would copy the contents of the database and transfer it to the new database node.  -->
+In order to run this migration as fast and as seamless as possible a deployment script was used to handle the migration directly from the build server. The script would first migrate the data to the new database and then bring up a modified version of the application pointing to the new database.
 
-<!-- When the database dump was succesfully transferred to the node, the script would then proceed to copy the data to the docker container running on the node, before finally migrating the data to the already running instance of the database in the docker container. -->
-
-<!-- Because the database did not contain any data already, the dreaded step of actively deleting everything on the running database instance could be left out.  -->
-
-In order to run this migration as fast and as seamless as possible a deployment script handled the execution of the migration script so that when we changed our code to use the external database, we would first migrate the database and then deploy the new code. This script was executed by the CircleCI build server on deployment. 
-
-Since the IPs pointing to the database from the application server was already set in the new application docker images, the database migration at this point was a success and the app could be restarted/re-deployed.
-
-In this way our system did not have any downtime but we lost a bit of data as it took around 30 seconds to migrate the database. We lost the data for the requests that we recieved between starting the migration and deploying our code to make use of the new database. We found the migration to be fairly smooth and succesful.
+In this way our system did not have any downtime but we lost a bit of data as it took around 30 seconds to migrate the database. We lost the data for the requests that we recieved between starting the migration and deploying our code to make use of the new database. We found the migration to be fairly smooth and succesful. Note that a bit of clean-up in the deploy script was necessary afterwards.
 
 If considering this as a sub-optimal solution, given that there is any down-time in the migration, an optimal solution would have been to be able to migrate without down-time at all.
 This we did not investigate any further.
