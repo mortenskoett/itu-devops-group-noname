@@ -8,8 +8,22 @@
     -->
 
 <!-- // TODO: Rewrite the following: -->
-The system is currently not running on any servers but it can be easily deployed using our run.sh script (skal forklares tidligere). Because all subsystems run in docker containers, the only requirement for the machine to deploy the system on is that ... (Ubuntu?, docker installeret)
+The system is currently not running on any servers but it can be easily deployed using our run.sh script. Because all subsystems run in docker containers, the only requirement is a docker installation on the machine that the system shall be deployed on. But this aside the current system state as we see it.
 
+### Development & Maintainability
+All project documentation, credential, source code, test and deployment scripts are consolided on our two github repositories.
+One public as we have no need to hide how our general system is written and one private because some (login) credentials and communication is to kept secret.
+
+This means that including new members on our devops teams only reqires to add them to the project repositories. If we as a team is to be replaced all knowledge can be transfered and (commit) history can be reviewed easely.
+
+The chosen languages and tools are all industri standards, meaning that it will all be farely adobteble by others, only custom script like /run.sh might be a challange, but with comments we have tried to make it fairly understandable.
+
+
+### Technical Debt
+
+### Overall
+
+### System (re)deployment
 When deploying the system in production mode the system will connect to an external database. The system can also be deployed in developer mode which will use a local database instead. The change between production and developer mode is done by changing an environment variable - this is variable is changed by the `run.sh` script.
 
 To start the application in production mode run the following command: ./run.sh setup_run_app
