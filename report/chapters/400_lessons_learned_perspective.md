@@ -72,7 +72,7 @@ setup_local_app           setup a complete running application using local db
 
 Not minding the bloated condition of the script at this point in time, the interesting point is, that it succeeded in being an effective tool in handling repetitive tasks but it also succeeded in being a way to facilitate discussions about such things as deployment order or ways to deal with minor problems and inconveniences in an effective way. 
 
-Because the implementation, the API and the documentation in this case is the one-and-same-thing, it feels like there is not a long way from developing a functionality to making others understand and use it properly. Furthermore it became clear that the more a functionality is used by others than yourself, the more potential it had.
+Because the implementation, the API and the documentation in this case is the one-and-same-thing, it feels like there is not a long way from developing a functionality to making others understand and use it properly. Furthermore it became clear that the more a functionality is used by others than yourself, the more potential it has.
 
 Having several control-scripts such as this one placed throughout the code base, with the intention of automating some functionality, might feel like a hacky solution, but for our group it worked very effetively.
 
