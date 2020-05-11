@@ -21,8 +21,7 @@ In order to run this migration as fast and as seamless as possible a deployment 
 
 In this way our system did not have any downtime but we lost a bit of data as it took around 30 seconds to migrate the database. We lost the data for the requests that we recieved between starting the migration and deploying our code to make use of the new database. We found the migration to be fairly smooth and succesful. A bit of clean-up in the deploy script was necessary afterwards, as we needed to delete the line calling the migrate script.
 
-If considering this as a sub-optimal solution, given that there is any down-time in the migration, an optimal solution would have been to be able to migrate without down-time at all.
-This we did not investigate any further.
+We were very happy about having close to none downtime and considered the migration very succesfull. For a larger application, with a larger amount of data or where absolutely no seconds of unavailability is acceptable, it would maybe require a more sofisticated approach, but we believe our users would not have been significantly disturbed in this twitting application. 
 
 ### Docker Swarm
 Late in the course of the project it made sense to begin looking at ways to make our deployment and up-time of the application more robust in terms of horizontal-scaling. Also since the database at this point was separated from the application node this was possible.
