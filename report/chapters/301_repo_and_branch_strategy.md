@@ -1,16 +1,5 @@
 ## 3.01 Repository and Branch Strategy
 
-<!-- 
-NOTES FROM SESSION 2:
-Describe Distributed Workflow
-* Which repository setup will we use? x
-* Which branching model will we use? x
-* Which distributed development workflow will we use? x måske uddybe?
-* How do we expect contributions to look like? x
-* Who is responsible for integrating/reviewing contributions?
-Write this in a 'Contribution.md' file
-___________ -->
-
 ### Repository model
 We made use of the mono repository model - a public repository for all our code. We decided on this repository model since we though that a single repository would be fine for this project. We did not see a need to have distributed repositories. Having a single repository worked fine for the project as we divided our subsystems into separate folders and followed the branching strategy below.
 

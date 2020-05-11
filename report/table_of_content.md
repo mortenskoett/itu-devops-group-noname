@@ -38,9 +38,9 @@ Simon Bodekær Black (sibl@itu.dk)
 
 ## 4. Lessons Learned Perspective
 
-[00 Lessons Learned Perspective](chapters/400_lessons_learned_perspective.md)
+[00 Current System State](chapters/400_current_system_state.md)
 
-[01 Current System State](chapters/401_current_system_state.md)
+[01 Lessons Learned Perspective](chapters/401_lessons_learned_perspective.md)
 
 [03 Conclusion](chapters/402_conclusion.md)
 
