@@ -39,7 +39,7 @@ run.sh build
 run.sh setup_run_app
 ```
 
-This command will use a different docker-compose setup with different environment variables set, that are read by the nodejs runtime when instantiating the application.
+This command will use a different docker-compose setup with different environment variables set, that are read by the Node.js runtime when instantiating the application.
 
 When deploying the system it can be decided whether or not to deploy the individual containers used for monitoring and logging. 
 
@@ -67,9 +67,9 @@ This is an overview of the characteristics implemented that we find to heighten 
 - NPM - easy to install new libraries for the code
 - Monitoring/logging - (should) let us know when failures occur (or if we need to work on some problems)
 
-Still we were surprised one day to find that we had not set up warnings from our monitoring systems, meaning several days went by before we noticed that the system was completely down. This impacted the course up-time graph quite a bit even if we were able to quickly fix the problem and make the sytem available again, once we found out that it was down. 
+Still we were surprised one day to find that we had not set up warnings from our monitoring systems, meaning several days went by before we noticed that the system was completely down. This impacted the course up-time graph quite a bit even if we were able to quickly fix the problem and make the system available again, once we found out that it was down. 
 
-Finally we have setup automated static code analysis and find that we have few warnings, nevertheless there is always room for improvement such as a better regression test suite, refactoring of some parts of the code, or making use of dependency injection, e.g. by introducing a more stricly typed language such as Typescript. 
+Finally we have setup automated static code analysis and find that we have few warnings, nevertheless there is always room for improvement such as a better regression test suite, refactoring of some parts of the code, or making use of dependency injection, e.g. by introducing a more strictly typed language such as Typescript. 
 
 #### Maintainability:
 All in all we believe that the mailability of the system has greatly improved from the start of the project, despite that there is still great room for more improvements. 
@@ -94,7 +94,7 @@ There are of course always many things we would like to improve, but for the mos
 
 So on most fronts we have a complete system that in the eyes of continuous integration is easily maintained and able to be extended with little to no downtime.
 
-If more development should take place, the main thing we would work on is making the system easily deployable with docker swarm for load balancing so that the system is scalable. Further, we would extend our test suite so that we could be doing continous deployment instead of delivery.
+If more development should take place, the main thing we would work on is making the system easily deployable with docker swarm for load balancing so that the system is scalable. Further, we would extend our test suite so that we could be doing continuous deployment instead of delivery.
 
 ---
 [ [prev page](../chapters/305_scaling_and_load_balancing.md) | [table of content](../table_of_content.md) | [next page](../chapters/401_lessons_learned_perspective.md) ]
