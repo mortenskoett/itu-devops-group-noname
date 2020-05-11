@@ -1,5 +1,5 @@
 # 4. Lessons Learned Perspective
-### Biggest issue with the evolution and Refactoring, how we solved it, and what we learned.
+### The journey from simple to complex
 The MiniTwit application was to begin with a small outdated python based web application, which was due for an upgrade which we as a group had to tackle by applying best practises with DevOps. These tasks involved rewriting scripts, recreating the same app with other tools like programming languages and frameworks, and picking a deployment server to host our app and so on. We went from a small simple project to a big scoped complex project due to the added services like monitoring and scripts for automated tasks and testing.
 
 One of the biggest issues or challenges with this project has been the process of picking the right tools, like server provider, which programming language and framework to use, these tasks were challenging because it is nothing like we have ever encountered before. Usually the tools like version control and programming language is decided before we start a project, however, this time around we got to choose every technology we wanted to use, provided we had arguments for choosing one over another.
@@ -10,7 +10,7 @@ The way we went about solving the issues we had with picking one technology over
 The process were more or less the same for each of the type of tools we had to choose, like the CI/CD pipeline.
 One of the most important lessons we learned is that there exist a lot of different ways of achieving the same but choosing the best fit for a project is very difficult, with the limited knowledge that we had, but at some point we simply had to pick a fitting candidate for each tool.
 
-### Biggest issue with operation how we solved it, and what we learned.
+### The system went down unnoticed
 One of the biggest issues we ran into were around two weeks before the simulator stopped, every time someone would access the User Interface (UI) content via the browser the app including the simulator endpoints would crash. This was first discovered by a random check on the server, it turned out that our Docker container did not restart itself after crashing and we realised that there were additional measures we could have taken to prevent this or at least prevent the crashing time. Of course, the majority of the simulator errors were caused by the time our system was down due to new deployments, and the users who would have been registered in the down time, afterwards would simulate a lot of post messages as well as follow/unfollow request among the users.
 After some discussion about what we could have done, we decided that some measures could have prevented or at least minimize the downtime of the app and it came down to these three things:
 - Thorough testing
@@ -24,7 +24,7 @@ This bug also exposed a single point of failure weakness in our system, we had n
 Finally, as we shortly described in section 3.04, if we had setup our monitoring system to notify us in the case of critical errors with the system, the system would not have been down for several days.
 This experience made us realize the importance of proper testing and monitoring of our system. As the system went down very late on the project we did not write any further tests but we made the monitoring system notify us if the system would go down again. The way we made a fix were to redeploy our service to the server.
 
-### Biggest issue with maintenance, how we solved it, and what we learned.
+### Maintainence of the project
 One of the purposes of this project was to maintain the web app while also adding new stuff to the project. Bug fixing has played a big role whenever we experienced problems with the simulator returning error codes. Whenever a problem occurred we had to fix it locally, test if the bugs was fixes and then push it to the GitHub repository, see if it passed the tests from the CI/CD pipeline and then push the changes to the release branch from where the automated deploy would take place.
 A Lesson learned regards to deployment of the application was that when there are stakes at risk it could be uncomfortable to make a new deployment because of the risk of something going wrong. In this course, there was no critical risk of a deployment failure but the fact that there was a simulator testing our applications and releasing the results to graphs in the course repo created stakes for the group and thus the fear of a failed deployment.
 
