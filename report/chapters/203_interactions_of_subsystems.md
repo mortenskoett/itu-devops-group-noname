@@ -23,7 +23,7 @@ The following is an overview of the flow of how logging is setup in the system:
 1. A simplified `Minitwit` application is shown below as a subsystem, constituting the Node.js application which provides the web and API interfaces. 
 2. The `Controller` (simplified) handles the incoming requests, but also communicates with `Logger`, which writes the logged request as an entry to a file on the device. The Winston library is used to write logging statements throughout the code.
 3. The data of the log-file is regularly collected by `Logstash` which converts the entries into the right format, which in our case is JSON. 
-4. The entries are sent `Elasticsearch`, which functions as a database for JSON and provides efficient string-search capabilities in the data. 
+4. The entries are sent to `Elasticsearch`, which functions as a database for JSON and provides efficient string-search capabilities in the data. 
 5. Finally, `Grafana` accesses `Elasticsearch` and displays the content in a nice UI.
 
 <div style="background-color:white;border:10px solid white">

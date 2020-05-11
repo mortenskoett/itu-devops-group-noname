@@ -1,17 +1,10 @@
 # 3. Process' Perspective
-<!-- Mere uddybende intro eller fint? -->
 This chapter describes how we approached the process of working together in terms of organizing the team, tools we have used and the implications this may have had.
 
 ## 3.00 Development process and Tools
-
-<!-- Presentation of tools (Zoom, Slack, Github projects/issues)
-Måske noget i stil med: 
-"We have been using the following tools in our development process...
-We assume the reader knows these tools. Otherwise information can be found here..."
-Eller fremlægger vi dem fint nu? -->
+Here it is described how we have worked together and what tools we have used to facilitate this.
 
 ### Organization of the team
-<!-- Kunne denne del ikke flyttes til toppen af 3.03? Det står lidt alene her, men der er måske okay -->
 We decided to organize ourselves in a flat structure meaning that we all had the same role. When having to make decisions in our team we would discuss them collectively. For instance when deciding on which services to use in our system we would assign one or two persons to research the services available on the market. The results of the research would then be presented for the rest of the group for a decision to be made collectively. If minor decisions were to be made, we would let the decision be made by the person(s) working on the relevant part(s) of the system. 
 
 We did not explicitly organize ourselves as a *Scrum* team but we used aspects of it. We worked in sprints, and therefore we did a bit of sprint planning, we used a Kanban/Scrum board to organize the work and we made use of stand-up meetings to get an overview of how we were doing in the team. 
