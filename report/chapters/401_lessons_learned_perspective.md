@@ -1,4 +1,4 @@
-## 4. Lessons Learned Perspective
+## 4.01 Lessons Learned Perspective
 
 A challenge in this project has been the process of picking and using the right tools, like server provider, programming language, framework and services all of which the group had limited to none experience with. Usually the tools like version control and programming language is decided before the start of a project, but this time around we had to carefully consider and argue for choosing one over another. There exist a lot of different ways of achieving the same and choosing the best fit for a project is difficult. However, building the project in a manner that components or technologies can easily be switched out enabled us to reconsider our choices, and we learned how this could make these decision less risky and difficult.
 
@@ -90,4 +90,4 @@ While these tools have greatly improved the scalability, maintainability and rob
 It does however help to understand these tools, in order to build the initial application structure in a manner that can be scaled, if needs be. For example we had to migrate our database twice, which turned out to be a complicated and time consuming task. We now know that choosing the right database technology and having the database separate of the application from the beginning, makes a better initial design with possibility for scaling the application in the future.
 
 ---
-[ [prev page](../chapters/305_scaling_and_load_balancing.md) | [table of content](../table_of_content.md) | [next page](../chapters/401_current_system_state.md) ]
+[ [prev page](../chapters/400_current_system_state.md) | [table of content](../table_of_content.md) | [next page](../chapters/402_conclusion.md) ]
