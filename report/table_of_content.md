@@ -1,51 +1,94 @@
-# Exam report DevOps, spring 2020
-## Group noname
 
-![group logo](images/group_logo_large.png)
-
-Emil Budtz-Jørgensen (embu@itu.dk), 
-Frank Andersen (fand@itu.dk), 
-Liv Hartoft Borre (livb@itu.dk), 
-Morten Skøtt Knudsen (mskk@itu.dk), 
-Simon Bodekær Black (sibl@itu.dk) 
-
-![Noname Minitwit](images/sc_minitwit_1.png)
 
 # Table of Content
 ## 1. Preface and Introduction
-[00 Preface and Introduction](chapters/100_preface_and_introduction.md)
-
+#### [1.00 Introduction](chapters/100_preface_and_introduction.md)
+- Preface
+- Introduction
 ## 2. System's Perspective
-[00 System's Perspective](chapters/200_systems_perspective.md)
+#### [2.00 System Considerations](chapters/200_systems_perspective.md)
+- System design workflow
+- Legacy system
+- Choice of language / runtime environment
 
-[01 Design and Architecture](chapters/201_design_and_architecture.md)
+#### [2.01 Design and Architecture](chapters/201_design_and_architecture.md)
+- Deployment overview
+- Minitwit application architecture
+  - Handling of a http request
+  - Choice of database
+- The docker setup
+  - Controlling docker with a script
 
-[02 Dependencies](chapters/202_dependencies.md)
+#### [2.02 Dependencies](chapters/202_dependencies.md)
+- System dependencies
+- Node.js dependencies
 
-[03 Interactions of Subsystems](chapters/203_interactions_of_subsystems.md)
 
-## 3. Process' Perspective
+#### [2.03 Interactions of Subsystems](chapters/203_interactions_of_subsystems.md)
+- Monitoring services
+- Logging
+- Backing up and restoring data
 
-[00 Process Perspective](chapters/300_dev_process_and_tools.md)
+## 3. Process Perspective
+#### [3.00 Dev process and tools](chapters/300_dev_process_and_tools.md)
+- Organization of the team
+- Communication
+- Organizing work
+- Zoom
+- Github Wiki
 
-[01 Repository and Branching Strategy](chapters/301_repo_and_branch_strategy.md)
+#### [3.01 Repository and Branching Strategy](chapters/301_repo_and_branch_strategy.md)
+- Repository model
+- Distributed workflow
+- Branching strategy
+- Contributions
 
-[02 Stages and Tools](chapters/302_ci_dc_chain_tools.md)
 
-[03 Monitoring and Logging](chapters/303_monitoring_and_logging.md)
+#### [3.02 Stages and Tools](chapters/302_ci_dc_chain_tools.md)
+- Continuous integration / continous delivery (CI/CD)
+- Services
+- Deployment
 
-[04 Security Assessment](chapters/304_sec_assessment.md)
+#### [3.03 Monitoring and Logging](chapters/303_monitoring_and_logging.md)
+- Monitoring
+- Logging
 
-[05 Scaling and Load Balancing](chapters/305_scaling_and_load_balancing.md)
+
+#### [3.04 Security Assessment](chapters/304_sec_assessment.md)
+- Risk assessment
+- Penetration testing
+- Detection
+- Recover
+- Wrap up
+
+#### [3.05 Scaling and Load Balancing](chapters/305_scaling_and_load_balancing.md)
+- Database migration
+    - Migrating Postgres database to separate node
+- Docker Swarm
+    - Virtualization with Docker Swarm and Digital Ocean (DO)
+    - Docker stack and deployment
+    - Concurrency issues and general concerns about complexity
 
 ## 4. Lessons Learned Perspective
+#### [4.00 Current System State](chapters/400_current_system_state.md)
+- Starting the application
+    - System re-deployment
+- Development & maintainability
+    - Code quality
+    - Maintainability
+    - Technical debt
+- Overall
 
-[00 Current System State](chapters/400_current_system_state.md)
+#### [4.01 Lessons Learned](chapters/401_lessons_learned_perspective.md)
+- Continuous deployment
+- The system went down unnoticed
+- Automation as documentation
+- Docker compose
+- Simple vs complex
 
-[01 Lessons Learned Perspective](chapters/401_lessons_learned_perspective.md)
-
-[02 Conclusion](chapters/402_conclusion.md)
+#### [4.02 Conclusion](chapters/402_conclusion.md)
 
 ## 5. Appendices
-
-[00 Appendices](chapters/500_appendices.md)
+#### [5.00 Appendices](chapters/500_appendices.md)
+- Appendix A 
+- Appendix B

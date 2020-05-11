@@ -18,7 +18,7 @@ section [3.05 - Scaling and Load Balancing](../chapters/305_scaling_and_load_bal
 
 Each docker-compose file is dependent on zero or more Dockerfiles, which are dependent on services and/or files in order to be build and run. Base images are depicted by square-brackets, e.g. \[node:10-alpine\].
 
-### Ndde.js dependencies
+### Node.js dependencies
 In this graph it is shown that the `package.json` file, which is needed to start the Node.js application, is only dependent on the application code in server, views, and static (which are depicted together for simplicity). The `package.json` file describes the list of libraries that our application is dependent on. These library dependencies are shown in the figure below (a larger image is found in [Appendix B](../chapters/500_appendices.md)).
 
 ![NPM library dependencies](../images/ch2_dependencies_npm.png)

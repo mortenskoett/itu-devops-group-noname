@@ -60,7 +60,7 @@ It is difficult to pinpoint a single focus-point in relation code quality for th
 - **Product view** in terms of maintainability, static code test. We introduce code analysis in order to detect technical dept in commits before it becomes technical debt in the shared code base. 
 - **Manufacturing** in terms of number of defects after deployment and number of reported errors. We have introduced some tools to help us decrease rework-costs of defects, e.g. we log exceptions and errors in order to find the source of a defect faster than if we had no logging and had to debug the system manually. 
 
-#### Maintainability:
+#### Maintainability
 This is an overview of the characteristics implemented that we find to increase maintainability:
 - Backups of database - we can recover from failures
 - Docker containers - easy to swap components or deploy the server elsewhere

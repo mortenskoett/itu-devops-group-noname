@@ -2,6 +2,7 @@
 
 ## Appendix A
 Technologies:
+
 [Digital Ocean](https://www.digitalocean.com/)
 
 [Ubuntu](https://ubuntu.com/)
@@ -30,7 +31,8 @@ Technologies:
 ## Appendix B
 ### All dependencies
 ![Dependency graph](../images/ch2_dependencies_all_sideways.png)
-### Application level (npm) dependencies
+
+### Node.js dependencies
 ![Dependency graph](./../images/ch2_dependencies_npm_sideways.png)
 
 ---
