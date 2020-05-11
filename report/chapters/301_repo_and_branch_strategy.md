@@ -17,7 +17,7 @@ We made use of the mono repository model - a public repository for all our code.
 We did also have a private repository for storing and sharing credentials that can not be stored in the public repository. 
 
 ### Distirbuted workflow
-As described in [section 3.00](../chapters/300_dev_process_and_tools.md) we all had the same role. We therefore decided to make use of a centralized workflow where we were all working on our shared repository. We did, however, make use of code reviews so that we could not push changes directly to all branches. This is described in the following section.
+As described in section [3.00 - Development process and tools](../chapters/300_dev_process_and_tools.md) we all had the same role. We therefore decided to make use of a centralized workflow where we were all working on our shared repository. We did, however, make use of code reviews so that we could not push changes directly to all branches. This is described in the following section.
 
 ### Branching strategy
 We follow a branching policy where each feature or separete part of the code base is developed in its own feature branch (topic branch) before finally being pull requested into the master branch. 
@@ -43,7 +43,7 @@ On the other hand the code reviews helped in making sure most of the developing 
 ### Contributions
 Pull requests should be made for any change to public branches; master, release and any feature based branch on which more people are working.
 
-The README.md and/or the Github Wiki should be updated with details of changes to the interface or useful information for the other members of the team. This includes new environment variables, exposed ports, useful file locations, container parameters or inclusion of new services or subsystems.
+The `README.md` and/or the Github Wiki should be updated with details of changes to the interface or useful information for the other members of the team. This includes new environment variables, exposed ports, useful file locations, container parameters or inclusion of new services or subsystems.
 
 The Kanban board on Gihub Projects should be updated with the status of the task in question. If you encounter bugs or code that it is not immediately possible to fix, then add a task to the Backlog.
 

@@ -1,10 +1,5 @@
 ## 3.03 Monitoring and Logging
-
-<!-- **Lecture notes**
-- manual vs reactive vs proactive x
-- whitebox vs blackbox monitoring x
-- active vs passive x
-- application monitoring x -->
+This chapter describes the monitoring and logging tools used in the project.
 
 ### Monitoring
 In order to monitor our system, we make use of whitebox application monitoring. That is, we monitor the machine on which our application is running as well as the requests the API recieves and the responses the API sends. 

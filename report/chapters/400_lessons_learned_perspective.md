@@ -46,18 +46,12 @@ A reason we would want to update from the continues delivery to deployment is to
 Deploying more often would have been the goal here, so we could keep updating the application with the new services and bug fixes and make sure that it would still function. It would make the troubleshooting easier because there would be less code to review for bugs. We learned that in order to have a great automated setup for both delivery and deployment great in depth automated testing is essential.
 
 ### Automation as documentation
-When we consider which part of our work has been focused around the concept of DevOps, it is when we have made some processes automated or made some tasks more simple. An example of making our work more simple is the run.sh script that made it easy to make the app run locally, and push latest changes of our images to dockerhub as well as pulling new images down. While this worked as an abstraction from the commands we would have used our group greatly benefitted from it.
-Another aspect of the project we consider to be in line with DevOps practises is the CI/CD for which we used CircleCI to verify our builds.
+Something that we did a lot was to automate tedious typing tasks or cluster function calls into combined functionality such as starting servers or doing backups. This proved to be very effective, to the point that it almost had a documenting effect.
 
-We have learned much of the advantages of DevOps, but also the cost of setting it up to begin with. One thing we learned throughout the course of this project is when to apply DevOps practises. For instance, if a task only needs to be done once, it is most likely not worth it to automate. However, if it is a task that should be done multiple times, like in our case building the Docker images and setup the app on our local machine etc., then a small script with basic commands that assembles all the different commands we would have typed otherwise might be worthwhile investing time in.
-
-That is why we automated tedious typing tasks or cluster function calls into combined functionality such as starting servers or doing backups. This proved to be very effective, to the point that it can almost be described as documentation of the code base. 
-
-Consider eg. the following snippet taken from one of our most used scripts during this project `run.sh`:
+Consider the following snippet taken from one of our most used scripts during this project `run.sh`:
 
 ```
 ./run.sh <arg> <opt>
-
 <arg>         <opt>       <action>
 app           -d          run app container
 test          -d          run python test container
@@ -76,9 +70,11 @@ setup_run_test            setup a complete testing setup and run python tests
 setup_local_app           setup a complete running application using local db
 ```
 
-Not considering the bloated condition of the script at this point, it still communicates actions that are very useful, easy to understand and easy to extend by other developers. It also makes it easier to discuss and see solutions to minor problems or inconveniences because there is a starting point for everyone to work with.
+Not minding the bloated condition of the script at this point in time, the interesting point is, that it succeeded in being an effective tool in handling repetitive tasks but it also succeeded in being a way to facilitate discussions about such things as deployment order or ways to deal with minor problems and inconveniences in an effective way. 
 
-Having a control-script such as this at various places throughout the code base, with the intention of automating some group of commands might feel like a hacky solution, but for this group it worked very effetively.
+Because the implementation, the API and the documentation in this case is the one-and-same-thing, it feels like there is not a long way from developing a functionality to making others understand and use it properly. Furthermore it became clear that the more a functionality is used by others than yourself, the more potential it had.
+
+Having several control-scripts such as this one placed throughout the code base, with the intention of automating some functionality, might feel like a hacky solution, but for our group it worked very effetively.
 
 ---
 [ [prev page](../chapters/305_scaling_and_load_balancing.md) | [table of content](../table_of_content.md) | [next page](../chapters/401_current_system_state.md) ]
