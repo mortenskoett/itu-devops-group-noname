@@ -72,7 +72,7 @@ Still we were surprised one day to find that we had not set up warnings from our
 Finally we have setup automated static code analysis and find that we have few warnings, nevertheless there is always room for improvement such as a better regression test suite, refactoring of some parts of the code, or making use of dependency injection, e.g. by introducing a more strictly typed language such as Typescript. 
 
 #### Maintainability
-All in all we believe that the mailability of the system has greatly improved from the start of the project, despite that there is still great room for more improvements. 
+All in all we believe that the maintainability of the system has greatly improved from the start of the project, despite that there is still great room for more improvements. 
 
 - The next natural step would not be to put out a fire but instead to optimize and move forward into a docker swarm setup. 
 - The code base is architected to be understandable and easy to maintain because of modularization and layers.
