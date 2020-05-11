@@ -2,7 +2,7 @@
 This chapter describes the monitoring and logging tools used in the project.
 
 ### Monitoring
-In order to monitor our system, we make use of whitebox application monitoring. That is, we monitor the machine on which our application is running as well as the requests the API recieves and the responses the API sends. 
+In order to monitor our system, we make use of whitebox application monitoring. That is, we monitor the machine on which our application is running as well as the requests the API receives and the responses the API sends. 
 
 We monitor the following metrics, which are shown in the Grafana dashboard:
 - Whether the system is running
@@ -17,7 +17,7 @@ We monitor the following metrics, which are shown in the Grafana dashboard:
 
 ![Grafana Dashboard](../images/sc_grafana_dashboard_2.png)
 
-The monitoring for this project has been reactive in the sense that our monitoring is autmotatic but we do not monitor our system with a focus on the business outcomes, quality of service and customer experience as is done in proactive mointoring. We mostly used monitoring for making sure our system was running as expected and to check the efficiency of each endpoint in our system. Our monitoring was, however, still manual in the sense that we had to check our monitoring dashboard to get information about the state of our system. This caused some problems that we will discuss later.
+The monitoring for this project has been reactive in the sense that our monitoring is automatic but we do not monitor our system with a focus on the business outcomes, quality of service and customer experience as is done in proactive monitoring. We mostly used monitoring for making sure our system was running as expected and to check the efficiency of each endpoint in our system. Our monitoring was, however, still manual in the sense that we had to check our monitoring dashboard to get information about the state of our system. This caused some problems that we will discuss later.
 
 If we had actual users we would had used more energy on monitoring the business logic of our system instead of just the application. We did not feel the need to monitor business logic for this project as our only user was the simulator. In order to optimize the results for the simulator we had to ensure that our application was running efficiently which we checked with our application monitoring. 
 
