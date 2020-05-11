@@ -1,4 +1,4 @@
-## 4.01 Current System State
+## 4 Current System State
 
 The system is currently not running on any servers but it can be deployed on a server by using the `run.sh` script from the server. Because all subsystems run in docker containers, the only requirement is a docker installation on the machine that the system shall be deployed on.
 
@@ -92,4 +92,4 @@ So on most fronts we have a complete system that in the eyes of continuous integ
 If more development should take place, the main thing we would work on is making the system easily deployable with docker swarm for load balancing so that the system is scalable. Further, we would extend our test suite so that we could be doing continous deployment instead of delivery.
 
 ---
-[ [prev page](../chapters/400_lessons_learned_perspective.md) | [table of content](../table_of_content.md) | [next page](../chapters/402_conclusion.md) ]
+[ [prev page](../chapters/305_scaling_and_load_balancing.md) | [table of content](../table_of_content.md) | [next page](../chapters/401_lessons_learned_perspective.md) ]
