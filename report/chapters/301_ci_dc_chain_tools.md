@@ -21,9 +21,9 @@ ___________________ -->
 ### Continuous integration and delivery
 This section describes the continuous integration and continuous delivery (CI/CD) chain of our system. We have chosen continuous delivery and not continuous deployment in the sense that in order to start the deployment of our code we have to push to the release branch. Pushing to the release branch requires a code review from two other members of the team. See [section 3.02](../chapters/302_repo_and_branch_strategy.md).  
 
-Therefore deployments do not happen automatically every time a new change is made and potentially deployable code is not always deployed.
+Therefore deployments do not happen automatically every time a new change is made and potentially deployable code is not always deployed. 
 
-The reason for choosing continuous delivery over continuous deployment was that we wanted a thorough review of the code before it was deployed and released to reduce the risk of the system crashing in production.
+The reason for choosing continuous delivery over continuous deployment was that we wanted a thorough review of the code before it was deployed and released to reduce the risk of the system crashing in production. While continuous deployment would be good, the risks are higher and requires a bullet-proof test suite.
 
 ### Services
 For our CI/CD chain, we are using Vagrant and CircleCI.
@@ -50,7 +50,10 @@ When we push new commits to any git branch, CircleCI will fetch our code from Gi
 
 ### Deployment
 We start the deployment of our code by merging into to the release branch. The below activity diagram illustrates the activities for CircleCI in our deployment chain.
+<div style="background-color:white;border:10px solid white">
+
 ![Our deployment chain](../images/ch3-CI_CD.png)
+</div>
 
 Stages used for our CI chain:
 - Push code to the release branch
@@ -60,11 +63,15 @@ Stages used for our CI chain:
 - CircleCI runs our deploy script, which deploys our code to our Digital Ocean server
 
 The diagram below gives an overview of the services involved in our deployment chain and the steps described above:
+<div style="background-color:white;border:10px solid white">
+
 ![Deployment services](../images/ch3-CI_CD-services-overview.png)
+
+</div>
 
 The tests run by CircleCI consist of an Eslint check and some tests for our API. Eslint is a linter for JavaScript code, which ensures that we keep a code standard. Eslint can be run locally and even integrated into the IDE so that errors can be found locally before the tests are run on the CircleCI server. 
 
-The tests for the API are not very extensive but they ensure that the system can be build and responds to requests.
+The tests for the API are not very extensive but they ensure that the system can be build and responds to requests. Having this automated deployment setup greatly reduced our concerns about deploying code to the server, and setting up a CI/CD pipeline will be close to first on the list, next time of a big project.
 
 ---
 [ [prev page](../chapters/300_process_perspective.md) | [table of content](../table_of_content.md) | [next page](../chapters/302_repo_and_branch_strategy.md) ]
