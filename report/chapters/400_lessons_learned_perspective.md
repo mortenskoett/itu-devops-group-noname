@@ -1,44 +1,45 @@
 # 4. Lessons Learned Perspective
+### Biggest issue with the evolution and Refactoring, how we solved it, and what we learned.
+The MiniTwit application was to begin with a small outdated python based web application, which was due for an upgrade which we as a group had to tackle by applying best practises with DevOps. These tasks involved rewriting scripts, recreating the same app with other tools like programming languages and frameworks, and picking a deployment server to host our app and so on. We went from a small simple project to a big scoped complex project due to the added services like monitoring and scripts for automated tasks and testing.
 
-<!-- // TODO: Describe how we tried to automate things so that -->
+One of the biggest issues or challenges with this project has been the process of picking the right tools, like server provider, which programming language and framework to use, these tasks were challenging because it is nothing like we have ever encountered before. Usually the tools like version control and programming language is decided before we start a project, however, this time around we got to choose every technology we wanted to use, provided we had arguments for choosing one over another.
 
-### More than a simple application
-<!-- // TODO: **Skal nok omskrives en del** -->
-<!-- // TODO: Beskriv: Complexity rises when the system is built out. We want a modifiable system which introduces complexity -->
+Another challenge with the evolution and refactoring of the MiniTwit application was to start using all these new kind of tools of which few of us had limited if not none experience with at all, this made the process a lot harder yet interesting.
+The way we went about solving the issues we had with picking one technology over another was to make extensive searches on the internet, to see what passed as industry standards. E.g. when deciding on a programming language and framework, some of us chose a combination and tried to find pros and cons for our choice and determining a difficulty level of setting a simple Hello-World sample up.
 
-At first MiniTwit was a small outdated python based web application that was due for an upgrade. The task of upgrading the MiniTwit consisted of rewriting scripts, create the same application with a new codebase thus making it runable on other systems than the one it origened from, and apply DevOps. This process turned out to be more complex than first anticipated, becuase many of the tools and frameworks were new to the group. The MiniTwit dows not have more functionality than it used to have yet our version has grown into a much more complex system becuase of the tools and subsystems added to the project which helped with the continuose integration and continouse delivery.
+The process were more or less the same for each of the type of tools we had to choose, like the CI/CD pipeline.
+One of the most important lessons we learned is that there exist a lot of different ways of achieving the same but choosing the best fit for a project is very difficult, with the limited knowledge that we had, but at some point we simply had to pick a fitting candidate for each tool.
 
-### Deploy more often
-<!-- // TODO: Skriv om continous delivery vs continous deployment 
-https://www.atlassian.com/continuous-delivery/principles/continuous-integration-vs-delivery-vs-deployment -->
+### Biggest issue with operation how we solved it, and what we learned.
+One of the biggest issues we ran into were around two weeks before the simulator stopped, every time someone would access the User Interface (UI) content via the browser the app including the simulator endpoints would crash. This was first discovered by a random check on the server, it turned out that our Docker container did not restart itself after crashing and we realised that there were additional measures we could have taken to prevent this or at least prevent the crashing time. Of course, the majority of the simulator errors were caused by the time our system was down due to new deployments, and the users who would have been registered in the down time, afterwards would simulate a lot of post messages as well as follow/unfollow request among the users.
+After some discussion about what we could have done, we decided that some measures could have prevented or at least minimize the downtime of the app and it came down to these three things:
+- Thorough testing
+- Failsafe (No single point of failure)
+- Monitor alerting
 
-A Lesson learned regards to deployment of the application was that when there are stakes at risk it can be uncomfortable to make a new deployment becuase of the risk of somthing going wrong. In this course there was no critical risk of a deployment failure but the fact that there was a simulator testing our applications and releasing the results to graphs in the course repo created stakes for the group and thus the fear of risk of failure.
+Firstly, the downtime two weeks prior to the simulator stop was due to a bug in the UI this bug would most likely have been caught if our testing had been more extensive. The lack of tests also manifested fear of a failed deployment (described below). One thing we could have done would have been updating our workflow to require more testing before being able to add new services, features or visual upgrades. Of course, it would be impossible to catch all bugs of the system, but we would have found some of the more critical ones like the UI bug.
 
-Due to this fear we did not deploy everytime a new feature was implemented, or a new service was added. Looking back now it has become clear what practises could have helped with the continouse delivery, and maybe changed it to continouse deployment. We started with continouse delivery because it required less automated testing, it gave us the extra trigger button control before deploying to the server and it could be updated to contionuse deployment at a later time. One thing the project could benefit from and helped to reduce the fear of deployment is more testing, we had basic functionalty testing but it did not give us enough confidence to deploy as often as we would have liked to, meaning our testing of the application could have been more thourough.
-A reason we would want to update from the continuose delivery to deployment is to limit the human interaction as much as possible and making it even more automated. Another measure we could have taken towards making a continouse deployment would be setting up a test server with a production like enviroment and have some automated testing on the test enviroment, which in turn would give us greater confidence in deployment and eventually making the deployment process automated as well.
-
-Deploying more often would have been the goal here, so we could keep updating the application with the new services and make sure that it would still function, it would make the troubleshooting easier, becuase there woul be less code to review for bugs. We learned that in order to have a great automated setup for both delivery and deployment, great in depth automated testing is essential.
-
-### System went down unnoticed
-When there was around two weeks left of the simulator running we had the second highest 'latest' of all the groups and very few errors - looking at the figures on the course Github presenting the simulator data. 
-
-By far the majority of the simulator errors are caused by the time our system was down. Because we missed a large number of registers our system reported errors on many of the following posting of messages and following/unfollowing between users.
-
-We discussed what we should had done differently in order to have avoided ending up in this situation. We found the three following things to be the major ones we should had looked at earlier on.
-- Better testing
-- Failsafe...
-- Monitoring alerting
-
-Again better testing would had helped us since it could have found the bug that made the system crashed before deploying. This could have prevented the system from being down. The bug turned out to be in our user interface which we did not have any tests for. Better testing could decrease the chances of the system crashing but we would never be sure that our system did not have any bugs, so testing alone would not be sufficient to prevent this situation from occuring again.
-
-Using something like Docker Swarm or a loadbalancer could make another application take over the workload while the crashed application would try to restart. In our case this would have probably prevented the system for being down for very long as the bug was in the UI which we rarely used. 
+This bug also exposed a single point of failure weakness in our system, we had no scripts, service or anything to recover the faulty state of the system. One of the last things we worked on getting to work as described before, was setting up the Docker swarm on our server which could have eliminated this type of single point of failure, where a single container crashes and can’t return to a working state. The Docker swarm would have respawned a new task with a working task and always have a working copy open. Also when updating the Docker images, the swarm could be configured to update one node at a time, to make sure there were at least one working node at all time.
 
 Finally, as we shortly described in section 3.04, if we had setup our monitoring system to notify us in the case of critical errors with the system, the system would not have been down for several days.
+This experience made us realize the importance of proper testing and monitoring of our system. As the system went down very late on the project we did not write any further tests but we made the monitoring system notify us if the system would go down again. The way we made a fix were to redeploy our service to the server.
 
-This experience made us realize the importance of properly testing and monitoring our system. As the system went down very late on the project we did not write any further tests but we made the monitoring system notify us if the system would go down again and we looked at how to use Docker Swarm for our system.
+### Biggest issue with maintenance, how we solved it, and what we learned.
+One of the purposes of this project was to maintain the web app while also adding new stuff to the project. Bug fixing has played a big role whenever we experienced problems with the simulator returning error codes. Whenever a problem occurred we had to fix it locally, test if the bugs was fixes and then push it to the GitHub repository, see if it passed the tests from the CI/CD pipeline and then push the changes to the release branch from where the automated deploy would take place.
+A Lesson learned regards to deployment of the application was that when there are stakes at risk it could be uncomfortable to make a new deployment because of the risk of something going wrong. In this course, there was no critical risk of a deployment failure but the fact that there was a simulator testing our applications and releasing the results to graphs in the course repo created stakes for the group and thus the fear of a failed deployment.
+
+Due to this fear, we did not deploy every time a new feature was implemented, or a new service was added. Looking back now it has become clear what practises could have helped with the continuous delivery, and maybe changed it to continuous deployment. We started with continuous delivery because it required less automated testing, it gave us the extra trigger button control before deploying to the server and we could change to continues deployment later in the project. One thing the project could have benefited from and helped to reduce the fear of deployment would have been more testing, we had basic functionality testing but it did not give us enough confidence to deploy as often as we would have liked to, meaning our testing of the application could have been more thorough.
+
+A reason we would want to update from the continues delivery to deployment is to limit the human interaction as much as possible and making it even more automated. Another measure we could have taken towards making a continuous deployment would be setting up a test server with a production like environment and have some automated testing on the test environment, which in turn would give us greater confidence in deployment and eventually making the deployment process automated as well.
+Deploying more often would have been the goal here, so we could keep updating the application with the new services and bug fixes and make sure that it would still function, it would make the troubleshooting easier, because there would be less code to review for bugs. We learned that in order to have a great automated setup for both delivery and deployment, great in depth automated testing is essential.
 
 ### Automation as documentation
-Something that we did a lot was to automate tedious typing tasks or cluster function calls into combined functionality such as starting servers or doing backups. This proved to be very effective, to the point that it can almost be described as documentation of the code base. 
+When we consider which part of our work has been focused around the concept of DevOps, it is when we have made some processes automated or made some tasks more simple. An example of making our work more simple is the run.sh that made it easy to make the app run locally, and push latest changes of our images to dockerhub as well as pulling new images down. While the worked as an abstraction from the commands we would have used our group greatly benefitted from it.
+Another aspect of the project we consider to be in line with DevOps practises is the CI/CD for which we used CircleCI to verify our builds.
+
+We have learned a lot of the advantages of DevOps, but also the cost of setting it up to begin with. One thing we leanred throughout the course of this project is when to apply DevOps practises, fx. if a task only needs to be done once, it is most likely not worth it to automate. However, if it is a task that should be done many times, like in our case building the Docker images and setup the app on our local machine etc. then a small script with basic commands that assembles all the different commands we would have typed otherwise might be worthwhile investing time in.
+
+That is why we automated tedious typing tasks or cluster function calls into combined functionality such as starting servers or doing backups. This proved to be very effective, to the point that it can almost be described as documentation of the code base. 
 
 Consider eg. the following snippet taken from one of our most used scripts during this project `run.sh`:
 
