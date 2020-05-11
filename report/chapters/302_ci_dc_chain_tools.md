@@ -12,14 +12,14 @@ We use *Vagrant* to start a droplet on DigitalOcean (DO). By installing Vagrant,
 
 For the choice of continuous delivery we had multiple candidates to choose from. The ones that were up for debate were Github Actions, Jenkins, Travis and CircleCI.
 
+![CI companies](../images/ch3_ci_logos.png)
+
 Based on the talk held by an external lecturer, we got a feeling that Github Action was still the new kid in the class, even if well integrated with Github, we wanted to get acquainted with some of the other tools used in the industry, so Github Action was dismissed.
 
 Next up was Jenkins, even if it's completely free and open-source, it would requires us to setup a (separate) server and install in on. This does sound cool, but would mean another instance for us to keep a float.
 
 Left was Travis and CircleCI, both supporting Git and Docker and as hosted a solution in the cloud. So a close race!
-After some research we came to the conclusion that CircleCI made sense with their "free plan" compare to a paid solution as Travis.
-
-![CI companies](../images/ch3_ci_logos.png)
+After some research we came to the conclusion that CircleCI was well established and it made sense with their "free plan" compared to a paid solution with Travis.
 
 (https://medium.com/hackernoon/continuous-integration-circleci-vs-travis-ci-vs-jenkins-41a1c2bd95f5)
 
