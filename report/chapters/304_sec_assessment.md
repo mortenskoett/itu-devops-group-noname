@@ -1,4 +1,4 @@
-## 3.05 Security Assessment
+## 3.04 Security Assessment
 
 In session 09, the focus on security became a main focus. To keep being a dependable developer and system provider with a secure product, it's important to have a clear understanding about what is most importent and what steps to take in the case of a security breach or a directly devastating (hacker) attack.
 
@@ -45,4 +45,4 @@ As with all systems there will without doubt be security risks. We have tried to
 Even if our system is considered safe right now, feature exploits might be found in dependencies later on, so this be kept in mind in the continuous development of the system.
 
 ---
-[ [prev page](../chapters/304_monitoring_and_logging.md) | [table of content](../table_of_content.md) | [next page](../chapters/306_scaling_and_load_balancing.md) ]
+[ [prev page](../chapters/303_monitoring_and_logging.md) | [table of content](../table_of_content.md) | [next page](../chapters/305_scaling_and_load_balancing.md) ]
