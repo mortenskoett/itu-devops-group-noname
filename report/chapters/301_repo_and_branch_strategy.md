@@ -50,4 +50,4 @@ The Kanban board on Gihub Projects should be updated with the status of the task
 You may merge a pull request to master once you have the sign-off of another developer, or if you do not have permission to do that, you may request the second reviewer to merge it for you.
 
 ---
-[ [prev page](../chapters/301_ci_dc_chain_tools.md) | [table of content](../table_of_content.md) | [next page](../chapters/303_dev_process_and_tools.md) ]
+[ [prev page](../chapters/300_dev_process_and_tools.md) | [table of content](../table_of_content.md) | [next page](../chapters/302_ci_dc_chain_tools.md) ]
