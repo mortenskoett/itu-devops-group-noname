@@ -30,7 +30,7 @@ Because of the data about our application from the simulator we did not do any b
 
 Monitoring our system did not help us that much for this project as for the majority of the project duration not many unusual things were happening to our system or the simulator sending requests. The monitoring would probably have been more useful for a *real* project, for which we could analyze the behaviour of our users and how our system would handle different amounts of load. 
 
-Monitoring could, however, have been very helpful in the last weeks of the project when we did not realize our system had been down for days. If we had setup monitoring to notify us when the app was down, we would have noticed much sooner. After we realized our system had been down without us noticing we made Grafana send a mail to us in case our system would not respond for some seconds. The system being down unnoticed in described further in section 4.00.
+Monitoring could, however, have been very helpful in the last weeks of the project when we did not realize our system had been down for days. If we had setup monitoring to notify us when the app was down, we would have noticed much sooner. After we realized our system had been down without us noticing we made Grafana send a mail to us in case our system would not respond for some seconds. The system being down unnoticed in described further in [section 4.00](../chapters/400_lessons_learned_perspective.md).
 
 ### Logging
 Besides monitoring the system we also use logging to keep track of how the system is used and errors in the system. 
