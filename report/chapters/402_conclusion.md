@@ -1,6 +1,6 @@
 ## 4.02 Conclusion
 
-The journey of filling the role as the devops team for the MiniTwit system has been interesting and a great learning experience. We have learned first hand what the challenges of developing a maintainable and scalable system are. Starting with the outdated legacy system we had to quickly understand and adopt the essence of the system, from the graphical user interface to the backend functions, into a new modern system. A new system based on technologies, development tools and with an operational strategy chosen by us.
+The journey of filling the role as the devops team for the Minitwit system has been interesting and a great learning experience. We have learned first hand what the challenges of developing a maintainable and scalable system are. Starting with the outdated legacy system we had to quickly understand and adopt the essence of the system, from the graphical user interface to the backend functions, into a new modern system. A new system based on technologies, development tools and with an operational strategy chosen by us.
 
 For the most part we think, as documented in this report, that we made some considered decisions. Choosing *Node.js* for the application, *Postgres* as database, and a containerized environment supported by *Docker*, lifted by a virtual infrastructure at the cloud provider *Digital Ocean*, and continuous delivery with *CircleCI*.
 
