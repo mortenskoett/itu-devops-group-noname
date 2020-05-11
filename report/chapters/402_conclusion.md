@@ -17,4 +17,4 @@ In case of a catastrophic failure demanding a complete system restoration, our p
 We have also learned to compare the benefits and complexity costs that these tools bring with it, and analyze when each of them provides value to a given project. All in all we believe we have learned a lot from this course, providing us wih building blocks that provides for a better development experience, improved software quality and enables us to build better software systems.
 
 ---
-[ [prev page](../chapters/401_current_system_state.md) | [table of content](../table_of_content.md) | [next page](../chapters/500_appendices.md) ]
+[ [prev page](../chapters/401_lessons_learned_perspective.md) | [table of content](../table_of_content.md) | [next page](../chapters/500_appendices.md) ]
