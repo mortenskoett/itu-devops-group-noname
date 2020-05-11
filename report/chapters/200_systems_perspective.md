@@ -4,15 +4,15 @@
 To mimic the real world of devops the design flow has been an evolvling system. The project started with teardown of the original ITU-MiniTwit to be able to figure out what the system included and what we as "the new team" should replicate and what system weaknesses we should be keen on levitating in the new design.
 
 Here is a brief outline of the evolvement of our system:
-- Investigating the legacy systems
+- Investigate the legacy systems
 - Team & project work strategy (version control, collaborative tools)
 - Decide on modern languages/frameworks to replace the old
-- Develop a first beta of an 1:near 1, replica of the old system
-- Move from the legacy one physical server, to the flexible cloud infrastructure
+- Develop first beta (a 1:near 1, replica of the old system)
+- Move from legacy 'one physical server' to flexible cloud infrastructure
 - Release first beta on public cloud
 - Virtualization and container strategy
-- Implement a continuous delivery and continuous deployment strategy for new system
-- Integrate capabilities for users simulator through API calls
+- Implement a continuous delivery and continuous deployment strategy
+- Integrate capabilities for user simulator through API calls
 - Implement system monitoring and logging
 - Perform security review
 - Rethink system for scalability and accessibility
