@@ -15,7 +15,7 @@ Finally it was a matter of timing the execution of the backup script with bringi
 In order to make the system more scalable it was decided to have the database deployed externally from the application server with the intention of being able to scale the application horizontally while still using the single database instance.
 We therefore chose to migrate our existing database one more time, this time from the node running the application to a separate node on Digital Ocean (DO). 
 
-The operation was executed using the same principles as well as parts of the already written scripts used to migrate from the SQlite database. See above for more details.
+The operation was executed using the same principles as well as parts of the already written scripts used to migrate from the Sqlite database. See above for more details.
 
 In order to run this migration as fast and as seamless as possible a deployment script was used to handle the migration directly from the build server. The script would first migrate the data to the new database and then bring up a modified version of the application pointing to the new database.
 

@@ -39,7 +39,7 @@ run.sh build
 run.sh setup_run_app
 ```
 
-This command will use a different docker-compose setup with different environment variables set, that are read by the nodejs runtime when instantiating the application.
+This command will use a different docker-compose setup with different environment variables set, that are read by the Node.js runtime when instantiating the application.
 
 When deploying the system it can be decided whether or not to deploy the individual containers used for monitoring and logging. 
 
@@ -50,7 +50,7 @@ All project documentation, credentials, source code, tests and deployment script
 
 The chosen languages and tools are all industry standards, meaning that it will all be fairly adaptable by others. Only custom scripts like /run.sh might be a challenge, but we have tried to make it fairly understandable with comments.
 
-#### Code quality:
+#### Code quality
 It is difficult to pinpoint a single focus-point in relation code quality for this project. We believe we have focused on 3 of the 4 perspectives from the Kitchenham paper as described below. When talking about code quality in this project, it may therefore refer to any or a combination of the three perspectives. 
 
 - **User view**, in terms of reliability and response time:
@@ -67,15 +67,13 @@ This is an overview of the characteristics implemented that we find to increase 
 - NPM - easy to install new libraries for the code
 - Monitoring/logging - (should) let us know when failures occur (or if we need to work on some problems)
 
-Still we were surprised one day to find that we had not set up warnings from our monitoring systems, meaning several days went by before we noticed that the system was completely down. This impacted the course up-time graph quite a bit even if we were able to quickly fix the problem and make the system available again, once we found out that it was down. 
+Finally we have setup automated testing and static code analysis and find that we have few warnings, nevertheless there is always room for improvement such as a better regression test suite, refactoring of some parts of the code, or making use of dependency injection, e.g. by introducing a more strictly typed language such as Typescript.
 
-Finally we have setup automated static code analysis and find that we have few warnings, nevertheless there is always room for improvement such as a better regression test suite, refactoring of some parts of the code, or making use of dependency injection, e.g. by introducing a more strictly typed language such as Typescript.
+All in all we believe that the maintainability of the system has greatly improved from the start of the project, despite that there is still great room for more improvements.
 
-All in all we believe that the mailability of the system has greatly improved from the start of the project, despite that there is still great room for more improvements. 
-
-- The next natural step would not be to put out a fire but instead to optimize and move forward into a docker swarm setup. 
+- The next natural step would not be to put out a fire but instead to optimize and move forward into a Docker Swarm setup. 
 - The code base is architected to be understandable and easy to maintain because of modularization and layers.
-- Because we have strayed away from what seems to be typical docker conventions, this might be an issue for new developers, even if the automating scripts are self-documenting.
+- Because we have strayed away from what seems to be typical Docker conventions, this might be an issue for new developers, even if the automating scripts are self-documenting.
 
 #### Technical debt
 As our system is newly developed it should not introduce much technical debt but technical debt is forming fast, especially when using things like Node.js, where many dependencies are automatically acquired.
@@ -93,7 +91,7 @@ There are of course always many things we would like to improve, but for the mos
 
 So on most fronts we have a complete system that in the eyes of continuous integration is easily maintained and able to be extended with little to no downtime.
 
-If more development should take place, the main thing we would work on is making the system easily deployable with docker swarm for load balancing so that the system is scalable. Further, we would extend our test suite so that we could be doing continous deployment instead of delivery.
+If more development should take place, the main thing we would work on is making the system easily deployable with docker swarm for load balancing so that the system is scalable. Further, we would extend our test suite so that we could be doing continuous deployment instead of delivery.
 
 ---
 [ [prev page](../chapters/305_scaling_and_load_balancing.md) | [table of content](../table_of_content.md) | [next page](../chapters/401_lessons_learned_perspective.md) ]
