@@ -70,7 +70,7 @@ The way Docker is setup is through a multitude of Dockerfiles and docker-compose
 
 Dockerfiles are used to create customized docker images containing source code or configs and docker-compose.yml files are used to combine Dockerfiles and setup a network between the containers as well as docker volumes to persist data.
 
-The `run.sh` script makes it easy to to start different parts of the docker setup, such as a testing environment, running only python-containerized tests or just starting the database locally. It was initially introduce to ease orchestration of our different container subsystems.
+The `run.sh` script makes it easy to to start different parts of the docker setup, such as a testing environment, running only python-containerized tests or just starting the database locally. It was initially introduced to ease orchestration of the different container subsystems.
 
 
 <!-- // TODO: Make sure that this has been commented in 401 as technical debt! -->
