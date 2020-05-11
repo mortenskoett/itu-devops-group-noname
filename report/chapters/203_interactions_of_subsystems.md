@@ -41,7 +41,7 @@ To visualize the log data we make use of Grafana as for our monitoring dashboard
 
 ### Backing up and restoring data
 Backing up of the database has been automated and the data is backed up every 6 hours by a backup daemon running on the production server. The daemon is instantiated using the `backup.sh` script which was written to handle backing-up and restoring data.
-See deployment diagram in section [2.01 - Design and Architectur.e](../chapters/201_design_and_architecture.md)
+See deployment diagram in section [2.01 - Design and Architecture.](../chapters/201_design_and_architecture.md)
 
 When a backup is initiated, a dump of the database is created and stored locally in the docker container. It is then copied to the host of the container and finally transferred to the external backup server along with a timestamp using `scp`. On the backup server a total of 3 redundant backups are stored at all times, maintained by the daemon. 
 
