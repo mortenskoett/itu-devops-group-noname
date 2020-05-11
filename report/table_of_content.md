@@ -9,11 +9,13 @@ Liv Hartoft Borre (livb@itu.dk),
 Morten Skøtt Knudsen (mskk@itu.dk), 
 Simon Bodekær Black (sibl@itu.dk) 
 
-## Table of Content
-# 1. Preface and Introduction
+![Noname Minitwit](images/sc_minitwit_1.png)
+
+# Table of Content
+## 1. Preface and Introduction
 [00 Preface and Introduction](chapters/100_preface_and_introduction.md)
 
-# 2. System's Perspective
+## 2. System's Perspective
 [00 System's Perspective](chapters/200_systems_perspective.md)
 
 [01 Design and Architecture](chapters/201_design_and_architecture.md)
@@ -42,7 +44,7 @@ Simon Bodekær Black (sibl@itu.dk)
 
 [01 Lessons Learned Perspective](chapters/401_lessons_learned_perspective.md)
 
-[03 Conclusion](chapters/402_conclusion.md)
+[02 Conclusion](chapters/402_conclusion.md)
 
 ## 5. Appendices
 
