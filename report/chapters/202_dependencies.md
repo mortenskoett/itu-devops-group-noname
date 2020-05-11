@@ -1,5 +1,5 @@
 ## 2.02 Dependencies
-The only requirement for a machine to run a local version of our system is that `docker` and `docker-compose` is installed since all our subsystems run in Docker containers. Using the `run.sh` script the docker images can be build and started. However, in order to develop, maintain and deploy the system, there are quite a large number of dependencies. These dependencies of the system are depicted in the directed acyclic graph below (a larger picture is appended in Appendix B).
+The only requirement for a machine to run a local version of our system is that `docker` and `docker-compose` is installed since all our subsystems run in Docker containers. Using the `run.sh` script the docker images can be build and started. However, in order to develop, maintain and deploy the system, there are quite a large number of dependencies. These dependencies of the system are depicted in the directed acyclic graph below (a larger picture is appended in [Appendix B](../chapters/500_appendices.md)).
 
 ![Dependency graph 1](../images/ch2_dependencies_all.png)
 
@@ -13,11 +13,11 @@ The `run.sh` script is dependent on a number of `docker-compose` files to build 
 Reasoning and discussion of the `run.sh` script can be found in 
 section [4.01 - Current System State](../chapters/401_current_system_state.md).
 Experiences with a more conventional solution can be found in
-section [3.06 - Scaling and Load Balancing](../chapters/306_scaling_and_load_balancing.md).
+section [3.05 - Scaling and Load Balancing](../chapters/305_scaling_and_load_balancing.md).
 
 Each docker-compose file is dependent on zero or more Dockerfiles, which are dependent on services and/or files in order to be build and run. Base images are depicted by square-brackets, e.g. \[node:10-alpine\].
 
-In this graph it is shown that the `package.json` file, which is needed to start the Node.js application, is only dependent on the application code in server, views, and static (which are depicted together for simplicity). The `package.json` file describes the list of libraries that our application is dependent on. These library dependencies are shown in the figure below (a larger image is found in Appendix B).
+In this graph it is shown that the `package.json` file, which is needed to start the Node.js application, is only dependent on the application code in server, views, and static (which are depicted together for simplicity). The `package.json` file describes the list of libraries that our application is dependent on. These library dependencies are shown in the figure below (a larger image is found in [Appendix B](../chapters/500_appendices.md)).
 
 ![NPM library dependencies](../images/ch2_dependencies_npm.png)
 
