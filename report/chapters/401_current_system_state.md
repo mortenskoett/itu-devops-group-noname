@@ -50,20 +50,30 @@ All project documentation, credentials, source code, tests and deployment script
 
 The chosen languages and tools are all industry standards, meaning that it will all be fairly adaptable by others. Only custom scripts like /run.sh might be a challenge, but we have tried to make it fairly understandable with comments.
 
-### Docker compose
-Most of the complexity in the `run.sh` script stems from having our application split into multiple docker-compose files. The original reason for doing so, was that we found it necessary to wait for certain subsystems to be ready, when composing different subsystems. For instance, we had to wait for the database to start up completely before running the tests, as the test subsystem did not wait for the application and database to be ready. 
+#### Code quality:
+It is difficult to pinpoint exactly what we define as code quality, since we believe we focus on 3 of the 4 perspectives from the Kitchenham paper as described below. When talking about code quality in this project, it may therefore refer to any or a combination of the three perspectives. 
+- User view, in terms of reliability and response time. A lot of the focus and tools we introduce are introduced in order to 1) make the system reliable for our and scalable, and 2) maintaining the system without any downtime or disturbance for our users, and 3) monitor our response times to improve the quality for the users.
+- Product view in terms of maintainability, syntax test and dependencies. We introduce code analysis in order to detect technical dept before it becomes technical debt in the shared code base. 
+- Manufacturing in terms of number of defects after deployment and number of reported errors. Some of the tools we introduce to help us decrease defects rework costs; e.g. we log exceptions and errors in order to find the source of a defect faster than if we had no logging and had to debug the system manually. The course have also been focusing a lot on the amount of errors that was reported from our deployed applications: that is, we have been focused on tool that helps us ‘constructing it right’ the first time. We introduce automated tested in order to catch the problems before they go into production.
 
-Having many docker-compose files also allows up to spin up the subsystems that we need, e.g. when developing and testing the application locally, you might not need to have the logging and monitoring subsystems running as well. 
-On the other hand, we could no longer run the entire system using a single `docker-compose up`, and we had to create a run script to orchestrate the different compose files. 
+#### Maintainability:
+To measure maintainability of your MiniTwit systems we have considered some of the following points:
+- Static metrics: Use tools to analyse software. Static metrics help assess the complexity, understandability, and maintainability of a software system or system components.
+- Monitor faults and correction time: Information about the time and effort needed to diagnose the cause of different priorities and correct any underlying faults can give us useful information about system maintainability.
+- The probability that we recover within a time interval
+- How easily we can update components of the system to the newest version
+- How easily we can change components of the system
 
-As we have grown more clever on docker and docker-compose, we have discovered new ways of managing our difficulties. We found that each service in a docker-compose file can also be started individually, and so we believe having a single compose file would be beneficial; this would reduce the complexity in the run.sh script and the amount of files that has to be managed. 
+For the static metrics we made an automated analysis of our code base and found that we had few warnings. We do however believe that we there are room for improvements in terms of better documentation, refactoring of some code, make better use of dependency injection and have a better test suite. The complexity of the code could be decreased using fewer docker-compose files, but we have tried to ease understandability with the help of the .run.sh script. We also found that we had not set up warnings from our monitoring systems, so it took us several days to find out that the system was down. This impacts the maintainability negatively. On the other hand we were able to quickly fix the problem and make the sytem available again, once we found out that it was down. We also have the characteristics below.
+- Backups of database - we can recover from failures
+- Docker containers - easy to swap components or deploy the server elsewhere
+- NPM - easy to install new libraries for the code
+- Docker swarm - the system is (or will be) scalable to function under different circumstances
+- Monitoring/logging - (should) let us know when failures occur (or if we need to work on some problems)
 
-Then we could easily spin up all services of this docker-compose file together, as well as start them individually when we needed to ([section 3.05](../chapters/305_scaling_and_load_balancing.md) describes how this setup was decided on in our scalable solution). 
-We also found that a common way to manage different requirements and variables for different environments when using docker-compose, is to use overriding docker-compose files. This would have been very beneficial for defining different environment-variables in development, testing and deployment, but using the same consistent base docker setup. 
+All in all we believe that the mailability of the system has greatly improved from the start of the project, despite that there is still great room for more improvements. 
 
-Our friend in this project has been the `run.sh` script, making it easy to spin up the desired containers when needed, but we have also seen that scripting easily becomes complex and hard to maintain and updated as the codebase evolves.
-
-### Technical debt
+#### Technical debt
 As our system is newly developed it should not introduce much technical debt but technical debt is forming fast, especially when using things like Node.js, where many dependencies are automatically acquired.
 
 We have used the tool SonarCloud to analyze the software quality and technical debt of our code. The result is including only code files like JavaScript and Python and not config files like docker and vagrant. The image below shows the result.
