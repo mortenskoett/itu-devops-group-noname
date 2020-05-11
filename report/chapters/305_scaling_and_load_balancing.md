@@ -64,4 +64,4 @@ Docker swarm is very smart and the process and tooling is in many ways very auto
 One major issue we faced and which stopped us from proceeding due to time constraints, was that our application was not written in a thread-safe (here multi-node-safe) manner. The simulator expects our API to process requests sequentially but with a multi-node setup this would be something we could not guarantee. One way to deal with this would be to use the Postgres database to share a state among the nodes instead of using the memory of each node (specifically the 'latest' data field used by the simulator), another would be to setup an in-memory database such as Redis, shared by the docker swarm containers. We proceeded further with non of these ideas.
 
 ---
-[ [prev page](../chapters/304_sec_assessment.md) | [table of content](../table_of_content.md) | [next page](../chapters/400_lessons_learned_perspective.md) ]
+[ [prev page](../chapters/304_sec_assessment.md) | [table of content](../table_of_content.md) | [next page](../chapters/ 	400_current_system_state.md) ]
