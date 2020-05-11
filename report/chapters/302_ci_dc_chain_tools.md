@@ -19,9 +19,7 @@ ___________________ -->
 <!-- // TODO: Beskriv hvorfor CircleCI, hvorfor CI/CD as a service vs self-hosted) -->
 
 ### Continuous integration and delivery
-This section describes the continuous integration and continuous delivery (CI/CD) chain of our system. We have chosen continuous delivery and not continuous deployment in the sense that in order to start the deployment of our code we have to push to the release branch. Pushing to the release branch requires a code review from two other members of the team. See [section 3.01](../chapters/301_repo_and_branch_strategy.md).  
-
-Therefore deployments do not happen automatically every time a new change is made and potentially deployable code is not always deployed. 
+This section describes the continuous integration and continuous delivery (CI/CD) chain of our system. We have chosen continuous delivery and not continuous deployment in the sense that in order to start the deployment of our code we have to push to the release branch. Pushing to the release branch requires a code review from two other members of the team. Therefore deployments do not happen automatically every time a new change is made and potentially deployable code is not always deployed. 
 
 The reason for choosing continuous delivery over continuous deployment was that we wanted a thorough review of the code before it was deployed and released to reduce the risk of the system crashing in production. While continuous deployment would be good, the risks are higher and requires a bullet-proof test suite.
 

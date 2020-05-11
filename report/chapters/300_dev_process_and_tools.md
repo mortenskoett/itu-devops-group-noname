@@ -1,6 +1,7 @@
 # 3. Process' Perspective
 <!-- Mere uddybende intro eller fint? -->
 This chapter describes how we approached the process of working together in terms of organizing the team, tools we have used and the implications this may have had.
+
 ## 3.00 Development process and Tools
 
 <!-- Presentation of tools (Zoom, Slack, Github projects/issues)
