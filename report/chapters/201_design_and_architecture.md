@@ -31,7 +31,7 @@ Here a description of the modules in the application is given. The diagram below
 The nature of Node.js (javascript) happens to be such that the use of interfaces or similar constructs is not natural to use when attempting to define layers of abstraction. Instead we patitioned the modules into layers to make a distinction between layers of abstraction in the code. 
 
 The `Controller` module passes information about requests and responses to the monitoring module. The dependency from logging to the routing module is there because the collected data is exposed through an API endpoint. This is the data that Prometheus monitors, which gets described in
-section [3.04 - Monitoring and Logging](../chapters/304_monitoring_and_logging.md).
+section [3.03 - Monitoring and Logging](../chapters/303_monitoring_and_logging.md).
 
 The `Routing`, `Controller`, `Repository` and `Persistence` modules all make use of the `Logging` module in order to log certain events. Details of the logging subsystem is described further in section [2.03 - Interactions of Subsystems](../chapters/203_interactions_of_subsystems.md).
 
@@ -51,7 +51,7 @@ We decided to implement a production-worthy database and we found that the best 
 When deciding between MySQL and Postgres we did not encounter that many differences in relation to a simple system like this. Both databases seemed to be more less equally efficient. We decided on using Postgres as we found it to be better "out of the box" because of its support for more data types such as booleans. Adding to this, Postgres seemed to perform better in benchmarkings, e.g. by handling concurrency better than MySQL.
 (https://developer.okta.com/blog/2019/07/19/mysql-vs-postgres)
  
-More details about how we migrated between databases can be found in section [3.06 - Scaling and Balancing](../chapters/306_scaling_and_load_balancing.md).
+More details about how we migrated between databases can be found in section [3.05 - Scaling and Balancing](../chapters/305_scaling_and_load_balancing.md).
 
 ### The docker setup
 It makes a lot of sense to setup the application using docker containers, the first and main reason for us being that we could more easily setup an identical development environment for each of the involved developers. As an example: just for our 5-person group we had two different flavors of Linux distributions, Windows computers and Apple Macs. Using docker containers, we know that the container is running the same version of node and NPM on each of our devices. With containerization we are completely free from any conflicts between our different environments.  

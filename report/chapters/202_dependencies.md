@@ -3,7 +3,7 @@ The only requirement for a machine to run a local version of our system is that 
 
 ![Dependency graph 1](../images/ch2_dependencies_all.png)
 
-The graph depicts all artifacts, installed technologies and services that we depend on to develop, run, build and deploy our code (excluding the application specific files and Node.js dependencies, which are shown further down)
+The graph shows all artifacts, installed technologies and services that we depend on to develop, run, build and deploy our code (excluding the application specific files and Node.js dependencies, which are shown even further down)
 
 At the root of the graph is the config file for CircleCI (described below), as this is the file that is used to deploy our system - nothing else in our system it dependant on that.
 

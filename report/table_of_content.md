@@ -24,19 +24,17 @@ Simon Bodekær Black (sibl@itu.dk)
 
 ## 3. Process' Perspective
 
-[00 Process Perspective](chapters/300_process_perspective.md)
+[00 Process Perspective](chapters/300_dev_process_and_tools.md)
 
-[01 Stages and Tools](chapters/301_ci_dc_chain_tools.md)
+[01 Repository and Branching Strategy](chapters/301_repo_and_branch_strategy.md)
 
-[02 Repository and Branching Strategy](chapters/302_repo_and_branch_strategy.md)
+[02 Stages and Tools](chapters/302_ci_dc_chain_tools.md)
 
-[03 Development Process and Tools](chapters/303_dev_process_and_tools.md)
+[03 Monitoring and Logging](chapters/303_monitoring_and_logging.md)
 
-[04 Monitoring and Logging](chapters/304_monitoring_and_logging.md)
+[04 Secuerity Assessment](chapters/304_sec_assessment.md)
 
-[05 Secuerity Assessment](chapters/305_sec_assessment.md)
-
-[06 Scaling and Load Balancing](chapters/306_scaling_and_load_balancing.md)
+[05 Scaling and Load Balancing](chapters/305_scaling_and_load_balancing.md)
 
 ## 4. Lessons Learned Perspective
 
