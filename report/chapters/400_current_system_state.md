@@ -1,6 +1,6 @@
 ## 4 Current System State
 
-The system is currently not running on any servers but it can be deployed on a server by using the `run.sh` script from the server. Because all subsystems run in docker containers, the only requirement is a docker installation on the machine that the system shall be deployed on.
+The system is currently not running on any servers but it can be deployed on a server by using the `run.sh` script. Because all subsystems run in docker containers, the only requirement is a docker installation on the machine that the system shall be deployed on.
 
 ### Starting the application
 Install `docker` and `docker-compose` (see online '[Set up your Docker environment](https://docs.docker.com/get-started/)')
@@ -51,27 +51,32 @@ All project documentation, credentials, source code, tests and deployment script
 The chosen languages and tools are all industry standards, meaning that it will all be fairly adaptable by others. Only custom scripts like /run.sh might be a challenge, but we have tried to make it fairly understandable with comments.
 
 #### Code quality:
-It is difficult to pinpoint exactly what we define as code quality, since we believe we focus on 3 of the 4 perspectives from the Kitchenham paper as described below. When talking about code quality in this project, it may therefore refer to any or a combination of the three perspectives. 
-- User view, in terms of reliability and response time. A lot of the focus and tools we introduce are introduced in order to 1) make the system reliable for our and scalable, and 2) maintaining the system without any downtime or disturbance for our users, and 3) monitor our response times to improve the quality for the users.
-- Product view in terms of maintainability, syntax test and dependencies. We introduce code analysis in order to detect technical dept before it becomes technical debt in the shared code base. 
-- Manufacturing in terms of number of defects after deployment and number of reported errors. Some of the tools we introduce to help us decrease defects rework costs; e.g. we log exceptions and errors in order to find the source of a defect faster than if we had no logging and had to debug the system manually. The course have also been focusing a lot on the amount of errors that was reported from our deployed applications: that is, we have been focused on tool that helps us ‘constructing it right’ the first time. We introduce automated tested in order to catch the problems before they go into production.
+It is difficult to pinpoint a single focus-point in relation code quality for this project. We believe we have focused on 3 of the 4 perspectives from the Kitchenham paper as described below. When talking about code quality in this project, it may therefore refer to any or a combination of the three perspectives. 
 
-#### Maintainability:
-To measure maintainability of your MiniTwit systems we have considered some of the following points:
-- Static metrics: Use tools to analyse software. Static metrics help assess the complexity, understandability, and maintainability of a software system or system components.
-- Monitor faults and correction time: Information about the time and effort needed to diagnose the cause of different priorities and correct any underlying faults can give us useful information about system maintainability.
-- The probability that we recover within a time interval
-- How easily we can update components of the system to the newest version
-- How easily we can change components of the system
+- **User view**, in terms of reliability and response time:
+  1) making the system reliable as well as scalable for our end users 
+  2) maintaining the system without any downtime or disturbance for our end users
+  3) monitoring our response times to improve the quality for the end users.
+- **Product view** in terms of maintainability, static code test. We introduce code analysis in order to detect technical dept in commits before it becomes technical debt in the shared code base. 
+- **Manufacturing** in terms of number of defects after deployment and number of reported errors. We have introduced some tools to help us decrease rework-costs of defects, e.g. we log exceptions and errors in order to find the source of a defect faster than if we had no logging and had to debug the system manually. 
 
-For the static metrics we made an automated analysis of our code base and found that we had few warnings. We do however believe that we there are room for improvements in terms of better documentation, refactoring of some code, make better use of dependency injection and have a better test suite. The complexity of the code could be decreased using fewer docker-compose files, but we have tried to ease understandability with the help of the .run.sh script. We also found that we had not set up warnings from our monitoring systems, so it took us several days to find out that the system was down. This impacts the maintainability negatively. On the other hand we were able to quickly fix the problem and make the sytem available again, once we found out that it was down. We also have the characteristics below.
+##### Summing up quality
+This is an overview of the characteristics implemented that we find to heighten the code quality:
 - Backups of database - we can recover from failures
 - Docker containers - easy to swap components or deploy the server elsewhere
 - NPM - easy to install new libraries for the code
-- Docker swarm - the system is (or will be) scalable to function under different circumstances
 - Monitoring/logging - (should) let us know when failures occur (or if we need to work on some problems)
 
+Still we were surprised one day to find that we had not set up warnings from our monitoring systems, meaning several days went by before we noticed that the system was completely down. This impacted the course up-time graph quite a bit even if we were able to quickly fix the problem and make the sytem available again, once we found out that it was down. 
+
+Finally we have setup automated static code analysis and find that we have few warnings, nevertheless there is always room for improvement such as a better regression test suite, refactoring of some parts of the code, or making use of dependency injection, e.g. by introducing a more stricly typed language such as Typescript. 
+
+#### Maintainability:
 All in all we believe that the mailability of the system has greatly improved from the start of the project, despite that there is still great room for more improvements. 
+
+- The next natural step would not be to put out a fire but instead to optimize and move forward into a docker swarm setup. 
+- The code base is architected to be understandable and easy to maintain because of modularization and layers.
+- Because we have strayed away from what seems to be typical docker conventions, this might be an issue for new developers, even if the automating scripts are self-documenting.
 
 #### Technical debt
 As our system is newly developed it should not introduce much technical debt but technical debt is forming fast, especially when using things like Node.js, where many dependencies are automatically acquired.
