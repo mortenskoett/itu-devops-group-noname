@@ -56,6 +56,9 @@ This rewrite had the positive side effect of simplifying our deploy script becau
 
 The final and working prototype ended up with a manager running logging, monitoring and the application plus two worker nodes just running the application for redundancy.
 
+For the deployment  process (on the branch morten/docker-swarm) we ended up using the Docker Machine tool which enables developers to install Docker Engines on virtual hosts and manage the host through the `docker-machine` command. This tool was easy to learn and easy to work with. We managed to handle updates on existing nodes via CircleCI deploy process by adding SSH to CircleCI.
+From here our plan was to use this tool for the deployment process, it is very powerfull in combination with the DO driver, it can both create floating IP and retrieve existing ones from DO. We could use this static IP address to always point to the swarm on the server and be able to connect to one of the Docker node, and thus being able to update the entire swarm.
+
 #### Concurrency issues and general concerns about complexity
 Docker swarm is very smart and the process and tooling is in many ways very automated. In fact due to this, it can be a bit un-obivous what is going on and what steps should be taken to either achieve something or fix some obscure problem that might arise. As a developer you are working 100% in terms of the docker swarm API when comitting to the docker swarm implementation which we found to feel a bit restrictive even for this microscopic setup.
 
