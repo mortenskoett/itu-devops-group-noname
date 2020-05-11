@@ -34,7 +34,7 @@ Simon Bodekær Black (sibl@itu.dk)
 
 [03 Monitoring and Logging](chapters/303_monitoring_and_logging.md)
 
-[04 Secuerity Assessment](chapters/304_sec_assessment.md)
+[04 Security Assessment](chapters/304_sec_assessment.md)
 
 [05 Scaling and Load Balancing](chapters/305_scaling_and_load_balancing.md)
 
