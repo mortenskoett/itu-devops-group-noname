@@ -1,4 +1,5 @@
 ## 2.02 Dependencies
+### System dependencies
 The only requirement for a machine to run a local version of our system is that `docker` and `docker-compose` is installed since all our subsystems run in Docker containers. Using the `run.sh` script the docker images can be build and started. However, in order to develop, maintain and deploy the system, there are quite a large number of dependencies. These dependencies of the system are depicted in the directed acyclic graph below (a larger picture is appended in [Appendix B](../chapters/500_appendices.md)).
 
 ![Dependency graph 1](../images/ch2_dependencies_all.png)
@@ -17,6 +18,7 @@ section [3.05 - Scaling and Load Balancing](../chapters/305_scaling_and_load_bal
 
 Each docker-compose file is dependent on zero or more Dockerfiles, which are dependent on services and/or files in order to be build and run. Base images are depicted by square-brackets, e.g. \[node:10-alpine\].
 
+### Ndde.js dependencies
 In this graph it is shown that the `package.json` file, which is needed to start the Node.js application, is only dependent on the application code in server, views, and static (which are depicted together for simplicity). The `package.json` file describes the list of libraries that our application is dependent on. These library dependencies are shown in the figure below (a larger image is found in [Appendix B](../chapters/500_appendices.md)).
 
 ![NPM library dependencies](../images/ch2_dependencies_npm.png)
