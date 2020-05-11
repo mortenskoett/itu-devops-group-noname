@@ -79,7 +79,7 @@ The `run.sh` script makes it easy to to start different parts of the docker setu
 
 <!-- // TODO: Make sure that this has been commented in 401 as technical debt! -->
 This approach does not seem to be within the conventions of using Docker however well it worked. See more details and afterthoughts in
-section [4.01 - Current System State](../chapters/401_lessons_learned_perspective.md).
+section [4.01 - Lessons Learned Perspective](../chapters/401_lessons_learned_perspective.md).
 
 ---
 [ [prev page](../chapters/200_systems_perspective.md) | [table of content](../table_of_content.md) | [next page](../chapters/202_dependencies.md) ]
