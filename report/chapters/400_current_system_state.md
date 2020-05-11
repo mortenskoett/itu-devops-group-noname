@@ -67,16 +67,14 @@ This is an overview of the characteristics implemented that we find to heighten 
 - NPM - easy to install new libraries for the code
 - Monitoring/logging - (should) let us know when failures occur (or if we need to work on some problems)
 
-Still we were surprised one day to find that we had not set up warnings from our monitoring systems, meaning several days went by before we noticed that the system was completely down. This impacted the course up-time graph quite a bit even if we were able to quickly fix the problem and make the sytem available again, once we found out that it was down. 
-
 Finally we have setup automated static code analysis and find that we have few warnings, nevertheless there is always room for improvement such as a better regression test suite, refactoring of some parts of the code, or making use of dependency injection, e.g. by introducing a more stricly typed language such as Typescript. 
 
 #### Maintainability:
 All in all we believe that the mailability of the system has greatly improved from the start of the project, despite that there is still great room for more improvements. 
 
-- The next natural step would not be to put out a fire but instead to optimize and move forward into a docker swarm setup. 
+- The next natural step would not be to put out a fire but instead to optimize and move forward into a Docker Swarm setup. 
 - The code base is architected to be understandable and easy to maintain because of modularization and layers.
-- Because we have strayed away from what seems to be typical docker conventions, this might be an issue for new developers, even if the automating scripts are self-documenting.
+- Because we have strayed away from what seems to be typical Docker conventions, this might be an issue for new developers, even if the automating scripts are self-documenting.
 
 #### Technical debt
 As our system is newly developed it should not introduce much technical debt but technical debt is forming fast, especially when using things like Node.js, where many dependencies are automatically acquired.
