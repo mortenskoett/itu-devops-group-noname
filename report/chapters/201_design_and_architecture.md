@@ -23,7 +23,7 @@ It can be seen that all subsystems except for the database run on the same Digit
 ### Minitwit application architecture
 Here a description of the modules in the application is given. The diagram below shows the layers that are used to partition the code base into layers of coherence.
 
-<div style="background-color:white;border:10px solid white">
+<div style="background-color:white;border:5px solid white">
 
 ![Overview of packages](../images/ch2_packet_overview.png)
 </div>
