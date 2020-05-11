@@ -1,4 +1,4 @@
-## 3.04 Monitoring and Logging
+## 3.03 Monitoring and Logging
 
 <!-- **Lecture notes**
 - manual vs reactive vs proactive x
@@ -46,4 +46,4 @@ The logging did not help us that much for this project as we already had access 
 We could have logged the call time of the individual functions in our code to get a better idea of exactly where to improve our system. In this way the logging would provide some data that the monitoring could not - besides exceptions and unauthorized access. 
 
 ---
-[ [prev page](../chapters/303_dev_process_and_tools.md) | [table of content](../table_of_content.md) | [next page](../chapters/305_sec_assessment.md) ]
+[ [prev page](../chapters/302_ci_dc_chain_tools.md) | [table of content](../table_of_content.md) | [next page](../chapters/304_sec_assessment.md) ]

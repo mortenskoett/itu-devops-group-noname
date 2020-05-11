@@ -1,4 +1,4 @@
-## 3.01 Stages and Tools used for CI/CD chain
+## 3.02 Stages and Tools used for CI/CD chain
 <!-- 
 NOTES FROM SESSION 4
 In this session we implement a continuous integration (CI) chain using the following technologies and tools:
@@ -19,9 +19,7 @@ ___________________ -->
 <!-- // TODO: Beskriv hvorfor CircleCI, hvorfor CI/CD as a service vs self-hosted) -->
 
 ### Continuous integration and delivery
-This section describes the continuous integration and continuous delivery (CI/CD) chain of our system. We have chosen continuous delivery and not continuous deployment in the sense that in order to start the deployment of our code we have to push to the release branch. Pushing to the release branch requires a code review from two other members of the team. See [section 3.02](../chapters/302_repo_and_branch_strategy.md).  
-
-Therefore deployments do not happen automatically every time a new change is made and potentially deployable code is not always deployed. 
+This section describes the continuous integration and continuous delivery (CI/CD) chain of our system. We have chosen continuous delivery and not continuous deployment in the sense that in order to start the deployment of our code we have to push to the release branch. Pushing to the release branch requires a code review from two other members of the team. Therefore deployments do not happen automatically every time a new change is made and potentially deployable code is not always deployed. 
 
 The reason for choosing continuous delivery over continuous deployment was that we wanted a thorough review of the code before it was deployed and released to reduce the risk of the system crashing in production. While continuous deployment would be good, the risks are higher and requires a bullet-proof test suite.
 
@@ -74,4 +72,4 @@ The tests run by CircleCI consist of an Eslint check and some tests for our API.
 The tests for the API are not very extensive but they ensure that the system can be build and responds to requests. Having this automated deployment setup greatly reduced our concerns about deploying code to the server, and enabled us to deploy more often, which is reducing the lead time of new features, thus benefitting the team as well as users. We found this to be very valuable for future work as system developers.
 
 ---
-[ [prev page](../chapters/300_process_perspective.md) | [table of content](../table_of_content.md) | [next page](../chapters/302_repo_and_branch_strategy.md) ]
+[ [prev page](../chapters/301_repo_and_branch_strategy.md) | [table of content](../table_of_content.md) | [next page](../chapters/303_monitoring_and_logging.md) ]
