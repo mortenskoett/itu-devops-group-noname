@@ -50,7 +50,7 @@ All project documentation, credentials, source code, tests and deployment script
 
 The chosen languages and tools are all industry standards, meaning that it will all be fairly adaptable by others. Only custom scripts like /run.sh might be a challenge, but we have tried to make it fairly understandable with comments.
 
-#### Code quality:
+#### Code quality
 It is difficult to pinpoint a single focus-point in relation code quality for this project. We believe we have focused on 3 of the 4 perspectives from the Kitchenham paper as described below. When talking about code quality in this project, it may therefore refer to any or a combination of the three perspectives. 
 
 - **User view**, in terms of reliability and response time:
@@ -71,7 +71,7 @@ Still we were surprised one day to find that we had not set up warnings from our
 
 Finally we have setup automated static code analysis and find that we have few warnings, nevertheless there is always room for improvement such as a better regression test suite, refactoring of some parts of the code, or making use of dependency injection, e.g. by introducing a more strictly typed language such as Typescript. 
 
-#### Maintainability:
+#### Maintainability
 All in all we believe that the mailability of the system has greatly improved from the start of the project, despite that there is still great room for more improvements. 
 
 - The next natural step would not be to put out a fire but instead to optimize and move forward into a docker swarm setup. 
