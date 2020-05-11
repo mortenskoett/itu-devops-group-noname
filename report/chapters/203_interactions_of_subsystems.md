@@ -17,17 +17,18 @@ For the logging of our system we use the following services:
 - Elasticsearch, an efficient search and analytics engine.
 
 The following is an overview of how logging works in the system:
-We have the minitwit application as a subsystem, which is the nodejs application providing the web and api interfaces. Now within that system we have controllers, which handle the incomming requests, and the controller communicates with a logger, which writes the logged entrance to a file on the device. The logstash service can now read the log-file and process the entrances into the right format. It sends the entrances to the Elsatic Search service, which provides storage and fast string searches of our logs entrances. Finally, Grafana accesses elastic search and displays the content in a nice UI.
+We have the Minitwit application as a subsystem, which is the Node.js application providing the web and api interfaces. Within we have controllers, which handle the incoming requests, and the controller communicates with a logger, which writes the logged entrance to a file on the device. We use Winston to write logging statements in our code that will write to our log-file. The data of the log-file is regularly collected by the Logstash service for processing the entrances into the right format, which in our case is JSON. It sends the entrances to the Elasticsearch service, which functions as a database for JSON and provides efficient string searches in the data. Finally, Grafana accesses Elasticsearch and displays the content in a nice UI.
+
+<div style="background-color:white;border:10px solid white">
 
 ![Overview of logging subsystem](../images/ch2-logging.png)
-
-We use Winston to write logging statements in our code that will write to our logfile. The data of the logfile is collected by Logstash that will transform the data to json. This json will be sent to Elasticsearch which functions as a database for json that allows us to search in the data efficiently.
+</div>
 
 We decided to use Winston as our logger since it is a simple lightweight logger that supports our needs. We did not have many requirements for our choice of logger - we just needed to be able to output logs with different priority levels. Winston is the officially recommended setup on Loggly’s documentation for Node (https://documentation.solarwinds.com/en/Success_Center/loggly/Content/admin/node-js-logs-2.htm?cshid=loggly_node-js-logs) so we found it to be a good choice.
 
-We decided to use Elasticsearch as it is a very efficient efficient search engine that has gained a great amount of popularity over the last few years. Elasticsearch is JSON-based and works very well for log data. Logstash is a lightweight tool that allows us to easily ingest our data into Elasticsearch. Elasticsearch and Logstash are part of the increasingly popular ELK stack that allows for collecting logdata and visualizing it. We found that these two tools were the preffered ones as the ELK stack is very modern and scalable. The tools were able to handling the logging for this project but also some tools that we wanted to have experience with as they are widely used.
+We decided to use Elasticsearch as it is a very efficient search engine that has gained a great amount of popularity over the last few years. Elasticsearch is JSON-based and works very well for log data. Logstash is a lightweight tool that allows us to easily ingest our data into Elasticsearch. Elasticsearch and Logstash are part of the increasingly popular stack 'ELK' that allows for collecting logdata and visualizing it. We found that these two tools were the preffered ones as the ELK stack is very modern and scalable. The tools were able to handling the logging for this project but also some tools that we wanted to have experience with as they are widely used.
 
-To visualize the log data we make use of Grafana as for our monitoring dashboard. We initially tried to use Kibana, which is the visualization tool used in the ELK stack. However, we found that Kibana had a large amount of CPU usage. We instead looked for more lightweight solutions but found that Grafana which was already running on our server also was able to visualize data from Elasticsearch - we just had to update the version of Grafana we were using. This was done by simply updating the version number in the dockerfile for Grafana. We therefore use Grafana for visualizing both the monitoring and log data.
+To visualize the log data we make use of Grafana as for our monitoring dashboard. We initially tried to use Kibana, which is the visualization tool used in the ELK stack. However, we found that Kibana had a large amount of CPU usage. When looking for a more lightweight solutions we found that Grafana, which was already running on our server, was also able to visualize data from Elasticsearch - we just had to update the version of Grafana we were using. This was done by simply updating the version number in the dockerfile for Grafana. We thereby use Grafana for visualizing both the monitoring and log data.
 
 ### Backing up and restoring data
 Backing up of the database has been automated and the data is backed up every 6 hours by a backup daemon running on the server. The daemon is instantiated using the `backup.sh` script which was written to handle backing-up and restoring data.
@@ -37,7 +38,7 @@ When a backup is initiated, a dump of the database is created and stored locally
 
 A backup can be initiated without the database is taken down, however it is unknown to us how big an impact this operation has on the performance of the database.
 
-The setup requires that the backup server accepts connections using the SSH key stored on the database server. This setup has not been automated.
+The setup requires that the backup server accepts connections using the SSH key stored on the database server. Setting up the key on the server has not been automated.
 
 ---
 [ [prev page](../chapters/202_dependencies.md) | [table of content](../table_of_content.md) | [next page](../chapters/300_process_perspective.md) ]
