@@ -60,18 +60,17 @@ It is difficult to pinpoint a single focus-point in relation code quality for th
 - **Product view** in terms of maintainability, static code test. We introduce code analysis in order to detect technical dept in commits before it becomes technical debt in the shared code base. 
 - **Manufacturing** in terms of number of defects after deployment and number of reported errors. We have introduced some tools to help us decrease rework-costs of defects, e.g. we log exceptions and errors in order to find the source of a defect faster than if we had no logging and had to debug the system manually. 
 
-##### Summing up quality
-This is an overview of the characteristics implemented that we find to heighten the code quality:
+#### Maintainability:
+This is an overview of the characteristics implemented that we find to increase maintainability:
 - Backups of database - we can recover from failures
 - Docker containers - easy to swap components or deploy the server elsewhere
 - NPM - easy to install new libraries for the code
 - Monitoring/logging - (should) let us know when failures occur (or if we need to work on some problems)
 
-Still we were surprised one day to find that we had not set up warnings from our monitoring systems, meaning several days went by before we noticed that the system was completely down. This impacted the course up-time graph quite a bit even if we were able to quickly fix the problem and make the sytem available again, once we found out that it was down. 
+Still we were surprised one day to find that we had not set up warnings from our monitoring systems, meaning several days went by before we noticed that the system was completely down. This impacted the course up-time graph quite a bit even if we were able to quickly fix the problem and make the system available again, once we found out that it was down. 
 
-Finally we have setup automated static code analysis and find that we have few warnings, nevertheless there is always room for improvement such as a better regression test suite, refactoring of some parts of the code, or making use of dependency injection, e.g. by introducing a more stricly typed language such as Typescript. 
+Finally we have setup automated static code analysis and find that we have few warnings, nevertheless there is always room for improvement such as a better regression test suite, refactoring of some parts of the code, or making use of dependency injection, e.g. by introducing a more strictly typed language such as Typescript.
 
-#### Maintainability:
 All in all we believe that the mailability of the system has greatly improved from the start of the project, despite that there is still great room for more improvements. 
 
 - The next natural step would not be to put out a fire but instead to optimize and move forward into a docker swarm setup. 
