@@ -1,4 +1,4 @@
-## 3.01 Stages and Tools used for CI/CD chain
+## 3.02 Stages and Tools used for CI/CD chain
 <!-- 
 NOTES FROM SESSION 4
 In this session we implement a continuous integration (CI) chain using the following technologies and tools:
@@ -74,4 +74,4 @@ The tests run by CircleCI consist of an Eslint check and some tests for our API.
 The tests for the API are not very extensive but they ensure that the system can be build and responds to requests. Having this automated deployment setup greatly reduced our concerns about deploying code to the server, and setting up a CI/CD pipeline will be close to first on the list, next time of a big project.
 
 ---
-[ [prev page](../chapters/300_process_perspective.md) | [table of content](../table_of_content.md) | [next page](../chapters/302_repo_and_branch_strategy.md) ]
+[ [prev page](../chapters/301_repo_and_branch_strategy.md) | [table of content](../table_of_content.md) | [next page](../chapters/303_monitoring_and_logging.md) ]
