@@ -1,4 +1,4 @@
-## 3.03 Development process and Tools
+## 3.00 Development process and Tools
 
 <!-- Presentation of tools (Zoom, Slack, Github projects/issues)
 Måske noget i stil med: 
@@ -45,4 +45,4 @@ During the beginning of the project we found that it was difficult for team memb
 The Github Wiki is public so it also makes people from outside our team able to see documentation of the system. This information could be useful for future developers of the system or other people wanting to contribute.
 
 ---
-[ [prev page](../chapters/302_repo_and_branch_strategy.md) | [table of content](../table_of_content.md) | [next page](../chapters/304_monitoring_and_logging.md) ]
+[ [prev page](../chapters/400.md) | [table of content](../table_of_content.md) | [next page](../chapters/301_repo_and_branch_strategy.md) ]
