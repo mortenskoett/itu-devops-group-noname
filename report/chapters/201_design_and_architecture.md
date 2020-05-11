@@ -25,12 +25,13 @@ Here a description of the modules in the application is given. The diagram below
 
 ![Overview of packages](../images/ch2_packet_overview.png)
 
-The nature of Node.js (javascript) happens to be such that the use of interfaces or similar constructs is not natural to use when attempting to define layers of abstraction. Instead we patitioned the modules into layers to make a distinction between layers of abstraction in the code. 
+The nature of Node.js (JavaScript) happens to be such that the use of interfaces or similar constructs is not natural to use when attempting to define layers of abstraction. Instead we partitioned the modules into layers to make a distinction between layers of abstraction in the code.
 
-The `Controller` module passes information about requests and responses to the monitoring module. The dependency from logging to the routing module is there because the collected data is exposed through an API endpoint. This is the data that Prometheus monitors, which gets described in
-section [3.03 - Monitoring and Logging](../chapters/303_monitoring_and_logging.md).
+The entry point of the application is server.js which sets up and exposes both the web application and the simulator api on port 5000 and 5001 respectively. The `Userinterface` defines the interfaces that can be found on 5000 and 5001/api-docs. Routing for each of the apps (as they are called in Node.js terms) are specified in the `Routing` modules, while the logic for each of these endpoints are defined in the `Controllers`.
 
-The `Routing`, `Controller`, `Repository` and `Persistence` modules all make use of the `Logging` module in order to log certain events. Details of the logging subsystem is described further in section [2.03 - Interactions of Subsystems](../chapters/203_interactions_of_subsystems.md).
+The dependency from `Routes` to the `Monitoring` module is there because simulatorRoutes uses this utility to collect data about incoming requests, as well as exposes the data through an API endpoint. This is the data that the Prometheus service then monitors, as described in section [3.03 - Monitoring and Logging](../chapters/303_monitoring_and_logging.md).
+
+The `Logging` module is a cross-cutting module, used by the `Routing`, `Controller`, `Repository` and `Persistence` modules in order to log certain events. Details of the logging subsystem is described further in section [2.03 - Interactions of Subsystems](../chapters/203_interactions_of_subsystems.md).
 
 The layered architecture makes the overall application and interaction between the modules straight ahead to understand, however the layered architecture is not necessarily the most efficient as the requests have to pass through several layers when being processed.
 
