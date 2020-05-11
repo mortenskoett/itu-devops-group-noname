@@ -58,7 +58,7 @@ On the other hand, we could no longer run the entire system using a single `dock
 
 As we have grown more clever on docker and docker-compose, we have discovered new ways of managing our difficulties. We found that each service in a docker-compose file can also be started individually, and so we believe having a single compose file would be beneficial; this would reduce the complexity in the run.sh script and the amount of files that has to be managed. 
 
-Then we could easily spin up all services of this docker-compose file together, as well as start them individually when we needed to (section 3.06 describes how this setup was decided on in our scalable solution). 
+Then we could easily spin up all services of this docker-compose file together, as well as start them individually when we needed to ([section 3.05](../chapter/305_scaling_and_load_balancing.md) describes how this setup was decided on in our scalable solution). 
 We also found that a common way to manage different requirements and variables for different environments when using docker-compose, is to use overriding docker-compose files. This would have been very beneficial for defining different environment-variables in development, testing and deployment, but using the same consistent base docker setup. 
 
 Our friend in this project has been the `run.sh` script, making it easy to spin up the desired containers when needed, but we have also seen that scripting easily becomes complex and hard to maintain and updated as the codebase evolves.
