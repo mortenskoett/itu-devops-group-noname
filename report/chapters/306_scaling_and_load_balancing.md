@@ -19,7 +19,7 @@ The operation was executed using the same principles as well as parts of the alr
 
 In order to run this migration as fast and as seamless as possible a deployment script was used to handle the migration directly from the build server. The script would first migrate the data to the new database and then bring up a modified version of the application pointing to the new database.
 
-In this way our system did not have any downtime but we lost a bit of data as it took around 30 seconds to migrate the database. We lost the data for the requests that we recieved between starting the migration and deploying our code to make use of the new database. We found the migration to be fairly smooth and succesful. Note that a bit of clean-up in the deploy script was necessary afterwards.
+In this way our system did not have any downtime but we lost a bit of data as it took around 30 seconds to migrate the database. We lost the data for the requests that we recieved between starting the migration and deploying our code to make use of the new database. We found the migration to be fairly smooth and succesful. A bit of clean-up in the deploy script was necessary afterwards, as we needed to delete the line calling the migrate script.
 
 If considering this as a sub-optimal solution, given that there is any down-time in the migration, an optimal solution would have been to be able to migrate without down-time at all.
 This we did not investigate any further.
