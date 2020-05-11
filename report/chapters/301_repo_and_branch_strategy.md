@@ -1,4 +1,4 @@
-## 3.02 Repository and Branch Strategy
+## 3.01 Repository and Branch Strategy
 
 <!-- 
 NOTES FROM SESSION 2:
