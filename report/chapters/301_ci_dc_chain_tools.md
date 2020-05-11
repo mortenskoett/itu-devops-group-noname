@@ -71,7 +71,7 @@ The diagram below gives an overview of the services involved in our deployment c
 
 The tests run by CircleCI consist of an Eslint check and some tests for our API. Eslint is a linter for JavaScript code, which ensures that we keep a code standard. Eslint can be run locally and even integrated into the IDE so that errors can be found locally before the tests are run on the CircleCI server. 
 
-The tests for the API are not very extensive but they ensure that the system can be build and responds to requests. Having this automated deployment setup greatly reduced our concerns about deploying code to the server, and setting up a CI/CD pipeline will be close to first on the list, next time of a big project.
+The tests for the API are not very extensive but they ensure that the system can be build and responds to requests. Having this automated deployment setup greatly reduced our concerns about deploying code to the server, and enabled us to deploy more often, which is reducing the lead time of new features, thus benefitting the team as well as users. We found this to be very valuable for future work as system developers.
 
 ---
 [ [prev page](../chapters/300_process_perspective.md) | [table of content](../table_of_content.md) | [next page](../chapters/302_repo_and_branch_strategy.md) ]
