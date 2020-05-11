@@ -4,7 +4,7 @@ The only requirement for a machine to run a local version of our system is that 
 <!-- DEPENDENCY GRAPH1 (har vi alt med?) -->
 ![Dependency graph 1](../images/ch2_dependencies_all.png)
 
-The graph depicts all artifacts, installed technologies and services that we depend on to develop, run, build and deploy our code (excluding the application specific files and Node.js dependencies, which are depicted later)<!--, that is both the compiletime and runtime dependencies -->. At the root of the graph is the config file for CircleCI, as this is the file that is used to deploy our system - nothing else in our system it dependant on that.
+The graph depicts all artifacts, installed technologies and services that we depend on to develop, run, build and deploy our code (excluding the application specific files and Node.js dependencies, which are depicted later)<!--, that is both the compiletime and runtime dependencies -->. At the root of the graph is CircleCI as this is the service that is used to start the deployment of our system - nothing else in our system it dependant on that.
 
 CircleCI depends on the CircleCI config file and our Github repository from which it fetches the project. The CircleCI config file depends on some services in order to deploy the system. This is described in section 3.01. Further, it depends on the run.sh and backup.sh scripts. The run.sh script is the equivalent of the control.sh of the original system. With this script it is possible to build and run the subsystems via Docker. The backup.sh script is used to regularly create a backup of the production database and store it on an external server (home.oleandersen.net).
 
