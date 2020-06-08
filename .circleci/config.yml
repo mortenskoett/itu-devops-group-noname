@@ -21,19 +21,12 @@ jobs:
             cd dockerfiles/
             ./run.sh setup_run_test
 
-  # push:
-  #   docker:
-  #       - image: circleci/node
-  #   steps:
-  #     - checkout
-  #     - setup_remote_docker
-
-  #     - run:
-  #         name: Push docker images to Dockerhub
-  #         command: |
-  #           cd dockerfiles/
-  #           ./swarm.sh login
-  #           ./swarm.sh push
+      - run:
+          name: Push docker images to Dockerhub
+          command: |
+            cd dockerfiles/
+            ./swarm.sh login
+            ./swarm.sh push
 
   deploy:
     docker:
@@ -45,7 +38,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "d4:22:e0:82:69:3b:81:31:42:e1:68:75:2e:75:4b:d5"
-            - "a2:72:d7:aa:d8:54:a0:d0:de:42:7a:8a:d8:da:3e:06"
+            - a2:72:d7:aa:d8:54:a0:d0:de:42:7a:8a:d8:da:3e:06"
 
       - run: 
           name: Install docker-machine
@@ -55,21 +48,6 @@ jobs:
             sudo mv /tmp/docker-machine /usr/local/bin/docker-machine &&
             chmod +x /usr/local/bin/docker-machine
 
-      # - run: 
-      #     name: Push docker images to Dockerhub
-      #     command: |
-      #       cd dockerfiles/
-      #       ./swarm.sh login
-      #       docker-compose push minitwit-app
-      #       docker-compose push prometheus
-      #       docker-compose push grafana
-
-      # - run: 
-      #     name: Build docker images
-      #     command: |
-      #       cd dockerfiles/
-      #       ./swarm.sh build
-
       - run:
          name: Deploy to Digital Ocean Server via Docker Swarm
          no_output_timeout: 10m
@@ -78,30 +56,11 @@ jobs:
            ./add_swarm_nodes.sh
            ./swarm.sh deploy
 
-          # OLD CODE SAVED FOR REFERENCE
-          #  scp -o StrictHostKeyChecking=no -r ./dockerfiles/ ${MT_USER}@${MT_SERVER}:/vagrant/
-
-          #  echo "Connecting to production server..."
-          #  ssh -o "StrictHostKeyChecking=no" ${MT_USER}@${MT_SERVER} \
-          #  "source /root/.bash_profile && \
-          #  cd /vagrant && \
-
-          #  echo 'Pulling and starting docker containers on server' && \
-          #  cd dockerfiles/ && \
-          #  ./run.sh pull && \
-          #  ./run.sh setup_run_app && \
-          #  ./run.sh monitor -d && \
-          #  ./run.sh logging -d && \
-          #  ./backup.sh stop && ./backup.sh start"
-
 workflows:
   version: 2
   build-and-deploy:
     jobs:
       - build
-      - push
-          requires:
-            - build
       - deploy:
           requires:
             - build
