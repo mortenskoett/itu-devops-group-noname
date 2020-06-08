@@ -19,7 +19,9 @@ jobs:
           name: Run simulator API pytest
           command: |
             cd dockerfiles/
-            ./run.sh setup_run_test
+            ./swarm.sh login
+            docker-compose push logstash
+            docker-compose push elasticsearch
 
   deploy:
     docker:
@@ -52,7 +54,9 @@ jobs:
           command: |
             cd dockerfiles/
             ./swarm.sh login
-            ./swarm.sh push
+            docker-compose push minitwit-app
+            docker-compose push prometheus
+            docker-compose push grafana
 
       - run:
          name: Deploy to Digital Ocean Server via Docker Swarm
@@ -82,10 +86,10 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      # - build
+      - build
       - deploy:
-          # requires:
-            # - build
+          requires:
+            - build
           filters:
             branches:
               # only: release
