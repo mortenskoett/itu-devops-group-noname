@@ -2,34 +2,45 @@
  * Main server instance.
  */
 
-
 require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
+const redis = require('redis');
+const RedisStore = require('connect-redis')(session);
 const back = require('express-back');
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
-
-const swaggerDocument = YAML.load('./server/swagger.yml');
 const config = require('./configs');
-
 const viewRoutes = require('./routers/viewRoutes');
 const simRouter = require('./routers/simulatorRoutes');
 const Prometheus = require('./monitoring/prometheus-util');
+
+const swaggerDocument = YAML.load('./server/swagger.yml');
 
 /* WEB APP SERVER */
 const appPort = config.app.port;
 const app = express();
 
+app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('static'));
-app.set('view engine', 'ejs');
+
+const redisClient = redis.createClient('redis://redis:6379');
+
+redisClient.on('error', (err) => {
+	console.log('Redis error: ', err);
+});
+
 app.use(session({
 	secret: 'secret',
-	resave: true,
+	name: '_redisPractice',
+	resave: false,
 	saveUninitialized: true,
+	cookie: { secure: false }, // Note that the cookie-parser module is no longer needed
+	store: new RedisStore({ client: redisClient, ttl: 86400 }),
 }));
+
 app.use(back());
 
 app.use('/', viewRoutes);

@@ -79,5 +79,5 @@ workflows:
             - build
           filters:
             branches:
-              only: release
-              # only: morten/docker-swarm
+              # only: release
+              only: exam_swarm

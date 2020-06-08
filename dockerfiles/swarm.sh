@@ -6,7 +6,7 @@ set -eo pipefail
 # Settings
 MANAGER="noname-0"
 APPNAME="minitwit"
-DEPLOY_FILE="docker-stack-deploy.yml"
+DEPLOY_FILE="docker-compose.yml"
 
 # Colors
 RED='\033[0;31m'
@@ -42,6 +42,13 @@ deploy_to_swarm() {
     echo -e ${GREEN}"Applications started successfully on Docker Swarm."${WHITE}
 }
 
+build_deploy() {
+	build_images
+	login_dockerhub
+	push_to_dockerhub
+	deploy_to_swarm
+}
+
 case $1 in
     deploy)
         deploy_to_swarm ;;
@@ -51,13 +58,16 @@ case $1 in
         push_to_dockerhub ;;
     login)
         login_dockerhub ;;
+    build_deploy)
+        build_deploy;;
     *)
         echo -e "Usage:"
-        echo "arg        function"
-        echo "deploy:    run or update code and deploy to swarm"
-        echo "build:     build all docker images in $DEPLOY_FILE"
-        echo "push:      pushes images to Dockerhub"
-        echo "login:     login to Dockerhub using =\$DOCKER_USERNAME and \$DOCKER_PASSWORD"
+        echo "arg            function"
+        echo "deploy:        run or update code and deploy to swarm"
+        echo "build:         build all docker images in $DEPLOY_FILE"
+        echo "push:          pushes images to Dockerhub"
+        echo "login:         login to Dockerhub using =\$DOCKER_USERNAME and \$DOCKER_PASSWORD"
+        echo "build_deploy:  build all docker images in $DEPLOY_FILE, push to Dockerhub and deploy to DO"
         exit 1 ;;
 esac
 exit 0

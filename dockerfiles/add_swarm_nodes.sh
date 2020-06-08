@@ -4,9 +4,9 @@
 # Script used by circleci to afiliate itself with the already
 # provisioned nodes on Digital Ocean.
 #
-# Remember to add proper private SSH key to circleci.
+# Remember to add proper private SSH key of main manager node to circleci.
 
  docker-machine create \
   --driver generic \
-  --generic-ip-address=165.22.67.27 \
+  --generic-ip-address=104.248.128.201 \
   node-0
