@@ -34,12 +34,24 @@ jobs:
             - "0e:b8:62:c6:37:60:2b:c4:02:55:28:b3:58:b1:d8:24"
 
       - run: 
-          name: Build and push docker images to Dockerhub
+          name: Build docker images
+          command: |
+           echo "Building images..."
+            cd dockerfiles/
+            ./swarm.sh build
+
+      - run: 
+          name: Install docker-machine
           command: |
             base=https://github.com/docker/machine/releases/download/v0.16.0 &&
             curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine &&
             sudo mv /tmp/docker-machine /usr/local/bin/docker-machine &&
             chmod +x /usr/local/bin/docker-machine
+
+      - run: 
+          name: Push docker images to Dockerhub
+          command: |
+           echo "Pusing to dockerhub..."
             cd dockerfiles/
             ./swarm.sh login
             ./swarm.sh push
@@ -72,10 +84,10 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - build
+      # - build
       - deploy:
-          requires:
-            - build
+          # requires:
+            # - build
           filters:
             branches:
               # only: release
