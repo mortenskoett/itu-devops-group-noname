@@ -21,12 +21,19 @@ jobs:
             cd dockerfiles/
             ./run.sh setup_run_test
 
-      - run:
-          name: Push docker images to Dockerhub
-          command: |
-            cd dockerfiles/
-            ./swarm.sh login
-            ./swarm.sh push
+  # push:
+  #   docker:
+  #       - image: circleci/node
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker
+
+  #     - run:
+  #         name: Push docker images to Dockerhub
+  #         command: |
+  #           cd dockerfiles/
+  #           ./swarm.sh login
+  #           ./swarm.sh push
 
   deploy:
     docker:
@@ -38,7 +45,6 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "d4:22:e0:82:69:3b:81:31:42:e1:68:75:2e:75:4b:d5"
-            - "0e:b8:62:c6:37:60:2b:c4:02:55:28:b3:58:b1:d8:24"
             - "a2:72:d7:aa:d8:54:a0:d0:de:42:7a:8a:d8:da:3e:06"
 
       - run: 
@@ -93,6 +99,9 @@ workflows:
   build-and-deploy:
     jobs:
       - build
+      - push
+          requires:
+            - build
       - deploy:
           requires:
             - build
