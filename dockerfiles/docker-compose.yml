@@ -85,6 +85,7 @@ volumes:
   grafana-data:
   logs:
   elasticsearch:
-  logs:
-    external:
-      name: app_logs
+
+    #  logs:
+    #    external:
+    #      name: app_logs

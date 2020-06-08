@@ -4,7 +4,7 @@
 set -eo pipefail
 
 # Settings
-MANAGER="node-0"
+MANAGER="noname-0"
 APPNAME="minitwit"
 DEPLOY_FILE="docker-stack-deploy.yml"
 

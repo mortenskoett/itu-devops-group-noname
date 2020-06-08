@@ -45,7 +45,7 @@ const production = {
 		port: 9000,
 	},
 	database: {
-		url: 'postgres://embu:magic@64.225.111.21:5432/minitwit-db',
+		url: 'postgres://embu:magic@161.35.204.103:5432/minitwit-db',
 		protocol: 'postgres',
 	},
 	application_logging: {
