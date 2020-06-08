@@ -9,4 +9,4 @@
  docker-machine create \
   --driver generic \
   --generic-ip-address=104.248.128.201 \
-  node-0
+  noname-0
