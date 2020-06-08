@@ -19,9 +19,11 @@ login_dockerhub() {
     docker login --username="$DOCKER_USERNAME" --password="$DOCKER_PASSWORD"
 }
 
+# Hack: WORKAROUND BECAUSE OF CIRCLECI. We keep using the same images of elasticsearch and logstash
 push_to_dockerhub() {
     echo "Pushing docker images to Dockerhub..."
-    docker-compose -f "$DEPLOY_FILE" push
+    # docker-compose -f "$DEPLOY_FILE" push     # Pushes everything
+    docker-compose -f "$DEPLOY_FILE" push minitwit-app
 }
 
 build_images() {
