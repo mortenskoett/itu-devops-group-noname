@@ -36,7 +36,6 @@ jobs:
       - run: 
           name: Build docker images
           command: |
-           echo "Building images..."
             cd dockerfiles/
             ./swarm.sh build
 
@@ -51,15 +50,14 @@ jobs:
       - run: 
           name: Push docker images to Dockerhub
           command: |
-           echo "Pusing to dockerhub..."
             cd dockerfiles/
             ./swarm.sh login
             ./swarm.sh push
 
       - run:
          name: Deploy to Digital Ocean Server via Docker Swarm
+         no_output_timeout: 10m
          command: |
-           echo "Transferring docker files to production server"
            cd dockerfiles
            ./add_swarm_nodes.sh
            ./swarm.sh deploy
