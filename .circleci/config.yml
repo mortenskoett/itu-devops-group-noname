@@ -41,7 +41,6 @@ jobs:
             sudo mv /tmp/docker-machine /usr/local/bin/docker-machine &&
             chmod +x /usr/local/bin/docker-machine
             cd dockerfiles/
-            ./swarm.sh build
             ./swarm.sh login
             ./swarm.sh push
 
