@@ -38,7 +38,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "d4:22:e0:82:69:3b:81:31:42:e1:68:75:2e:75:4b:d5"
-            - a2:72:d7:aa:d8:54:a0:d0:de:42:7a:8a:d8:da:3e:06"
+            - "a2:72:d7:aa:d8:54:a0:d0:de:42:7a:8a:d8:da:3e:06"
 
       - run: 
           name: Install docker-machine
