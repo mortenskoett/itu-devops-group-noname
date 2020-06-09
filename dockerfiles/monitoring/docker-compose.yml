@@ -18,7 +18,10 @@ services:
       - "9090:9090"
 
   grafana:
-    image: grafana/grafana
+    #image: grafana/grafana
+    build:
+      context: ./
+      dockerfile: ./grafana/Dockerfile
     container_name: minitwit-grafana
     volumes:
       - grafana-data:/grafana

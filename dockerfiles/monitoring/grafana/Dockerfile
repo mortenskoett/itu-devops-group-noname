@@ -1,6 +1,5 @@
-# UNUSED
-# FROM grafana/grafana:6.5.0
+FROM grafana/grafana:6.5.0
 
-# WORKDIR /grafana/
-
-# COPY ./grafana/files/* ./
+ADD ./grafana/provisioning /etc/grafana/provisioning
+ADD ./grafana/config.ini /etc/grafana/config.ini
+ADD ./grafana/dashboards /var/lib/grafana/dashboards
