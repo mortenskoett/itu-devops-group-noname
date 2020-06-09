@@ -30,7 +30,7 @@ jobs:
 
   deploy:
     docker:
-        - image: cimg/go:1.13
+        - image: cimg/base:2020.01
     steps:
       - checkout
       - setup_remote_docker
@@ -66,5 +66,4 @@ workflows:
             - build
           filters:
             branches:
-              # only: release
               only: exam_swarm
