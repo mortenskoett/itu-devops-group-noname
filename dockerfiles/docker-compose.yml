@@ -34,7 +34,10 @@ services:
           - node.role == manager
 
   grafana:
-    image: grafana/grafana
+    build:
+      context: ./monitoring/
+      dockerfile: ./grafana/Dockerfile
+    image: mskkitu/minitwit-grafana
     volumes:
       - grafana-data:/grafana
     ports:
